@@ -1,6 +1,6 @@
 const { name, version, description } = require("./package.json")
 const port = 11033 // octal 025431 (025.431=Dewey Decimal Classification)
-const examples = ["700.90440747471"]
+const examples = ["700.90440747471", "700.9044"]
 const cocoda = "https://coli-conc.gbv.de/cocoda/app/"
 
 const { ConceptScheme } = require("jskos-tools")
