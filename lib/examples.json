@@ -1,4 +1,448 @@
 {
-  "700.90440747471": [ "700", "1--09044", "1--074", "2--7471" ],
-  "700.9044": [ "700", "1--09044" ]
+  "700.23": [
+    {
+      "notation": [
+        "7",
+        "7-----"
+      ],
+      "prefLabel": {
+        "de": "Künste und Unterhaltung"
+      },
+      "uri": "http://dewey.info/class/7/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "70",
+        "70----"
+      ],
+      "prefLabel": {
+        "de": "Künste"
+      },
+      "uri": "http://dewey.info/class/70/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "700",
+        "700---"
+      ],
+      "prefLabel": {
+        "de": "Künste"
+      },
+      "uri": "http://dewey.info/class/700/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "700.1-700.9",
+        "700.2-"
+      ],
+      "prefLabel": {
+        "de": "Standardschlüssel für die Künste"
+      },
+      "uri": "http://dewey.info/class/700.1-700.9/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "700.2",
+        "700.2-"
+      ],
+      "prefLabel": {
+        "de": "Verschiedenes"
+      },
+      "uri": "http://dewey.info/class/700.2/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "uri": "http://dewey.info/facet/0",
+      "notation": [
+        "0",
+        "-0----"
+      ],
+      "prefLabel": {
+        "en": "facet indicator",
+        "de": "Facettenindikator"
+      }
+    },
+    {
+      "notation": [
+        "T1--0",
+        "--0---"
+      ],
+      "prefLabel": {
+        "de": "Hilfstafel 1. Standardschlüssel"
+      },
+      "uri": "http://dewey.info/class/T1--0/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T1--02",
+        "--0.2-"
+      ],
+      "prefLabel": {
+        "de": "Verschiedenes"
+      },
+      "uri": "http://dewey.info/class/T1--02/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T1--023",
+        "--0.23"
+      ],
+      "prefLabel": {
+        "de": "Das Thema als Beruf, Erwerbstätigkeit, Freizeitbeschäftigung"
+      },
+      "uri": "http://dewey.info/class/T1--023/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    }
+  ],
+  "700.90440747471": [
+    {
+      "notation": [
+        "7",
+        "7--------------"
+      ],
+      "prefLabel": {
+        "de": "Künste und Unterhaltung"
+      },
+      "uri": "http://dewey.info/class/7/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "70",
+        "70-------------"
+      ],
+      "prefLabel": {
+        "de": "Künste"
+      },
+      "uri": "http://dewey.info/class/70/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "700",
+        "700------------"
+      ],
+      "prefLabel": {
+        "de": "Künste"
+      },
+      "uri": "http://dewey.info/class/700/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "700.1-700.9",
+        "700.9----------"
+      ],
+      "prefLabel": {
+        "de": "Standardschlüssel für die Künste"
+      },
+      "uri": "http://dewey.info/class/700.1-700.9/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "700.9",
+        "700.9----------"
+      ],
+      "prefLabel": {
+        "de": "Geschichte, geografische Behandlung, Biografien der Künste"
+      },
+      "uri": "http://dewey.info/class/700.9/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "700.904",
+        "700.904--------"
+      ],
+      "prefLabel": {
+        "de": "Künste—20. Jahrhundert"
+      },
+      "uri": "http://dewey.info/class/700.904/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "uri": "http://dewey.info/facet/0",
+      "notation": [
+        "0",
+        "-0-------------"
+      ],
+      "prefLabel": {
+        "en": "facet indicator",
+        "de": "Facettenindikator"
+      }
+    },
+    {
+      "notation": [
+        "T1--0",
+        "--0------------"
+      ],
+      "prefLabel": {
+        "de": "Hilfstafel 1. Standardschlüssel"
+      },
+      "uri": "http://dewey.info/class/T1--0/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T1--09",
+        "--0.9----------"
+      ],
+      "prefLabel": {
+        "de": "Geschichte, geografische Behandlung, Biografien"
+      },
+      "uri": "http://dewey.info/class/T1--09/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T1--0904",
+        "--0.904--------"
+      ],
+      "prefLabel": {
+        "de": "*20. Jahrhundert, 1900–1999"
+      },
+      "uri": "http://dewey.info/class/T1--0904/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T1--0901-T1--0905:0904",
+        "--0.904--------"
+      ],
+      "prefLabel": {
+        "de": "Zeitabschnitte #dno_span_cen#"
+      },
+      "uri": "http://dewey.info/class/T1--0901-T1--0905:0904/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T1--09044",
+        "--0.9044-------"
+      ],
+      "prefLabel": {
+        "de": "*1940–1949"
+      },
+      "uri": "http://dewey.info/class/T1--09044/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T1--0901-T1--0905:07",
+        "---.----07-----"
+      ],
+      "prefLabel": {
+        "de": "Museen, Sammlungen, Ausstellungen; Sammeln von Objekten"
+      },
+      "uri": "http://dewey.info/class/T1--0901-T1--0905:07/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T1--0901-T1--0905:074",
+        "---.----074----"
+      ],
+      "prefLabel": {
+        "de": "Museen, Sammlungen, Ausstellungen"
+      },
+      "uri": "http://dewey.info/class/T1--0901-T1--0905:074/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T2--7",
+        "---.-------7---"
+      ],
+      "prefLabel": {
+        "de": "Nordamerika"
+      },
+      "uri": "http://dewey.info/class/T2--7/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T2--4-T2--9",
+        "---.-------7---"
+      ],
+      "prefLabel": {
+        "de": "Heutige Welt; außerirdische Welten"
+      },
+      "uri": "http://dewey.info/class/T2--4-T2--9/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T2--74",
+        "---.-------74--"
+      ],
+      "prefLabel": {
+        "de": "Nordöstliche Staaten der USA (Neuengland und Mittelatlantische Staaten)"
+      },
+      "uri": "http://dewey.info/class/T2--74/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T2--74-T2--79",
+        "---.-------74--"
+      ],
+      "prefLabel": {
+        "de": "Einzelne Bundesstaaten der USA"
+      },
+      "uri": "http://dewey.info/class/T2--74-T2--79/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T2--747",
+        "---.-------747-"
+      ],
+      "prefLabel": {
+        "de": "New York"
+      },
+      "uri": "http://dewey.info/class/T2--747/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T2--747-T2--749",
+        "---.-------747-"
+      ],
+      "prefLabel": {
+        "de": "Mittelatlantische Staaten"
+      },
+      "uri": "http://dewey.info/class/T2--747-T2--749/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    },
+    {
+      "notation": [
+        "T2--7471",
+        "---.-------7471"
+      ],
+      "prefLabel": {
+        "de": "New York    Stadtteil Manhattan (Manhattan Island, New York County)"
+      },
+      "uri": "http://dewey.info/class/T2--7471/e23/",
+      "inScheme": [
+        {
+          "uri": "http://dewey.info/scheme/edition/e23/"
+        }
+      ]
+    }
+  ]
 }

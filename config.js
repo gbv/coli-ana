@@ -1,10 +1,12 @@
 const { name, version, description } = require("./package.json")
+const examples = require("./lib/examples.json")
+
 const config = {
   name,
   version,
   description,
   port: 11033, // octal 025431 (025.431=Dewey Decimal Classification)
-  examples: ["700.90440747471", "700.9044"],
+  examples: Object.keys(examples),
   cocoda: "https://coli-conc.gbv.de/cocoda/app/"
 }
 

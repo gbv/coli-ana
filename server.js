@@ -4,10 +4,9 @@ app.set("json spaces", 2)
 app.set("views", __dirname + "/views")
 app.set("view engine", "ejs")
 
-config = require("./config.js")
-const { ddc } = config 
-
 const { decomposeDDC, build045H } = require("./lib")
+const config = require("./config.js")
+const { ddc } = config
 
 app.get("/", (req, res) => {
   res.setHeader("Content-Type", "text/html")
