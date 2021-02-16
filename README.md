@@ -28,10 +28,9 @@ The server provides a HTTP API at port 11033 by default.
 
 Shows a landing page with general information and a list of examples.
 
-### GET /:number
+### GET /decompose
 
-Analyzes a DDC number and returns a [JSKOS concept](https://gbv.github.io/jskos/jskos.html#concept) by default. Parameter `format` can be used to chose another format:
+Analyzes one or more DDC numbers in parameter `notation` (separated by `|`) and returns a [JSKOS concept](https://gbv.github.io/jskos/jskos.html#concept) by default. Parameter `format` can be used to chose another format:
 
 * `picajson` returns a [PICA/JSON](https://format.gbv.de/pica/json) record
-* `pp` returns a [PICA Plain](https://format.gbv.de/pica/plain) record
-
+* `pp` returns a [PICA Plain](https://format.gbv.de/pica/plain) record; **note:** only one record can be requested at the time.

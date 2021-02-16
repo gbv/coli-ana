@@ -13,33 +13,39 @@ app.get("/", (req, res) => {
   res.render("base", config)
 })
 
-app.get("/:notation", async (req, res) => {
-  const { notation } = req.params
+app.get("/decompose", async (req, res) => {
+  const notations = req.query.notation.split("|")
   const format = req.query.format || "jskos"
 
-  const concept = ddc.conceptFromNotation(notation, { inScheme: true })
-  if (!concept) {
-    return res.send([])
-  }
+  const result = []
 
-  const memberList = await decomposeDDC(ddc, notation)
-  if (memberList) {
-    concept.memberList = memberList
-  }
-
-  if (format === "picajson") {
-    const field = build045H(ddc, concept)
-    return res.send([field])
-  } else if (format === "pp") {
-    const field = build045H(ddc, concept)
-    let pp = field.shift() + "/" + field.shift() + " "
-    while (field.length) {
-      pp += "$" + field.shift() + field.shift()
+  for (let notation of notations) {
+    const concept = ddc.conceptFromNotation(notation, { inScheme: true })
+    if (!concept) {
+      continue
     }
-    return res.send(pp)
+
+    const memberList = await decomposeDDC(ddc, notation)
+    if (memberList) {
+      concept.memberList = memberList
+    }
+
+    if (format === "picajson") {
+      const field = build045H(ddc, concept)
+      result.push(field)
+    } else if (format === "pp") {
+      const field = build045H(ddc, concept)
+      let pp = field.shift() + "/" + field.shift() + " "
+      while (field.length) {
+        pp += "$" + field.shift() + field.shift()
+      }
+      return res.send(pp)
+    } else {
+      result.push(concept)
+    }
   }
 
-  return res.send([concept])
+  return res.send(result)
 })
 
 const { port } = config

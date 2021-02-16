@@ -24,7 +24,7 @@
     <h1>coli-ana API</h1>
     <h2>Documentation</h2>
     <p>
-      Visit <a href="https://coli-conc.gbv.de/coli-ana/" target="_blank">the project page</a> for background information or 
+      Visit <a href="https://coli-conc.gbv.de/coli-ana/" target="_blank">the project page</a> for background information or
       <a href="https://github.com/gbv/coli-ana-api" target="_blank">GitHub</a> for technical documentation.
     </p>
     <h2>Examples</h2>
@@ -46,15 +46,15 @@
           <tr>
             <td><code><%= notation %></code></td>
             <td>
-              <a href="<%= notation %>">jskos</a>
+              <a href="decompose?notation=<%= notation %>">jskos</a>
             </td>
             <td>
-              <a href="<%= notation %>?format=picajson">picajson</a>
+              <a href="decompose?notation=<%= notation %>&format=picajson">picajson</a>
             </td>
             <td>
-              <a href="<%= notation %>?format=pp">pp</a>
+              <a href="decompose?notation=<%= notation %>&format=pp">pp</a>
             </td>
-            <% if (cocoda) { 
+            <% if (cocoda) {
                var uri = ddc.uriFromNotation(notation) %>
                <td><a href="<%= `${cocoda}?fromScheme=${ddc.uri}&from=${uri}` %>">open in Cocoda</a></td>
             <% } %>
@@ -63,7 +63,7 @@
       <% } %>
     </table>
     <p>
-      PICA format is limited to <a href="https://swbtools.bsz-bw.de/cgi-bin/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard" target="_blank">field 045H/00</a> in <a href="https://format.gbv.de/pica/k10plus" target="_blank">K10Plus format</a>. 
+      PICA format is limited to <a href="https://swbtools.bsz-bw.de/cgi-bin/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard" target="_blank">field 045H/00</a> in <a href="https://format.gbv.de/pica/k10plus" target="_blank">K10Plus format</a>.
     </p>
     <footer>
       <%= name %> version <%= version %>
