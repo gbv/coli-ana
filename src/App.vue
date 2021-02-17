@@ -11,6 +11,15 @@
         <component :is="Component" />
       </Suspense>
     </router-view>
+    <h2>Documentation</h2>
+    <p>
+      Visit <a
+        href="https://coli-conc.gbv.de/coli-ana/"
+        target="_blank">the project page</a> for background information or
+      <a
+        href="https://github.com/gbv/coli-ana-api"
+        target="_blank">GitHub</a> for technical documentation.
+    </p>
     <footer>
       {{ name }} version {{ version }}
     </footer>
