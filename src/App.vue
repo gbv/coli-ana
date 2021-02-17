@@ -30,25 +30,43 @@ export default {
 </script>
 
 <style>
-/* #app {
+/* page styles */
+#app {
+  max-width: 70ch;
+  padding: 2ch;
+  margin: auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-} */
-#app {
-  margin: 20px;
 }
-a:link, a:visited {
+/* link styles */
+a {
   text-decoration: none;
-  color: rgb(96, 143, 219);
+  color: #ff3c3c;
 }
 a:hover, a:active {
   text-decoration: underline;
 }
-table, td, th {
-  border: 1px solid;
+/* table styles */
+table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+table thead tr {
+  color: #ffffff;
+  text-align: left;
+}
+table th,
+table td {
+  padding: 12px 15px;
+}
+table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
 }
 </style>
