@@ -9,10 +9,10 @@ const routes = [
     path: "/",
     component: () => import("./components/Home.vue"),
   },
-  // {
-  //   path: "/:notation", // use in template with $route.params.notation
-  //   component: () => import("./pages/About.vue"),
-  // },
+  {
+    path: "/:notation", // use in template with $route.params.notation
+    component: () => import("./components/Decompose.vue"),
+  },
 ]
 
 export function createRouter() {

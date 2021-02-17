@@ -6,6 +6,17 @@
       </router-link>
     </header>
     <h1>coli-ana</h1>
+    <h2>Decomposition</h2>
+    <p>You can decompose DDC numbers here (separate multiple numbers via <code>|</code>).</p>
+    <form
+      @submit.prevent="submit">
+      <input
+        v-model="notation"
+        type="text">
+      <button type="submit">
+        Decompose
+      </button>
+    </form>
     <router-view v-slot="{ Component }">
       <Suspense>
         <component :is="Component" />
@@ -27,12 +38,21 @@
 </template>
 
 <script>
+import { useRouter, useRoute } from "vue-router"
 import config from "./config"
 
 export default {
-  async setup() {
+  setup() {
+    const router = useRouter()
+    const route = useRoute()
+
+    const submit = (e) => {
+      router.push(`/${e.srcElement[0].value}`)
+    }
     return {
       ...config,
+      submit,
+      notation: route.params.notation,
     }
   },
 }
