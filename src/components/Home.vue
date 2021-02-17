@@ -42,7 +42,7 @@
       </tbody>
     </table>
     <p>
-      PICA format is limited to <a href="https://swbtools.bsz-bw.de/cgi-bin/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard" target="_blank">field 045H/00</a> in <a href="https://format.gbv.de/pica/k10plus" target="_blank">K10Plus format</a>.
+      PICA format is limited to <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard" target="_blank">field 045H/00</a> in <a href="https://format.gbv.de/pica/k10plus" target="_blank">K10Plus format</a>.
     </p>
   </main>
 </template>
