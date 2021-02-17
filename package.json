@@ -9,14 +9,21 @@
   "main": "server.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --exit --timeout 10000 --slow 2000",
-    "start": "nodemon server.js",
-    "lint-staged": "lint-staged"
+    "lint": "eslint ./**/*.js ./**/.*.js",
+    "fix": "eslint --fix ./**/*.js ./**/.*.js",
+    "lint-staged": "lint-staged",
+    "dev": "nodemon server",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --ssrManifest --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
+    "serve": "cross-env NODE_ENV=production node server",
+    "debug": "node --inspect-brk server"
   },
   "lint-staged": {
     "**/*.js": [
       "eslint --fix"
     ],
-    "*.js": [
+    "**/.*.js": [
       "eslint --fix"
     ]
   },
@@ -24,16 +31,26 @@
   "author": "Jakob Voß <voss@gbv.de>",
   "license": "MIT",
   "dependencies": {
-    "ejs": "^3.1.3",
     "express": "^4.17.1",
-    "jskos-tools": "^1.0.8"
+    "jskos-tools": "^1.0.8",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.3"
   },
   "devDependencies": {
-    "eslint": "^7.4.0",
+    "@vitejs/plugin-vue": "^1.1.4",
+    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/server-renderer": "^3.0.5",
+    "compression": "^1.7.4",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.20.0",
+    "eslint-config-gbv": "^1.0.1",
+    "eslint-plugin-vue": "^7.6.0",
     "lint-staged": "^10.2.11",
     "mocha": "^8.0.1",
     "mocha-eslint": "^6.0.0",
     "nodemon": "^2.0.4",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "serve-static": "^1.14.1",
+    "vite": "^2.0.0"
   }
 }
