@@ -1,7 +1,9 @@
 <template>
   <div>
     <header>
-      <router-link to="/">Home</router-link>
+      <router-link to="/">
+        Home
+      </router-link>
     </header>
     <h1>coli-ana</h1>
     <router-view v-slot="{ Component }">
@@ -23,7 +25,7 @@ export default {
     return {
       ...config,
     }
-  }
+  },
 }
 </script>
 

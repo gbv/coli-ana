@@ -9,8 +9,6 @@
   "main": "server.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --exit --timeout 10000 --slow 2000",
-    "lint": "eslint ./**/*.js ./**/.*.js",
-    "fix": "eslint --fix ./**/*.js ./**/.*.js",
     "lint-staged": "lint-staged",
     "dev": "nodemon server",
     "build": "npm run build:client && npm run build:server",
