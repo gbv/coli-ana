@@ -39,7 +39,7 @@
 
 <script>
 import { useRouter, useRoute } from "vue-router"
-import config from "./config"
+import config from "../config"
 
 export default {
   setup() {

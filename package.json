@@ -7,15 +7,16 @@
     "url": "https://github.com/gbv/coli-ana-api.git"
   },
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "NODE_ENV=test mocha --exit --timeout 10000 --slow 2000",
     "lint-staged": "lint-staged",
-    "dev": "nodemon server",
+    "dev": "nodemon --experimental-json-modules server",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
-    "serve": "cross-env NODE_ENV=production node server",
-    "debug": "node --inspect-brk server"
+    "serve": "cross-env NODE_ENV=production node --experimental-json-modules server",
+    "debug": "node --experimental-json-modules --inspect-brk server"
   },
   "lint-staged": {
     "**/*.js": [

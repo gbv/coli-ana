@@ -1,12 +1,18 @@
-const fs = require("fs")
-const path = require("path")
-const express = require("express")
-const config = require("./config.js")
+import fs from "fs"
+import path from "path"
+import express from "express"
+import config from "./config.js"
+import compression from "compression"
+import serveStatic from "serve-static"
+import { decomposeDDC, build045H } from "./lib/index.js"
 const { ddc } = config
+
+// __dirname is not defined in ES6 modules (https://techsparx.com/nodejs/esnext/dirname-es-modules.html)
+const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD
 
-async function createServer(
+export async function createServer(
   root = process.cwd(),
   isProd = process.env.NODE_ENV === "production",
 ) {
@@ -18,7 +24,7 @@ async function createServer(
 
   const manifest = isProd
     ? // @ts-ignore
-    require("./dist/client/ssr-manifest.json")
+    await import("./dist/client/ssr-manifest.json")
     : {}
 
   const app = express()
@@ -27,7 +33,6 @@ async function createServer(
   /**
    * /decompose API route
    */
-  const { decomposeDDC, build045H } = require("./lib")
   app.get("/decompose", async (req, res) => {
     const notations = req.query.notation.split("|")
     const format = req.query.format || "jskos"
@@ -68,7 +73,7 @@ async function createServer(
    */
   let vite
   if (!isProd) {
-    vite = await require("vite").createServer({
+    vite = await (await import("vite")).createServer({
       root,
       logLevel: isTest ? "error" : "info",
       server: {
@@ -78,9 +83,9 @@ async function createServer(
     // use vite's connect instance as middleware
     app.use(vite.middlewares)
   } else {
-    app.use(require("compression")())
+    app.use(compression())
     app.use(
-      require("serve-static")(resolve("dist/client"), {
+      serveStatic(resolve("dist/client"), {
         index: false,
       }),
     )
@@ -98,7 +103,7 @@ async function createServer(
         render = (await vite.ssrLoadModule("./src/entry-server.js")).render
       } else {
         template = indexProd
-        render = require("./dist/server/entry-server.js").render
+        render = (await import("./dist/server/entry-server.js")).render
       }
 
       const [appHtml, preloadLinks] = await render(url, manifest)
@@ -125,6 +130,3 @@ if (!isTest) {
     }),
   )
 }
-
-// for test use
-exports.createServer = createServer
