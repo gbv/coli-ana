@@ -29,6 +29,7 @@
 <script>
 import { watch, ref } from "vue"
 import { useRoute } from "vue-router"
+import "cross-fetch/polyfill"
 
 export default {
   async setup() {
@@ -37,7 +38,12 @@ export default {
 
     // method to fetch decomposition info
     const fetchDecomposition = async (notation) => {
-      const response = await fetch(`/decompose?notation=${notation}`)
+      const inBrowser = typeof window !== "undefined"
+      let url = `/decompose?notation=${notation}`
+      if (!inBrowser) {
+        url = `http://localhost:11033${url}`
+      }
+      const response = await fetch(url)
       const data = await response.json()
       results.value = data
     }
