@@ -31,6 +31,7 @@
 import { watch, ref } from "vue"
 import { useRoute } from "vue-router"
 import "cross-fetch/polyfill"
+import config from "../../config"
 
 export default {
   async setup() {
@@ -42,7 +43,7 @@ export default {
       const inBrowser = typeof window !== "undefined"
       let url = `decompose?notation=${notation}`
       if (!inBrowser) {
-        url = `http://localhost:11033/${url}`
+        url = `http://localhost:${config.port}/${url}`
       } else {
         url = `${import.meta.env.BASE_URL}${url}`
       }
