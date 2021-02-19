@@ -4,7 +4,6 @@
       Loading
     </p>
     <div v-else>
-      <p>Results</p>
       <div
         v-for="result in results"
         :key="result.uri">
