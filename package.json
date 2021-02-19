@@ -12,14 +12,15 @@
     "node": ">=12"
   },
   "scripts": {
-    "test": "NODE_ENV=test mocha --exit --timeout 10000 --slow 2000",
+    "test": "npm run empty-config; NODE_ENV=test mocha --exit --timeout 10000 --slow 2000",
     "lint-staged": "lint-staged",
-    "dev": "nodemon --experimental-json-modules server",
-    "build": "npm run build:client && npm run build:server",
+    "dev": "npm run empty-config; nodemon --experimental-json-modules server",
+    "build": "npm run empty-config; npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server; mv dist/server/entry-server.js dist/server/entry-server.cjs",
     "serve": "cross-env NODE_ENV=production node --experimental-json-modules server",
-    "debug": "node --experimental-json-modules --inspect-brk server"
+    "debug": "npm run empty-config; node --experimental-json-modules --inspect-brk server",
+    "empty-config": "([ ! -e ./config/config.user.js ] && echo \"export default {}\" > ./config/config.user.js) || :"
   },
   "lint-staged": {
     "**/*.js": [

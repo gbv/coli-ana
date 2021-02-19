@@ -11,6 +11,7 @@ This repository contains an implementation of an API to decompose synthesized DD
 - [Usage](#usage)
   - [Development](#development)
   - [Production](#production)
+- [Configuration](#configuration)
 - [API](#api)
   - [GET /](#get-)
   - [GET /decompose](#get-decompose)
@@ -28,7 +29,7 @@ npm install
 
 ## Usage
 
-The server provides a HTTP API at port 11033 by default.
+The server provides a HTTP API at port 11033 by default. (Fun fact: 11033 = Octal 025431 (025.431=Dewey Decimal Classification))
 
 ### Development
 ~~~bash
@@ -42,6 +43,10 @@ npm run build
 # Run server in production
 npm run serve
 ```
+
+## Configuration
+
+You can adjust a few configuration options in `config/config.user.js`. Note that it must be an ES6 module exporting a default JSON object. Please refer to `config/config.default.js` for available options.
 
 ## API
 

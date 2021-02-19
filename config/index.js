@@ -1,15 +1,15 @@
-import pkg from "./package.json"
+import pkg from "../package.json"
 const { name, version, description } = pkg
-import examples from "./lib/examples.json"
+import examples from "../lib/examples.json"
+import configMerged from "./config.js"
 
-const config = {
+const config = Object.assign({
   name,
-  version,
   description,
-  port: 11033, // octal 025431 (025.431=Dewey Decimal Classification)
   examples: Object.keys(examples),
-  cocoda: "https://coli-conc.gbv.de/cocoda/app/",
-}
+}, configMerged, {
+  version,
+})
 
 import jskos from "jskos-tools"
 config.ddc = new jskos.ConceptScheme({
