@@ -1,4 +1,8 @@
 {
   "name": "coli-ana",
-  "script": "npm run serve"
+  "script": "./server.js",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "node_args": "--experimental-json-modules"
 }
