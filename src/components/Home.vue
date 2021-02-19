@@ -18,7 +18,11 @@
         <tr
           v-for="notation in examples"
           :key="notation">
-          <td><code>{{ notation }}</code></td>
+          <td>
+            <router-link :to="`/${notation}`">
+              <code>{{ notation }}</code>
+            </router-link>
+          </td>
           <td>
             <a :href="`decompose?notation=${notation}`">jskos</a>
           </td>
