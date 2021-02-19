@@ -8,6 +8,9 @@
   },
   "main": "server.js",
   "type": "module",
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "test": "NODE_ENV=test mocha --exit --timeout 10000 --slow 2000",
     "lint-staged": "lint-staged",
