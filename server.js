@@ -7,6 +7,10 @@ import serveStatic from "serve-static"
 import { decomposeDDC, build045H } from "./lib/index.js"
 const { ddc } = config
 
+// we need require for including Vite's SSR build (see https://github.com/vitejs/vite/discussions/2074)
+import { createRequire } from "module"
+const require = createRequire(import.meta.url)
+
 // __dirname is not defined in ES6 modules (https://techsparx.com/nodejs/esnext/dirname-es-modules.html)
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
@@ -103,7 +107,7 @@ export async function createServer(
         render = (await vite.ssrLoadModule("./src/entry-server.js")).render
       } else {
         template = indexProd
-        render = (await import("./dist/server/entry-server.js")).render
+        render = require("./dist/server/entry-server.cjs").render
       }
 
       const [appHtml, preloadLinks] = await render(url, manifest)
