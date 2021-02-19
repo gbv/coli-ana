@@ -1,5 +1,7 @@
 # coli-ana-api
 
+[![Test](https://github.com/gbv/coli-ana/actions/workflows/test.yml/badge.svg)](https://github.com/gbv/coli-ana/actions/workflows/test.yml)
+
 > API to decompose DDC numbers
 
 This repository contains an implementation of an API to decompose synthesized DDC numbers. The algorithm to split DDC numbers is not included. See <https://coli-conc.gbv.de/coli-ana/> for more information.
