@@ -4,6 +4,7 @@
       Loading
     </p>
     <div v-else>
+      <p>Results</p>
       <div
         v-for="result in results"
         :key="result.uri">
@@ -39,13 +40,20 @@ export default {
     // method to fetch decomposition info
     const fetchDecomposition = async (notation) => {
       const inBrowser = typeof window !== "undefined"
-      let url = `/decompose?notation=${notation}`
+      let url = `decompose?notation=${notation}`
       if (!inBrowser) {
-        url = `http://localhost:11033${url}`
+        url = `http://localhost:11033/${url}`
+      } else {
+        url = `${import.meta.env.BASE_URL}${url}`
       }
-      const response = await fetch(url)
-      const data = await response.json()
-      results.value = data
+      try {
+        const response = await fetch(url)
+        const data = await response.json()
+        results.value = data
+      } catch (error) {
+        results.value = []
+        console.warn("Error loading data:", error)
+      }
     }
 
     // fetch the decomposition when params change
@@ -57,7 +65,7 @@ export default {
     )
 
     // fetch decomposition on first load
-    await fetchDecomposition(route.params.notation)
+    fetchDecomposition(route.params.notation)
 
     return {
       results,
