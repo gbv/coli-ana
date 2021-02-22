@@ -1,4 +1,4 @@
-# coli-ana-api
+# coli-ana
 
 [![Test](https://github.com/gbv/coli-ana/actions/workflows/test.yml/badge.svg)](https://github.com/gbv/coli-ana/actions/workflows/test.yml)
 
@@ -22,8 +22,8 @@ This repository contains an implementation of an API to decompose synthesized DD
 ## Install
 
 ~~~bash
-git clone https://github.com/gbv/coli-ana-api.git
-cd coli-ana-api
+git clone https://github.com/gbv/coli-ana.git
+cd coli-ana
 npm install
 ~~~
 
