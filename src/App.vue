@@ -24,7 +24,7 @@
           <router-link :to="`/${notation}`">
             <code>{{ notation }}</code>
           </router-link>
-          <template v-if="index + 1 < examples.length">, </template>
+          <code v-if="index + 1 < examples.length">, </code>
         </span>
       </p>
     </form>
