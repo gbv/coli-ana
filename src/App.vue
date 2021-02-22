@@ -33,6 +33,22 @@
         <component :is="Component" />
       </Suspense>
     </router-view>
+    <template v-if="$route.params.notation">
+      <h2>Info</h2>
+      <p>
+        Format documentation:
+        <a href="https://format.gbv.de/jskos">JSKOS</a> ・
+        <a href="https://format.gbv.de/pica/json">PICA/JSON</a> ・
+        <a href="https://format.gbv.de/pica/plain">PICA Plain</a>
+      </p>
+      <p>
+        PICA format is limited to <a
+          href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"
+          target="_blank">field 045H/00</a> in <a
+            href="https://format.gbv.de/pica/k10plus"
+            target="_blank">K10Plus format</a>.
+      </p>
+    </template>
     <h2>Documentation</h2>
     <p>
       Visit <a
