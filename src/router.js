@@ -7,7 +7,7 @@ import {
 const routes = [
   {
     path: "/",
-    component: () => import("./components/Home.vue"),
+    component: () => import("./components/Decompose.vue"),
   },
   {
     path: "/:notation", // use in template with $route.params.notation

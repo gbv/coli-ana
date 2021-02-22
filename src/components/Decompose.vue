@@ -39,6 +39,10 @@ export default {
 
     // method to fetch decomposition info
     const fetchDecomposition = async (notation) => {
+      if (!notation) {
+        results.value = []
+        return
+      }
       const inBrowser = typeof window !== "undefined"
       let url = `decompose?notation=${notation}`
       if (!inBrowser) {

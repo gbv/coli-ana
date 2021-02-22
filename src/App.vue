@@ -16,6 +16,17 @@
       <button type="submit">
         Decompose
       </button>
+      <p>
+        Examples:
+        <span
+          v-for="(notation, index) in examples"
+          :key="notation">
+          <router-link :to="`/${notation}`">
+            <code>{{ notation }}</code>
+          </router-link>
+          <template v-if="index + 1 < examples.length">, </template>
+        </span>
+      </p>
     </form>
     <router-view v-slot="{ Component }">
       <Suspense>
@@ -38,6 +49,7 @@
 </template>
 
 <script>
+import { ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import config from "../config"
 
@@ -45,14 +57,20 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
+    const notation = ref(route.params.notation)
 
     const submit = (e) => {
       router.push(`/${e.srcElement[0].value}`)
     }
+
+    router.afterEach((to) => {
+      notation.value = to.params.notation ?? ""
+    })
+
     return {
       ...config,
       submit,
-      notation: route.params.notation,
+      notation,
     }
   },
 }
