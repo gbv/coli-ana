@@ -53,6 +53,7 @@ export default {
         results.value = []
         return
       }
+      results.value = null
       const inBrowser = typeof window !== "undefined"
       let url = `decompose?notation=${notation}`
       if (!inBrowser) {
