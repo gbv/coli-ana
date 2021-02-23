@@ -5,13 +5,14 @@
  *
  * node ./bin/convert.js [--import] /path/to/input/file [/path/to/input/file|...]
  *
- * Outputs a JSON object with notations as keys and memberLists as values.
+ * Outputs a JSON array with JSKOS concepts, each including the "memberList" property.
  */
 
 import fs from "fs"
 import readline from "readline"
 import stream from "stream"
 import prisma from "../lib/prisma.js"
+import ddc from "../config/ddc.js"
 
 // async readline, see https://medium.com/@wietsevenema/node-js-using-for-await-to-read-lines-from-a-file-ead1f4dd8c6f
 function readLines({ input }) {
@@ -71,20 +72,22 @@ files.forEach(file => {
       if (startMatch) {
         const notation = startMatch[1]
         current = {
-          id: notation,
-          decomposition: [],
+          uri: ddc.uriFromNotation(notation),
+          notation: [notation],
+          inScheme: [{ uri: ddc.uri }],
+          memberList: [],
         }
       } else if (endMatch) {
         end()
       } else if (facetIndicatorMatch) {
         // Special concept for facet indicator
-        current.decomposition.push({
+        current.memberList.push({
           uri: `http://dewey.info/facet/${facetIndicatorMatch[3]}`,
           notation: [facetIndicatorMatch[3], facetIndicatorMatch[1]],
           prefLabel: { en: "facet indicator", de: "Facettenindikator" },
         })
       } else if (lineMatch) {
-        current.decomposition.push({
+        current.memberList.push({
           notation: [lineMatch[3], lineMatch[1]],
           prefLabel: { de: lineMatch[2] },
         })

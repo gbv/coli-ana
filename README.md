@@ -43,7 +43,7 @@ DATABASE_URL="postgresql://username:password@localhost:5432/coli-ana"
 We also need to create the necessary tables. For this, we are using [Prisma](https://www.prisma.io) with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate):
 
 ```bash
-npx prisma migrate dev --preview-feature --name ""
+npx prisma migrate dev --preview-feature --name "init"
 ```
 
 You might need to run this command after updating coli-ana as well.

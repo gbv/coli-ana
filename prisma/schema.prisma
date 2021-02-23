@@ -9,6 +9,8 @@ datasource db {
 }
 
 model data {
-  id            String @id
-  decomposition Json?  @default("[]")
+  uri           String @id
+  notation      String[]
+  inScheme      Json[]
+  memberList    Json[]
 }
