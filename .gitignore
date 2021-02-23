@@ -15,3 +15,6 @@ npm-debug.log*
 
 dist/
 config/config.user.js
+.env
+prisma/migrations/*
+!prisma/migrations/migration_lock.toml

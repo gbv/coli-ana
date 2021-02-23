@@ -9,6 +9,7 @@ This repository contains an implementation of an API to decompose synthesized DD
 ## Table of Contents <!-- omit in toc -->
 - [Install](#install)
 - [Usage](#usage)
+  - [Preparing the database](#preparing-the-database)
   - [Development](#development)
   - [Production](#production)
 - [Configuration](#configuration)
@@ -30,6 +31,28 @@ npm install
 ## Usage
 
 The server provides a HTTP API at port 11033 by default. (Fun fact: 11033 = Octal 025431 (025.431=Dewey Decimal Classification))
+
+### Preparing the database
+
+coli-ana uses a PostgreSQL database. Please create a database and provide the connection string inside a `.env` file, e.g.
+
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/coli-ana"
+```
+
+We also need to create the necessary tables. For this, we are using [Prisma](https://www.prisma.io) with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate):
+
+```bash
+npx prisma migrate dev --preview-feature --name ""
+```
+
+You might need to run this command after updating coli-ana as well.
+
+Now that the database and tables are prepared, you can import coli-ana results (in `slim` format), e.g.:
+
+```bash
+node ./bin/convert --import ~/path/to/ou_liu_t_de-slim-21-02-15-1121
+```
 
 ### Development
 ~~~bash

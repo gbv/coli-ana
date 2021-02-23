@@ -1,16 +1,35 @@
 #!/usr/bin/env node
 
 /**
- * Converts coli-ana decompositions to JSKOS
+ * Converts coli-ana decompositions to JSKOS. By default, prints out the result as JSON. Use with --import to import directly into the database.
  *
- * npm run convert /path/to/input/file
+ * node ./bin/convert.js [--import] /path/to/input/file [/path/to/input/file|...]
  *
  * Outputs a JSON object with notations as keys and memberLists as values.
  */
 
-const fs = require("fs")
-const readline = require("readline")
-const file = process.argv[2]
+import fs from "fs"
+import readline from "readline"
+import stream from "stream"
+import prisma from "../lib/prisma.js"
+
+// async readline, see https://medium.com/@wietsevenema/node-js-using-for-await-to-read-lines-from-a-file-ead1f4dd8c6f
+function readLines({ input }) {
+  const output = new stream.PassThrough({ objectMode: true })
+  const rl = readline.createInterface({ input })
+  rl.on("line", line => {
+    output.write(line)
+  })
+  rl.on("close", () => {
+    output.push(null)
+  })
+  return output
+}
+
+// Basic argument parsing
+const args = process.argv.slice(2)
+const files = args.filter(arg => !arg.startsWith("--"))
+const shouldImport = args.includes("--import")
 
 // Regular expressions
 const startRe = /^(\S*) \(\S*\)/
@@ -18,59 +37,75 @@ const facetIndicatorRe = /^(\S*) <(Facet Indicator)> \(notation: (.*)\)/
 const lineRe = /^(\S*) (.*) \(notation: (.*)\)/
 const endRe = /^\s*$/
 
-if (!file) {
-  console.error("Error: Please provide input file as first argument.")
+if (!files.length) {
+  console.error("Error: Please provide input file(s).")
   process.exit(1)
 }
 
-if (!fs.existsSync(file)) {
-  console.error(`Error: File ${file} does not exist.`)
-  process.exit(1)
-}
-
-const readInterface = readline.createInterface({
-  input: fs.createReadStream(file),
-})
-
-let result = {}
-let current = null
-function end() {
-  if (current) {
-    result[current.notation[0]] = current.memberList
+files.forEach(file => {
+  if (!fs.existsSync(file)) {
+    console.error(`Error: File ${file} does not exist, exiting...`)
+    process.exit(1)
   }
-  current = null
-}
-readInterface.on("line", function (line) {
-  const startMatch = startRe.exec(line)
-  const facetIndicatorMatch = facetIndicatorRe.exec(line)
-  const lineMatch = lineRe.exec(line)
-  const endMatch = endRe.exec(line)
+});
 
-  if (startMatch) {
-    const notation = startMatch[1]
-    current = {
-      notation: [notation],
-      memberList: [],
+(async () => {
+
+  let result = []
+  let current = null
+  function end() {
+    if (current) {
+      result.push(current)
     }
-  } else if (endMatch) {
-    end()
-  } else if (facetIndicatorMatch) {
-    // Special concept for facet indicator
-    current.memberList.push({
-      uri: `http://dewey.info/facet/${facetIndicatorMatch[3]}`,
-      notation: [facetIndicatorMatch[3], facetIndicatorMatch[1]],
-      prefLabel: { en: "facet indicator", de: "Facettenindikator" },
-    })
-  } else if (lineMatch) {
-    current.memberList.push({
-      notation: [lineMatch[3], lineMatch[1]],
-      prefLabel: { de: lineMatch[2] },
-    })
-  } else {
-    console.warn(`Warning: Could not parse line ${line}`)
+    current = null
   }
-})
-readInterface.on("close", () => {
-  end()
-  console.log(JSON.stringify(result, null, 2))
-})
+
+  for (let file of files) {
+    const input = fs.createReadStream(file)
+    for await (const line of readLines({ input })) {
+      const startMatch = startRe.exec(line)
+      const facetIndicatorMatch = facetIndicatorRe.exec(line)
+      const lineMatch = lineRe.exec(line)
+      const endMatch = endRe.exec(line)
+
+      if (startMatch) {
+        const notation = startMatch[1]
+        current = {
+          id: notation,
+          decomposition: [],
+        }
+      } else if (endMatch) {
+        end()
+      } else if (facetIndicatorMatch) {
+        // Special concept for facet indicator
+        current.decomposition.push({
+          uri: `http://dewey.info/facet/${facetIndicatorMatch[3]}`,
+          notation: [facetIndicatorMatch[3], facetIndicatorMatch[1]],
+          prefLabel: { en: "facet indicator", de: "Facettenindikator" },
+        })
+      } else if (lineMatch) {
+        current.decomposition.push({
+          notation: [lineMatch[3], lineMatch[1]],
+          prefLabel: { de: lineMatch[2] },
+        })
+      } else {
+        console.warn(`Warning: Could not parse line ${line}`)
+      }
+    }
+    end()
+  }
+
+  if (shouldImport) {
+    const createMany = await prisma.data.createMany({
+      data: result,
+      skipDuplicates: true,
+    })
+    console.log(`Added ${createMany.count} records.`)
+  } else {
+    // TODO: Adjust output format
+    console.log(JSON.stringify(result, null, 2))
+  }
+
+  await prisma.$disconnect()
+
+})()
