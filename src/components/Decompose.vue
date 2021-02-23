@@ -22,14 +22,24 @@
               open in Cocoda
             </a>
           </p>
-          <p>
-            <span
+          <div class="table">
+            <div class="row">
+              <div class="notation-part">
+                {{ result.notation[0] }}
+              </div>
+            </div>
+            <div
               v-for="member in result.memberList"
-              :key="member.notation[1]">
-              <code>{{ member.notation[1] }}</code> <span class="label">{{ member.prefLabel.de }}</span>
-              <br>
-            </span>
-          </p>
+              :key="member.notation[1]"
+              class="row">
+              <div class="notation-part">
+                {{ member.notation[1] }}
+              </div>
+              <div class="label">
+                {{ member.prefLabel.de }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -100,5 +110,17 @@ export default {
 </script>
 
 <style scoped>
-
+.table > .row {
+  display: flex;
+  margin-bottom: 3px;
+}
+.table > .row > .notation-part {
+  font-family: monospace;
+  font-size: 14px;
+  margin-top: 2px;
+}
+.table > .row > .label {
+  flex: 1;
+  padding-left: 10px;
+}
 </style>
