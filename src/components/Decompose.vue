@@ -67,7 +67,7 @@ export default {
         results.value = data
       } catch (error) {
         results.value = []
-        console.warn("Error loading data:", error)
+        inBrowser && console.warn("Error loading data:", error)
       }
     }
 

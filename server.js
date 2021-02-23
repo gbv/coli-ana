@@ -37,36 +37,41 @@ export async function createServer(
   /**
    * /decompose API route
    */
-  app.get("/decompose", async (req, res) => {
+  app.get("/decompose", async (req, res, next) => {
     const notations = req.query.notation.split("|")
     const format = req.query.format || "jskos"
 
     const result = []
 
-    for (let notation of notations) {
-      const concept = ddc.conceptFromNotation(notation, { inScheme: true })
-      if (!concept) {
-        continue
-      }
-
-      const memberList = await decomposeDDC(ddc, notation)
-      if (memberList) {
-        concept.memberList = memberList
-      }
-
-      if (format === "picajson") {
-        const field = build045H(ddc, concept)
-        result.push(field)
-      } else if (format === "pp") {
-        const field = build045H(ddc, concept)
-        let pp = field.shift() + "/" + field.shift() + " "
-        while (field.length) {
-          pp += "$" + field.shift() + field.shift()
+    try {
+      for (let notation of notations) {
+        const concept = ddc.conceptFromNotation(notation, { inScheme: true })
+        if (!concept) {
+          continue
         }
-        return res.send(pp)
-      } else {
-        result.push(concept)
+
+        const memberList = await decomposeDDC(ddc, notation)
+        if (memberList) {
+          concept.memberList = memberList
+        }
+
+        if (format === "picajson") {
+          const field = build045H(ddc, concept)
+          result.push(field)
+        } else if (format === "pp") {
+          const field = build045H(ddc, concept)
+          let pp = field.shift() + "/" + field.shift() + " "
+          while (field.length) {
+            pp += "$" + field.shift() + field.shift()
+          }
+          return res.send(pp)
+        } else {
+          result.push(concept)
+        }
       }
+    } catch (error) {
+      next(error)
+      return
     }
 
     return res.send(result)
@@ -122,6 +127,11 @@ export async function createServer(
       console.log(e.stack)
       res.status(500).end(e.stack)
     }
+  })
+
+  // eslint-disable-next-line no-unused-vars
+  app.use((err, req, res, next) => {
+    res.status(err.code || 500).send(err.message || "Something went wrong.")
   })
 
   return { app, vite }
