@@ -39,8 +39,17 @@
 <script>
 import { watch, ref } from "vue"
 import { useRoute } from "vue-router"
-import "cross-fetch/polyfill"
+// import "cross-fetch/polyfill"
 import config from "../../config"
+
+const inBrowser = typeof window !== "undefined"
+
+/**
+ * Currently, data is not fetched during SSR. To accomplish this, we need to use a data store like Vuex.
+ * For example, see https://ssr.vuejs.org/guide/data.html.
+ *
+ * TODO
+ */
 
 export default {
   async setup() {
@@ -54,7 +63,6 @@ export default {
         return
       }
       results.value = null
-      const inBrowser = typeof window !== "undefined"
       let url = `decompose?notation=${notation}`
       if (!inBrowser) {
         url = `http://localhost:${config.port}/${url}`
@@ -71,16 +79,17 @@ export default {
       }
     }
 
+    // fetch decomposition on first load (only browser, see note above)
+    if (inBrowser) {
     // fetch the decomposition when params change
-    watch(
-      () => route.params.notation,
-      async (notation) => {
-        await fetchDecomposition(notation)
-      },
-    )
-
-    // fetch decomposition on first load
-    fetchDecomposition(route.params.notation)
+      watch(
+        () => route.params.notation,
+        async (notation) => {
+          await fetchDecomposition(notation)
+        },
+      )
+      fetchDecomposition(route.params.notation)
+    }
 
     return {
       ...config,
