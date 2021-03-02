@@ -67,7 +67,18 @@ npm run serve
 
 ## Configuration
 
-You can adjust a few configuration options in `config/config.user.js`. Note that it must be an ES6 module exporting a default JSON object. Please refer to `config/config.default.js` for available options.
+You can adjust a few configuration options in `.env`. Here are the available options and default values:
+
+```bash
+# URL to access PostgreSQL database
+DATABASE_URL=
+# URL to Cocoda instance
+COCODA=https://coli-conc.gbv.de/cocoda/app/
+# Port for Express server
+PORT=11033
+# Base for URL (e.g. when not running under root of domain)
+BASE=/
+```
 
 ## API
 

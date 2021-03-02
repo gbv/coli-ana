@@ -12,15 +12,14 @@
     "node": ">=12"
   },
   "scripts": {
-    "test": "npm run empty-config; NODE_ENV=test mocha --exit --timeout 10000 --slow 2000",
+    "test": "NODE_ENV=test mocha --exit --timeout 10000 --slow 2000",
     "lint-staged": "lint-staged",
-    "dev": "npm run empty-config; nodemon --experimental-json-modules server",
-    "build": "npm run empty-config; npm run build:client && npm run build:server",
+    "dev": "nodemon --experimental-json-modules -r dotenv/config server",
+    "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server; mv dist/server/entry-server.js dist/server/entry-server.cjs",
-    "serve": "cross-env NODE_ENV=production node --experimental-json-modules server",
-    "debug": "npm run empty-config; node --experimental-json-modules --inspect-brk server",
-    "empty-config": "([ ! -e ./config/config.user.js ] && echo \"export default {}\" > ./config/config.user.js) || :"
+    "serve": "cross-env NODE_ENV=production node --experimental-json-modules -r dotenv/config server",
+    "debug": "node --experimental-json-modules --inspect-brk -r dotenv/config server"
   },
   "lint-staged": {
     "**/*.js": [
@@ -36,6 +35,7 @@
   "dependencies": {
     "@prisma/client": "^2.17.0",
     "cross-fetch": "^3.0.6",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jskos-tools": "^1.0.16",
     "vue": "^3.0.5",
@@ -56,6 +56,7 @@
     "nodemon": "^2.0.7",
     "pre-commit": "^1.2.2",
     "prisma": "^2.17.0",
+    "rollup-plugin-strip-code": "^0.2.7",
     "serve-static": "^1.14.1",
     "vite": "^2.0.1"
   }
