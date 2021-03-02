@@ -28,7 +28,15 @@
                 {{ member.notation[1] }}
               </div>
               <div class="label">
-                {{ member.prefLabel.de }}
+                <tippy interactive>
+                  <item-name
+                    :item="member"
+                    :show-notation="false" />
+                  <template #content>
+                    <concept-details
+                      :concept="member" />
+                  </template>
+                </tippy>
               </div>
             </div>
           </div>
@@ -52,6 +60,9 @@ import { useRoute } from "vue-router"
 // import "cross-fetch/polyfill"
 import config from "../../config"
 
+import ConceptDetails from "./ConceptDetails.vue"
+import ItemName from "./ItemName.vue"
+
 const inBrowser = typeof window !== "undefined"
 
 /**
@@ -62,6 +73,7 @@ const inBrowser = typeof window !== "undefined"
  */
 
 export default {
+  components: { ConceptDetails, ItemName },
   async setup() {
     const route = useRoute()
     const results = ref(null)
