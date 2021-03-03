@@ -7,7 +7,7 @@
     </header>
     <h1>coli-ana</h1>
     <h2>Decomposition</h2>
-    <p>You can decompose DDC built numbers here (separate multiple numbers via <code>|</code>).</p>
+    <p>You can analyze one or more synthesized DDC numbers here (separated via <code>|</code>).</p>
     <form
       @submit.prevent="submit">
       <input
