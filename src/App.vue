@@ -33,8 +33,8 @@
         <component :is="Component" />
       </Suspense>
     </router-view>
+    <h2>Documentation</h2>
     <template v-if="$route.params.notation">
-      <h2>Info</h2>
       <p>
         Format documentation:
         <a href="https://format.gbv.de/jskos">JSKOS</a> ・
@@ -49,7 +49,6 @@
             target="_blank">K10Plus format</a>.
       </p>
     </template>
-    <h2>Documentation</h2>
     <p>
       Visit <a
         href="https://coli-conc.gbv.de/coli-ana/"
