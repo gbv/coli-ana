@@ -7,7 +7,7 @@
       <div
         v-for="result in results"
         :key="result.uri">
-        <h2>{{ result.notation[0] }}</h2>
+        <h2><item-name :item="result" /></h2>
         <p v-if="result.memberList.length === 0">
           No decomposition found.
         </p>
@@ -35,6 +35,11 @@
                   <template #content>
                     <concept-details
                       :concept="member" />
+                    <div
+                      class="loadedIndicator">
+                      <span v-if="!member._loaded">🔴</span>
+                      <span v-else>🟢</span>
+                    </div>
                   </template>
                 </tippy>
               </div>
@@ -59,6 +64,8 @@ import { watch, ref } from "vue"
 import { useRoute } from "vue-router"
 // import "cross-fetch/polyfill"
 import config from "../../config"
+
+import { store } from "../store.js"
 
 import ConceptDetails from "./ConceptDetails.vue"
 import ItemName from "./ItemName.vue"
@@ -111,6 +118,23 @@ export default {
         },
       )
       fetchDecomposition(route.params.notation)
+      // fetch concept info when results changed
+      watch(
+        () => results.value,
+        async (results) => {
+          if (!results) {
+            return
+          }
+          for (let result of results) {
+            const [concept, ...memberList] = await store.loadConcepts([].concat(result, result.memberList))
+            // Integrate loaded concepts in results
+            store.integrate(result, concept)
+            for (let i = 0; i < memberList.length; i += 1) {
+              store.integrate(result.memberList[i], memberList[i])
+            }
+          }
+        },
+      )
     }
 
     return {
@@ -134,5 +158,11 @@ export default {
 .table > .row > .label {
   flex: 1;
   padding-left: 10px;
+}
+.loadedIndicator {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 8px;
 }
 </style>
