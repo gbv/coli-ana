@@ -14,6 +14,7 @@ for (let key of Object.keys(process.env)) {
   }
   define[`process.env.${key}`] = value
 }
+define["process.browser"] = true
 
 /**
  * @type {import('vite').UserConfig}
