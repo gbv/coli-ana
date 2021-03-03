@@ -35,12 +35,13 @@
                   <template #content>
                     <concept-details
                       :concept="member" />
-                    <div
-                      class="loadedIndicator">
-                      <span v-if="!member._loaded">🔴</span>
-                      <span v-else>🟢</span>
-                    </div>
                   </template>
+                </tippy>
+                <tippy
+                  v-if="!member._loaded"
+                  content="Info about this DDC class could not be loaded."
+                  class="loadedIndicator">
+                  ·
                 </tippy>
               </div>
             </div>
@@ -160,9 +161,8 @@ export default {
   padding-left: 10px;
 }
 .loadedIndicator {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  font-size: 8px;
+  color: red;
+  font-weight: bold;
+  user-select: none;
 }
 </style>
