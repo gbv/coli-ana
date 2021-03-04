@@ -100,6 +100,12 @@ files.forEach(file => {
       } else {
         console.warn(`Warning: Could not parse line ${line}`)
       }
+      // Check if it's necessary to swap the recent two lines
+      // TODO: Verify and test this check.
+      const l = current ? current.memberList.length : 0
+      if (l >= 2 && current.memberList[l - 1].notation[1] === current.memberList[l - 2].notation[1] && current.memberList[l - 1].notation[0].length > current.memberList[l - 2].notation[0].length) {
+        [current.memberList[l - 1], current.memberList[l - 2]] = [current.memberList[l - 2], current.memberList[l - 1]]
+      }
     }
     end()
   }
