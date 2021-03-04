@@ -52,6 +52,8 @@ Now that the database and tables are prepared, you can import coli-ana results (
 node ./bin/convert --import ~/path/to/ou_liu_t_de-slim-21-02-15-1121
 ```
 
+Add `--reset` to delete old records from the database.
+
 ### Development
 ~~~bash
 npm run dev

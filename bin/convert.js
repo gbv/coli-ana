@@ -31,6 +31,7 @@ function readLines({ input }) {
 const args = process.argv.slice(2)
 const files = args.filter(arg => !arg.startsWith("--"))
 const shouldImport = args.includes("--import")
+const shouldReset = args.includes("--reset")
 
 // Regular expressions
 const startRe = /^(\S*) \(\S*\)/
@@ -51,6 +52,11 @@ files.forEach(file => {
 });
 
 (async () => {
+
+  if (shouldReset) {
+    const { count } = await prisma.data.deleteMany()
+    console.log(`Deleted ${count} records.`)
+  }
 
   let result = []
   let current = null
