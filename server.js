@@ -52,6 +52,13 @@ export async function createServer(
 
         const memberList = await decomposeDDC(ddc, notation)
         if (memberList) {
+          // Check if it's necessary to swap some lines
+          // TODO: Verify and test this check.
+          for (let i = 1; i < memberList.length; i += 1) {
+            if (memberList[i].notation[1] === memberList[i - 1].notation[1] && memberList[i].notation[0].length > memberList[i - 1].notation[0].length) {
+              [memberList[i], memberList[i - 1]] = [memberList[i - 1], memberList[i]]
+            }
+          }
           concept.memberList = memberList
         }
 
