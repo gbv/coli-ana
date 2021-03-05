@@ -38,6 +38,7 @@ const startRe = /^(\S*) \(\S*\)/
 const facetIndicatorRe = /^(\S*) <(Facet Indicator)> \(notation: (.*)\)/
 const lineRe = /^(\S*) (.*) \(notation: ([^:]*)(:.*)?\)/
 const endRe = /^\s*$/
+const tableNotationRe = /^T([^T]+)(T(.+))?/
 
 if (!files.length) {
   console.error("Error: Please provide input file(s).")
@@ -93,10 +94,14 @@ files.forEach(file => {
           prefLabel: { en: "facet indicator", de: "Facettenindikator" },
         })
       } else if (lineMatch) {
-        current.memberList.push({
-          notation: [lineMatch[3], lineMatch[1]],
-          prefLabel: { de: lineMatch[2] },
-        })
+        const prefLabel = { de: lineMatch[2] }
+        var notation = [lineMatch[3], lineMatch[1]]
+        const tableMatch = tableNotationRe.exec(lineMatch[3])
+        if (tableMatch) { // remove 'T' in table notations
+          const tableNotation = tableMatch[1] + (tableMatch[3] ? tableMatch[3] : "")
+          notation = [tableNotation, lineMatch[1], "T"+tableNotation]
+        }
+        current.memberList.push({ prefLabel, notation })
       } else {
         console.warn(`Warning: Could not parse line ${line}`)
       }
