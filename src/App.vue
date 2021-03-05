@@ -46,12 +46,13 @@
             </span>
           </p>
         </form>
+
+        <router-view v-slot="{ Component }">
+          <Suspense>
+            <component :is="Component" />
+          </Suspense>
+        </router-view>
       </div>
-      <router-view v-slot="{ Component }">
-        <Suspense>
-          <component :is="Component" />
-        </Suspense>
-      </router-view>
       <div class="section">
         <h2>Documentation</h2>
         <template v-if="$route.params.notation">

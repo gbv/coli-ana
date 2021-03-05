@@ -7,9 +7,8 @@
   <template v-else>
     <div
       v-for="result in results"
-      :key="result.uri"
-      class="section">
-      <h2><item-name :item="result" /></h2>
+      :key="result.uri">
+      <h4><item-name :item="result" /></h4>
       <p v-if="result.memberList.length === 0">
         No decomposition found.
       </p>
@@ -165,5 +164,8 @@ export default {
   color: red;
   font-weight: bold;
   user-select: none;
+}
+h4 {
+  margin-top: 30px;
 }
 </style>
