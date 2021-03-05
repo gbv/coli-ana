@@ -165,7 +165,7 @@ export default {
         if (matches.length < 4) {
           return notation
         }
-        return `${notation.slice(0, matches[1].length)}<span style="background-color: #E9E1E1;">${notation.slice(matches[1].length, matches[1].length + matches[2].length)}</span>${notation.slice(matches[1].length + matches[2].length)}`
+        return `${notation.slice(0, matches[1].length)}<span style="background-color: #000; color: #F6F4F4;">${notation.slice(matches[1].length, matches[1].length + matches[2].length)}</span>${notation.slice(matches[1].length + matches[2].length)}`
       },
     }
   },
