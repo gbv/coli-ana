@@ -151,6 +151,9 @@ export default {
   display: flex;
   margin-bottom: 3px;
 }
+.table > .row:hover {
+  background-color: #E9E1E1;
+}
 .table > .row > .notation-part {
   font-family: monospace;
   font-size: 14px;
