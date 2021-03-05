@@ -8,7 +8,14 @@
     <div
       v-for="result in results"
       :key="result.uri">
-      <h4><item-name :item="result" /></h4>
+      <h4>
+        <span
+          class="notation-part"
+          v-html="notationWithHighlight(result, hovered)" />
+        <item-name
+          :item="result"
+          :show-notation="false" />
+      </h4>
       <p v-if="result.memberList.length === 0">
         No decomposition found.
       </p>
