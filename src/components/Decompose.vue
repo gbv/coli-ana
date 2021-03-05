@@ -1,63 +1,64 @@
 <template>
-  <main>
-    <p v-if="!results">
-      Loading
-    </p>
-    <div v-else>
+  <div
+    v-if="!results"
+    class="section">
+    Loading
+  </div>
+  <template v-else>
+    <div
+      v-for="result in results"
+      :key="result.uri"
+      class="section">
+      <h2><item-name :item="result" /></h2>
+      <p v-if="result.memberList.length === 0">
+        No decomposition found.
+      </p>
       <div
-        v-for="result in results"
-        :key="result.uri">
-        <h2><item-name :item="result" /></h2>
-        <p v-if="result.memberList.length === 0">
-          No decomposition found.
-        </p>
-        <div
-          v-else
-          class="decomposition">
-          <div class="table">
-            <div class="row">
-              <div class="notation-part">
-                {{ result.notation[0] }}
-              </div>
-            </div>
-            <div
-              v-for="member in result.memberList"
-              :key="member.notation[1]"
-              class="row">
-              <div class="notation-part">
-                {{ member.notation[1] }}
-              </div>
-              <div class="label">
-                <tippy interactive>
-                  <item-name
-                    :item="member"
-                    :show-notation="false" />
-                  <template #content>
-                    <concept-details
-                      :concept="member" />
-                  </template>
-                </tippy>
-                <tippy
-                  v-if="!member._loaded"
-                  content="Info about this DDC class could not be loaded."
-                  class="loadedIndicator">
-                  ·
-                </tippy>
-              </div>
+        v-else
+        class="decomposition">
+        <div class="table">
+          <div class="row">
+            <div class="notation-part">
+              {{ result.notation[0] }}
             </div>
           </div>
-          <p>
-            <a :href="`decompose?notation=${result.notation[0]}`">JSKOS</a> ・
-            <a :href="`decompose?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
-            <a :href="`decompose?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
-            <a :href="`${cocoda}?fromScheme=${ddc.uri}&from=${ddc.uriFromNotation(result.notation[0])}`">
-              open in Cocoda
-            </a>
-          </p>
+          <div
+            v-for="member in result.memberList"
+            :key="member.notation[1]"
+            class="row">
+            <div class="notation-part">
+              {{ member.notation[1] }}
+            </div>
+            <div class="label">
+              <tippy interactive>
+                <item-name
+                  :item="member"
+                  :show-notation="false" />
+                <template #content>
+                  <concept-details
+                    :concept="member" />
+                </template>
+              </tippy>
+              <tippy
+                v-if="!member._loaded"
+                content="Info about this DDC class could not be loaded."
+                class="loadedIndicator">
+                ·
+              </tippy>
+            </div>
+          </div>
         </div>
+        <p>
+          <a :href="`decompose?notation=${result.notation[0]}`">JSKOS</a> ・
+          <a :href="`decompose?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
+          <a :href="`decompose?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
+          <a :href="`${cocoda}?fromScheme=${ddc.uri}&from=${ddc.uriFromNotation(result.notation[0])}`">
+            open in Cocoda
+          </a>
+        </p>
       </div>
     </div>
-  </main>
+  </template>
 </template>
 
 <script>

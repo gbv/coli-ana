@@ -1,63 +1,85 @@
 <template>
   <div>
-    <header>
-      <router-link to="/">
-        Home
+    <header class="header">
+      <router-link
+        to="/"
+        class="coli-conc-logo-small">
+        <img
+          src="https://coli-conc.gbv.de/images/coli-conc.svg"
+          alt="coli-conc Logo">
       </router-link>
+      <ul class="menu">
+        <li>
+          <a
+            href="https://coli-conc.gbv.de"
+            title="Go to coli-conc website">
+            ⬅ back to coli-conc website
+          </a>
+        </li>
+      </ul>
+      <div style="clear:both" />
     </header>
-    <h1>coli-ana</h1>
-    <h2>Decomposition</h2>
-    <p>You can analyze one or more synthesized DDC numbers here (separated via <code>|</code>).</p>
-    <form
-      @submit.prevent="submit">
-      <input
-        v-model="notation"
-        type="text">
-      <button type="submit">
-        Decompose
-      </button>
-      <p>
-        Examples:
-        <span
-          v-for="(notation, index) in examples"
-          :key="notation">
-          <router-link :to="`/${notation}`">
-            <code>{{ notation }}</code>
-          </router-link>
-          <code v-if="index + 1 < examples.length">, </code>
-        </span>
-      </p>
-    </form>
-    <router-view v-slot="{ Component }">
-      <Suspense>
-        <component :is="Component" />
-      </Suspense>
-    </router-view>
-    <h2>Documentation</h2>
-    <template v-if="$route.params.notation">
-      <p>
-        Format documentation:
-        <a href="https://format.gbv.de/jskos">JSKOS</a> ・
-        <a href="https://format.gbv.de/pica/json">PICA/JSON</a> ・
-        <a href="https://format.gbv.de/pica/plain">PICA Plain</a>
-      </p>
-      <p>
-        PICA format is limited to <a
-          href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"
-          target="_blank">field 045H/00</a> in <a
-            href="https://format.gbv.de/pica/k10plus"
-            target="_blank">K10Plus format</a>.
-      </p>
-    </template>
-    <p>
-      Visit <a
-        href="https://coli-conc.gbv.de/coli-ana/"
-        target="_blank">the project page</a> for background information or
-      <a
-        href="https://github.com/gbv/coli-ana"
-        target="_blank">GitHub</a> for technical documentation.
-    </p>
-    <footer>
+    <main id="main">
+      <div class="text-center">
+        <h1>coli-ana</h1>
+      </div>
+      <div class="section">
+        <h2>Decomposition</h2>
+        <p>You can analyze one or more synthesized DDC numbers here (separated via <code>|</code>).</p>
+        <form
+          @submit.prevent="submit">
+          <input
+            v-model="notation"
+            type="text">
+          <button type="submit">
+            Decompose
+          </button>
+          <p>
+            Examples:
+            <span
+              v-for="(notation, index) in examples"
+              :key="notation">
+              <router-link :to="`/${notation}`">
+                <code>{{ notation }}</code>
+              </router-link>
+              <code v-if="index + 1 < examples.length">, </code>
+            </span>
+          </p>
+        </form>
+      </div>
+      <router-view v-slot="{ Component }">
+        <Suspense>
+          <component :is="Component" />
+        </Suspense>
+      </router-view>
+      <div class="section">
+        <h2>Documentation</h2>
+        <template v-if="$route.params.notation">
+          <p>
+            Format documentation:
+            <a href="https://format.gbv.de/jskos">JSKOS</a> ・
+            <a href="https://format.gbv.de/pica/json">PICA/JSON</a> ・
+            <a href="https://format.gbv.de/pica/plain">PICA Plain</a>
+          </p>
+          <p>
+            PICA format is limited to <a
+              href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"
+              target="_blank">field 045H/00</a> in <a
+                href="https://format.gbv.de/pica/k10plus"
+                target="_blank">K10Plus format</a>.
+          </p>
+        </template>
+        <p>
+          Visit <a
+            href="https://coli-conc.gbv.de/coli-ana/"
+            target="_blank">the project page</a> for background information or
+          <a
+            href="https://github.com/gbv/coli-ana"
+            target="_blank">GitHub</a> for technical documentation.
+        </p>
+      </div>
+    </main>
+    <footer class="footer">
       {{ name }} version {{ version }}
     </footer>
   </div>
@@ -94,41 +116,20 @@ export default {
 <style>
 /* page styles */
 #app {
-  max-width: 70ch;
-  padding: 2ch;
-  margin: auto;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Nunito, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
 }
-/* link styles */
-a {
-  text-decoration: none;
-  color: #ff3c3c;
+/* Adjustments of coli-conc site styles for Nunito font */
+.font-weight-light {
+  font-weight: 400;
 }
-a:hover, a:active {
-  text-decoration: underline;
+
+.font-weight-regular, #app {
+  font-weight: 600 ;
 }
-/* table styles */
-table {
-  border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 0.9em;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-}
-table thead tr {
-  color: #ffffff;
-  text-align: left;
-}
-table th,
-table td {
-  padding: 12px 15px;
-}
-table tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
+
+.font-weight-bold, .header, h1, h2, h3, h4, h5, h6, a, .badge {
+  font-weight: 700;
 }
 </style>
