@@ -115,24 +115,6 @@ export default {
 </script>
 
 <style>
-/* page styles */
-#app {
-  font-family: "Nunito", "Trebuchet MS", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-/* Adjustments of coli-conc site styles for Nunito font */
-.font-weight-light {
-  font-weight: 400;
-}
-
-.font-weight-regular, #app {
-  font-weight: 600 ;
-}
-
-.font-weight-bold, .header, h1, h2, h3, h4, h5, h6, a, .badge {
-  font-weight: 700;
-}
 /* Use desktop style for header always (since there's only one menu item) */
 .header ul, .menu-icon {
   margin-top: 10px;
