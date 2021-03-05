@@ -18,10 +18,10 @@ export function createApp() {
   app.use(VueTippy, {
     defaultProps: {
       theme: "light-border",
-      followCursor: "initial",
+      followCursor: "horizontal",
       plugins: [followCursor],
       duration: [275, 100],
-      distance: 5,
+      offset: 0,
     },
   })
   return { app, router }
