@@ -36,7 +36,7 @@ const shouldReset = args.includes("--reset")
 // Regular expressions
 const startRe = /^(\S*) \(\S*\)/
 const facetIndicatorRe = /^(\S*) <(Facet Indicator)> \(notation: (.*)\)/
-const lineRe = /^(\S*) (.*) \(notation: ([^:]*)(:.*)?\)/
+const lineRe = /^(\S*) (.*) \(notation: (.*)\)/
 const endRe = /^\s*$/
 const tableNotationRe = /^T([^T]+)(T\d[A-C]?--(.+))?/
 
