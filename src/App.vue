@@ -116,7 +116,7 @@ export default {
 <style>
 /* page styles */
 #app {
-  font-family: Nunito, Helvetica, sans-serif;
+  font-family: "Nunito", "Trebuchet MS", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
