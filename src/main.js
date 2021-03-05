@@ -6,6 +6,7 @@ import { createRouter } from "./router"
 import VueTippy from "vue-tippy"
 import "tippy.js/dist/tippy.css"
 import "tippy.js/themes/light-border.css"
+import { followCursor } from "tippy.js"
 
 // SSR requires a fresh app instance per request, therefore we export a function
 // that creates a fresh app instance. If using Vuex, we'd also be creating a
@@ -16,8 +17,11 @@ export function createApp() {
   app.use(router)
   app.use(VueTippy, {
     defaultProps: {
-      placement: "right",
       theme: "light-border",
+      followCursor: "initial",
+      plugins: [followCursor],
+      duration: [275, 100],
+      distance: 5,
     },
   })
   return { app, router }
