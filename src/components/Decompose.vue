@@ -17,14 +17,16 @@
         class="decomposition">
         <div class="table">
           <div class="row">
-            <div class="notation-part">
-              {{ result.notation[0] }}
-            </div>
+            <div
+              class="notation-part"
+              v-html="notationWithHighlight(result, hovered)" />
           </div>
           <div
             v-for="member in result.memberList"
             :key="member.notation[1]"
-            class="row">
+            class="row"
+            @mouseover="hovered = member"
+            @mouseleave="hovered = null">
             <div class="notation-part">
               {{ member.notation[1] }}
             </div>
@@ -85,6 +87,7 @@ export default {
   async setup() {
     const route = useRoute()
     const results = ref(null)
+    const hovered = ref(null)
 
     // method to fetch decomposition info
     const fetchDecomposition = async (notation) => {
@@ -141,6 +144,22 @@ export default {
     return {
       ...config,
       results,
+      hovered,
+      /**
+       * Highlights part of a result's notation if that part is currently hovered.
+       */
+      notationWithHighlight: (result, hovered) => {
+        const notation = result.notation[0]
+        const part = hovered && hovered.notation && hovered.notation[1]
+        if (!part) {
+          return notation
+        }
+        const matches = part.match(/([-.]*)([\d.]*)([-.]*)/)
+        if (matches.length < 4) {
+          return notation
+        }
+        return `${notation.slice(0, matches[1].length)}<span style="color: red">${notation.slice(matches[1].length, matches[1].length + matches[2].length)}</span>${notation.slice(matches[1].length + matches[2].length)}`
+      },
     }
   },
 }
