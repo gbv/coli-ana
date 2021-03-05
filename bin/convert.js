@@ -38,7 +38,7 @@ const startRe = /^(\S*) \(\S*\)/
 const facetIndicatorRe = /^(\S*) <(Facet Indicator)> \(notation: (.*)\)/
 const lineRe = /^(\S*) (.*) \(notation: ([^:]*)(:.*)?\)/
 const endRe = /^\s*$/
-const tableNotationRe = /^T([^T]+)(T(.+))?/
+const tableNotationRe = /^T([^T]+)(T\d[A-C]?--(.+))?/
 
 if (!files.length) {
   console.error("Error: Please provide input file(s).")
