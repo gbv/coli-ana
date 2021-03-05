@@ -133,4 +133,13 @@ export default {
 .font-weight-bold, .header, h1, h2, h3, h4, h5, h6, a, .badge {
   font-weight: 700;
 }
+/* Use desktop style for header always (since there's only one menu item) */
+.header ul, .menu-icon {
+  margin-top: 10px;
+}
+.header .menu {
+  clear: none;
+  float: right;
+  max-height: none;
+}
 </style>
