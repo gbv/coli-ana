@@ -6,15 +6,19 @@
   <p>
     {{ concept.uri }}
     <a
-      :href="'https://coli-conc.gbv.de/cocoda/app/?fromScheme=http%3A%2F%2Fdewey.info%2Fscheme%2Fedition%2Fe23%2F&from='+concept.uri"
+      :href="cocodaLink"
       title="Cocoda"
-      target="cocoda">&nesear;</a>
+      target="cocoda">
+      &nesear;
+    </a>
   </p>
 </template>
 
 <script>
 import jskos from "jskos-tools"
 import ItemName from "./ItemName.vue"
+import config from "../../config"
+import { computed } from "vue"
 
 export default {
   components: { ItemName },
@@ -24,9 +28,10 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     return {
       notation: jskos.notation,
+      cocodaLink: computed(() => `${config.cocoda}?fromScheme=${encodeURIComponent(config.ddc.uri)}&from=${encodeURIComponent(props.concept.uri)}`),
     }
   },
 }
