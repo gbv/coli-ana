@@ -34,7 +34,15 @@ The server provides a HTTP API at port 11033 by default. (Fun fact: 11033 = Octa
 
 ### Preparing the database
 
-coli-ana uses a PostgreSQL database. Please create a database and provide the connection string inside a `.env` file, e.g.
+coli-ana uses a PostgreSQL database. For instance create a database `coli-ana`:
+
+```sql
+CREATE DATABASE "coli-ana";
+CREATE USER "username" PASSWORD 'password';
+GRANT ALL ON DATABASE "coli-ana" TO "coli-ana";
+```
+
+Provide the connection string inside a `.env` file, e.g.
 
 ```env
 DATABASE_URL="postgresql://username:password@localhost:5432/coli-ana"
@@ -55,9 +63,9 @@ node ./bin/convert --import ~/path/to/ou_liu_t_de-slim-21-02-15-1121
 Add `--reset` to delete old records from the database.
 
 ### Development
-~~~bash
+```bash
 npm run dev
-~~~
+```
 
 ### Production
 ```bash
