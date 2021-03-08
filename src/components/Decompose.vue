@@ -68,7 +68,7 @@
           <a :href="`decompose?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
           <a :href="`decompose?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
           <a :href="`${cocoda}?fromScheme=${ddc.uri}&from=${ddc.uriFromNotation(result.notation[0])}`">
-            open in Cocoda
+            &nesear; open in Cocoda
           </a>
         </p>
       </div>
