@@ -5,8 +5,19 @@
     Loading
   </div>
   <template v-else>
+    <p v-show="resultsWithoutDecomposition">
+      No decomposition found for:
+      <ul>
+        <li
+          v-for="result in resultsWithoutDecomposition"
+          :key="result.uri">
+          <item-name
+            :item="result" />
+        </li>
+      </ul>
+    </p>
     <div
-      v-for="result in results"
+      v-for="result in resultsWithDecomposition"
       :key="result.uri">
       <h4>
         <span
@@ -16,11 +27,7 @@
           :item="result"
           :show-notation="false" />
       </h4>
-      <p v-if="result.memberList.length === 0">
-        No decomposition found.
-      </p>
       <div
-        v-else
         class="decomposition">
         <div class="table">
           <div class="row">
@@ -70,7 +77,7 @@
 </template>
 
 <script>
-import { watch, ref } from "vue"
+import { watch, ref, computed } from "vue"
 import { useRoute } from "vue-router"
 // import "cross-fetch/polyfill"
 import config from "../../config"
@@ -94,6 +101,19 @@ export default {
   async setup() {
     const route = useRoute()
     const results = ref(null)
+    const resultsWithDecomposition = computed(() => {
+      if (!results.value) {
+        return []
+      }
+      return results.value.filter(r => r.memberList.length)
+    })
+    const resultsWithoutDecomposition = computed(() => {
+      if (!results.value) {
+        return []
+      }
+      return results.value.filter(r => !r.memberList.length)
+    })
+
     const hovered = ref(null)
 
     // method to fetch decomposition info
@@ -151,6 +171,8 @@ export default {
     return {
       ...config,
       results,
+      resultsWithDecomposition,
+      resultsWithoutDecomposition,
       hovered,
       /**
        * Highlights part of a result's notation if that part is currently hovered.
