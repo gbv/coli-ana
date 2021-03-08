@@ -38,7 +38,6 @@ const startRe = /^(\S*) \(\S*\)/
 const facetIndicatorRe = /^(\S*) <(Facet Indicator)> \(notation: (.*)\)/
 const lineRe = /^(\S*) (.*) \(notation: (.*)\)/
 const endRe = /^\s*$/
-const tableNotationRe = /^T([^T]+)(T\d[A-C]?--(.+))?/
 
 if (!files.length) {
   console.error("Error: Please provide input file(s).")
@@ -77,13 +76,9 @@ files.forEach(file => {
       const endMatch = endRe.exec(line)
 
       if (startMatch) {
-        const notation = startMatch[1]
-        current = {
-          uri: ddc.uriFromNotation(notation),
-          notation: [notation],
-          inScheme: [{ uri: ddc.uri }],
-          memberList: [],
-        }
+        const notation = startMatch[1].replace(/-T\d[A-C]?-/,"")
+        current = ddc.conceptFromNotation(notation, { inScheme: true })
+        current.memberList = []
       } else if (endMatch) {
         end()
       } else if (facetIndicatorMatch) {
@@ -94,14 +89,15 @@ files.forEach(file => {
           prefLabel: { en: "facet indicator", de: "Facettenindikator" },
         })
       } else if (lineMatch) {
-        const prefLabel = { de: lineMatch[2] }
-        var notation = [lineMatch[3], lineMatch[1]]
-        const tableMatch = tableNotationRe.exec(lineMatch[3])
-        if (tableMatch) { // remove 'T' in table notations
-          const tableNotation = tableMatch[1] + (tableMatch[3] ? tableMatch[3] : "")
-          notation = [tableNotation, lineMatch[1], "T"+tableNotation]
+        const notation = lineMatch[3].replace(/-T\d[A-C]?-/,"")
+        const member = ddc.conceptFromNotation(notation)
+        if (member) {
+          member.prefLabel = { de: lineMatch[2] }
+          member.notation.push(lineMatch[1])
+          current.memberList.push(member)
+        } else {
+          console.warn(`Warning: Could not convert DDC notation ${lineMatch[3]}`)
         }
-        current.memberList.push({ prefLabel, notation })
       } else {
         console.warn(`Warning: Could not parse line ${line}`)
       }

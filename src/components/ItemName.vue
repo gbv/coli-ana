@@ -19,13 +19,7 @@ export default {
   },
   setup() {
     return {
-      notation: item => {
-        if (item && item.notation.length) {
-          return item.notation.length > 2 ? item.notation[2] : item.notation[0]
-        } else {
-          return ''
-        }
-      },
+      notation: jskos.notation,
       // TODO: Do not hardcode German labels.
       prefLabel: item => jskos.prefLabel(item, { language: "de", fallbackToUri: false }),
     }
