@@ -39,8 +39,8 @@
             v-for="member in result.memberList"
             :key="member.notation[1]"
             class="row"
-            @mouseover="hovered = member"
-            @mouseleave="hovered = null">
+            @mouseover="hovered = { member, result }"
+            @mouseleave="hovered = {}">
             <div class="notation-part">
               {{ member.notation[1] }}
             </div>
@@ -114,7 +114,7 @@ export default {
       return results.value.filter(r => !r.memberList.length)
     })
 
-    const hovered = ref(null)
+    const hovered = ref({})
 
     // method to fetch decomposition info
     const fetchDecomposition = async (notation) => {
@@ -179,8 +179,8 @@ export default {
        */
       notationWithHighlight: (result, hovered) => {
         const notation = result.notation[0]
-        const part = hovered && hovered.notation && hovered.notation[1]
-        if (!part) {
+        const part = hovered.member && hovered.member.notation && hovered.member.notation[1]
+        if (result !== hovered.result || !part) {
           return notation
         }
         const matches = part.match(/([-.]*)([\d.]*)([-.]*)/)
