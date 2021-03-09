@@ -24,7 +24,7 @@
         <h1>coli-ana</h1>
       </div>
       <div class="section">
-        <h2>Decomposition</h2>
+        <h2>Analysis</h2>
         <p>You can analyze one or more synthesized DDC numbers here (separated via <code>|</code>).</p>
         <form
           @submit.prevent="submit">
@@ -32,7 +32,7 @@
             v-model="notation"
             type="text">
           <button type="submit">
-            Decompose
+            analyze
           </button>
           <p>
             Examples:
@@ -63,6 +63,7 @@
             <a href="https://format.gbv.de/pica/plain">PICA Plain</a>
           </p>
           <p>
+            The set of analyzed notations is limited for testing.
             PICA format is limited to <a
               href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"
               target="_blank">field 045H/00</a> in <a
