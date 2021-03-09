@@ -1,17 +1,17 @@
 <template>
   <div>
     <header class="header">
-      <router-link
-        to="/"
+      <a
+        href="https://coli-conc.gbv.de/"
         class="coli-conc-logo-small">
         <img
           src="https://coli-conc.gbv.de/images/coli-conc.svg"
           alt="coli-conc Logo">
-      </router-link>
+      </a>
       <ul class="menu">
         <li>
           <a
-            href="https://coli-conc.gbv.de"
+            href="https://coli-conc.gbv.de/coli-ana/"
             title="Go to coli-conc website">
             ⬅ back to coli-conc website
           </a>
