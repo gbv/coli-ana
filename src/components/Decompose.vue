@@ -222,8 +222,9 @@ export default {
   margin-top: 2px;
 }
 .table > .row > .hierarchy-info {
-  width: 10px;
+  width: 15px;
   user-select: none;
+  color: #2121217F;
 }
 .table > .row > .label {
   flex: 1;
