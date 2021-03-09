@@ -41,7 +41,7 @@
             :key="member.notation[1]"
             :class="{
               row: true,
-              'font-weight-bold': jskos.compare(member.broader && member.broader[0], result.memberList[index - 1]) && !jskos.compare(result.memberList[index + 1] && result.memberList[index + 1].broader && result.memberList[index + 1].broader[0], member),
+              'font-weight-bold': result.memberList[index - 1] && jskos.compare(member.broader && member.broader[0], result.memberList[index - 1]) && !jskos.compare(result.memberList[index + 1] && result.memberList[index + 1].broader && result.memberList[index + 1].broader[0], member),
             }"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">
