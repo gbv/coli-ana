@@ -2,9 +2,10 @@ import "dotenv/config.js"
 import vuePlugin from "@vitejs/plugin-vue"
 import config from "./config/config.js"
 
-import stripCode from "rollup-plugin-strip-code"
-
-// Define all process.env values separately
+/**
+ * `define` performs static replacements of strings.
+ * We're using this to replace `process.env` values with the actual values from the environment at build time.
+ */
 const define = {}
 for (let key of Object.keys(process.env)) {
   let value = `${process.env[key]}`
@@ -14,7 +15,10 @@ for (let key of Object.keys(process.env)) {
   }
   define[`process.env.${key}`] = value
 }
+// Some modules use process.browser so we need to define it as well
 define["process.browser"] = true
+// Fallback for other process.env values (so that process.env.XYZ is undefined)
+define["process.env"] = {}
 
 /**
  * @type {import('vite').UserConfig}
@@ -25,16 +29,8 @@ export default {
   ],
   build: {
     minify: false,
-    rollupOptions: {
-      plugins: [
-        stripCode({
-          start_comment: "rollup-remove-start",
-          end_comment: "rollup-remove-end",
-        }),
-      ],
-    },
   },
+  define,
   // Use base / for everything other than production
   base: process.env.NODE_ENV === "production" ? config.base : "/",
-  define,
 }
