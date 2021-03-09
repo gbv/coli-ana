@@ -31,16 +31,27 @@
         class="decomposition">
         <div class="table">
           <div class="row">
+            <div class="hierarchy-info" />
             <div
               class="notation-part"
               v-html="notationWithHighlight(result, hovered)" />
           </div>
           <div
-            v-for="member in result.memberList"
+            v-for="(member, index) in result.memberList"
             :key="member.notation[1]"
-            class="row"
+            :class="{
+              row: true,
+              'font-weight-bold': jskos.compare(member.broader && member.broader[0], result.memberList[index - 1]) && !jskos.compare(result.memberList[index + 1] && result.memberList[index + 1].broader && result.memberList[index + 1].broader[0], member),
+            }"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">
+            <div class="hierarchy-info">
+              <tippy
+                v-if="jskos.compare(member.broader && member.broader[0], result.memberList[index - 1])"
+                content="This DDC class is a child of the previous class.">
+                ↳
+              </tippy>
+            </div>
             <div class="notation-part">
               {{ member.notation[1] }}
             </div>
@@ -86,6 +97,8 @@ import { store } from "../store.js"
 
 import ConceptDetails from "./ConceptDetails.vue"
 import ItemName from "./ItemName.vue"
+
+import jskos from "jskos-tools"
 
 const inBrowser = typeof window !== "undefined"
 
@@ -170,6 +183,7 @@ export default {
 
     return {
       ...config,
+      jskos,
       results,
       resultsWithDecomposition,
       resultsWithoutDecomposition,
@@ -202,10 +216,14 @@ export default {
 .table > .row:hover {
   background-color: #E9E1E1;
 }
-.table > .row > .notation-part {
+.table > .row > .notation-part, .table > .row > .hierarchy-info {
   font-family: monospace;
   font-size: 14px;
   margin-top: 2px;
+}
+.table > .row > .hierarchy-info {
+  width: 10px;
+  user-select: none;
 }
 .table > .row > .label {
   flex: 1;
