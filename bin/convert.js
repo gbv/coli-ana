@@ -89,10 +89,18 @@ files.forEach(file => {
           prefLabel: { en: "facet indicator", de: "Facettenindikator" },
         })
       } else if (lineMatch) {
-        const notation = lineMatch[3]
+        let prefLabel = lineMatch[2]
+        let notation = lineMatch[3]
+        // Deal with #dno_span_cen#
+        // TODO: Remove this after exported data is fixed.
+        if (prefLabel.endsWith("#dno_span_cen#")) {
+          prefLabel = prefLabel.replace(" #dno_span_cen#", "")
+          // Also remove :xyz from notation
+          notation = notation.replace(/:.*/, "")
+        }
         const member = ddc.conceptFromNotation(notation)
         if (member) {
-          member.prefLabel = { de: lineMatch[2] }
+          member.prefLabel = { de: prefLabel }
           member.notation.push(lineMatch[1])
           current.memberList.push(member)
         } else {
