@@ -8,12 +8,13 @@ const ddc = new jskos.ConceptScheme({
 
 // DDC table numbers start with a 'T' but this letter is omitted in the URI.
 ddc._uriFromNotation = ddc.uriFromNotation
-ddc.uriFromNotation = notation => ddc._uriFromNotation(notation.replace(/^T/,""))
+ddc.uriFromNotation = notation => ddc._uriFromNotation(notation.replace(/^T/, "").replace(/-T\d[A-C]?-/, ""))
 
 ddc._conceptFromUri = ddc.conceptFromUri
 ddc.conceptFromUri = (uri, options={}) => {
   const concept = ddc._conceptFromUri(uri, options)
   if (concept.notation[0].match(/^[1-9][A-Z]?--/)) {
+    // TODO: Do we want the short form or the long form? (short: T2--74-79, long: T2--74-T2--79)
     concept.notation[0] = "T" + concept.notation[0]
   }
   return concept

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Converts coli-ana decompositions to JSKOS. By default, prints out the result as JSON. Use with --import to import directly into the database.
+ * Converts coli-ana decompositions to JSKOS. By default, prints out the result as JSON. Use with --import to import directly into the database. Add --reset to also clear the database (by default, only new decompositions will be added).
  *
- * node ./bin/convert.js [--import] /path/to/input/file [/path/to/input/file|...]
+ * node ./bin/convert.js [--import] [--reset] /path/to/input/file [/path/to/input/file|...]
  *
  * Outputs a JSON array with JSKOS concepts, each including the "memberList" property.
  */
@@ -76,7 +76,7 @@ files.forEach(file => {
       const endMatch = endRe.exec(line)
 
       if (startMatch) {
-        const notation = startMatch[1].replace(/-T\d[A-C]?-/,"")
+        const notation = startMatch[1]
         current = ddc.conceptFromNotation(notation, { inScheme: true })
         current.memberList = []
       } else if (endMatch) {
@@ -89,7 +89,7 @@ files.forEach(file => {
           prefLabel: { en: "facet indicator", de: "Facettenindikator" },
         })
       } else if (lineMatch) {
-        const notation = lineMatch[3].replace(/-T\d[A-C]?-/,"")
+        const notation = lineMatch[3]
         const member = ddc.conceptFromNotation(notation)
         if (member) {
           member.prefLabel = { de: lineMatch[2] }
