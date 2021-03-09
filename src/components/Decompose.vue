@@ -41,13 +41,13 @@
             :key="member.notation[1]"
             :class="{
               row: true,
-              'font-weight-bold': result.memberList[index - 1] && jskos.compare(member.broader && member.broader[0], result.memberList[index - 1]) && !jskos.compare(result.memberList[index + 1] && result.memberList[index + 1].broader && result.memberList[index + 1].broader[0], member),
+              'font-weight-bold': result.memberList[index - 1] && isMemberParentOf(result.memberList[index - 1], member) && !isMemberParentOf(member, result.memberList[index + 1]),
             }"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">
             <div class="hierarchy-info">
               <tippy
-                v-if="jskos.compare(member.broader && member.broader[0], result.memberList[index - 1])"
+                v-if="isMemberParentOf(result.memberList[index - 1], member)"
                 content="This DDC class is a child of the previous class.">
                 ↳
               </tippy>
@@ -97,8 +97,6 @@ import { store } from "../store.js"
 
 import ConceptDetails from "./ConceptDetails.vue"
 import ItemName from "./ItemName.vue"
-
-import jskos from "jskos-tools"
 
 const inBrowser = typeof window !== "undefined"
 
@@ -183,7 +181,6 @@ export default {
 
     return {
       ...config,
-      jskos,
       results,
       resultsWithDecomposition,
       resultsWithoutDecomposition,
@@ -202,6 +199,20 @@ export default {
           return notation
         }
         return `${notation.slice(0, matches[1].length)}<span style="background-color: #000; color: #F6F4F4;">${notation.slice(matches[1].length, matches[1].length + matches[2].length)}</span>${notation.slice(matches[1].length + matches[2].length)}`
+      },
+      isMemberParentOf: (member1, member2) => {
+        const member1notation = member1 && member1.notation && member1.notation[1],
+          member2notation = member2 && member2.notation && member2.notation[1]
+        if (!member1notation || !member2notation) {
+          return false
+        }
+        const regex = /([-.]*[\d.]*)([-.]*)/
+        const member1part = member1notation.match(regex)[1],
+          member2part = member2notation.match(regex)[1]
+        if (!member1part || !member2part) {
+          return false
+        }
+        return member2part.startsWith(member1part)
       },
     }
   },
