@@ -5,7 +5,7 @@
     Loading
   </div>
   <template v-else>
-    <p v-show="resultsWithoutDecomposition">
+    <p v-show="resultsWithoutDecomposition.length">
       No decomposition found for:
       <ul>
         <li
