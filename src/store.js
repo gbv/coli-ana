@@ -11,8 +11,19 @@ export const registry = cdk.initializeRegistry({
   ],
 })
 
+// This is not an actual concept but part of analysis
+const facetIndicator = {
+  uri: "http://dewey.info/facet/0",
+  notation: ["0"],
+  prefLabel: {
+    de: "Facettenindikator",
+    en: "facet indicator",
+  },
+  _loaded: true,
+}
+
 export const store = {
-  state: reactive({}),
+  state: reactive({ "http://dewey.info/facet/0": facetIndicator }),
   getConcept(concept) {
     return this.state[concept.uri]
   },
