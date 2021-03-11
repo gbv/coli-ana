@@ -1,7 +1,7 @@
 {
   "name": "coli-ana",
   "version": "0.0.1",
-  "description": "API to decompose DDC numbers",
+  "description": "API to analyze DDC numbers",
   "repository": {
     "type": "git",
     "url": "https://github.com/gbv/coli-ana.git"

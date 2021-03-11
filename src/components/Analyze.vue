@@ -75,9 +75,9 @@
           </div>
         </div>
         <p>
-          <a :href="`decompose?notation=${result.notation[0]}`">JSKOS</a> ・
-          <a :href="`decompose?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
-          <a :href="`decompose?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
+          <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a> ・
+          <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
+          <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
           <a :href="`${cocoda}?fromScheme=${ddc.uri}&from=${ddc.uriFromNotation(result.notation[0])}`">
             &nesear; open in Cocoda
           </a>
@@ -140,7 +140,7 @@ export default {
         return
       }
       results.value = null
-      let url = `decompose?notation=${notation}`
+      let url = `analyze?notation=${notation}`
       if (!inBrowser) {
         url = `http://localhost:${config.port}/${url}`
       } else {

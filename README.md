@@ -2,9 +2,9 @@
 
 [![Test](https://github.com/gbv/coli-ana/actions/workflows/test.yml/badge.svg)](https://github.com/gbv/coli-ana/actions/workflows/test.yml)
 
-> API to decompose DDC numbers
+> API to analyze DDC numbers
 
-This repository contains an implementation of an API to decompose synthesized DDC numbers. The algorithm to split DDC numbers is not included. See <https://coli-conc.gbv.de/coli-ana/> for more information.
+This repository contains an implementation of an API to analyze synthesized DDC numbers. The algorithm to split DDC numbers is not included. See <https://coli-conc.gbv.de/coli-ana/> for more information.
 
 ## Table of Contents <!-- omit in toc -->
 - [Install](#install)
@@ -15,7 +15,7 @@ This repository contains an implementation of an API to decompose synthesized DD
 - [Configuration](#configuration)
 - [API](#api)
   - [GET /](#get-)
-  - [GET /decompose](#get-decompose)
+  - [GET /analyze](#get-analyze)
 - [Maintainers](#maintainers)
 - [Contribute](#contribute)
 - [License](#license)
@@ -96,7 +96,7 @@ BASE=/
 
 Shows a landing page with general information and a list of examples.
 
-### GET /decompose
+### GET /analyze
 
 Analyzes one or more DDC numbers in parameter `notation` (separated by `|`) and returns a [JSKOS concept](https://gbv.github.io/jskos/jskos.html#concept) by default. Parameter `format` can be used to chose another format:
 

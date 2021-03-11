@@ -7,7 +7,7 @@ import {
 const routes = [
   {
     path: "/",
-    component: () => import("./components/Decompose.vue"),
+    component: () => import("./components/Analyze.vue"),
   },
 ]
 

@@ -46,7 +46,7 @@
             </span>
           </p>
         </form>
-        <decompose
+        <analyze
           :notation="$route.query.notation" />
       </div>
       <div class="section">
@@ -87,10 +87,10 @@
 import { ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import config from "../config"
-import Decompose from "./components/Decompose.vue"
+import Analyze from "./components/Analyze.vue"
 
 export default {
-  components: { Decompose },
+  components: { Analyze },
   setup() {
     const router = useRouter()
     const route = useRoute()

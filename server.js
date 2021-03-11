@@ -35,9 +35,9 @@ export async function createServer(
   app.set("json spaces", 2)
 
   /**
-   * /decompose API route
+   * /analyze API route
    */
-  app.get("/decompose", async (req, res, next) => {
+  app.get("/analyze", async (req, res, next) => {
     const notations = req.query.notation.split("|")
     const format = req.query.format || "jskos"
 
