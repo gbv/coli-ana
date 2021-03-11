@@ -10,6 +10,13 @@ const config = {
 if (!inBrowser) {
   config.port = process.env.PORT || 11033
   config.base = process.env.BASE || "/"
+  // Make sure base starts and ends with /
+  if (!config.base.startsWith("/")) {
+    config.base = `/${config.base}`
+  }
+  if (!config.base.endsWith("/")) {
+    config.base = `${config.base}/`
+  }
 }
 
 export default config
