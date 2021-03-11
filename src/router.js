@@ -9,10 +9,6 @@ const routes = [
     path: "/",
     component: () => import("./components/Decompose.vue"),
   },
-  {
-    path: "/:notation", // use in template with $route.params.notation
-    component: () => import("./components/Decompose.vue"),
-  },
 ]
 
 let base = import.meta.env.BASE_URL

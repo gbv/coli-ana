@@ -89,7 +89,6 @@
 
 <script>
 import { watch, ref, computed } from "vue"
-import { useRoute } from "vue-router"
 // import "cross-fetch/polyfill"
 import config from "../../config"
 
@@ -109,8 +108,13 @@ const inBrowser = typeof window !== "undefined"
 
 export default {
   components: { ConceptDetails, ItemName },
-  async setup() {
-    const route = useRoute()
+  props: {
+    notation: {
+      type: String,
+      default: "",
+    },
+  },
+  setup(props) {
     const results = ref(null)
     const resultsWithDecomposition = computed(() => {
       if (!results.value) {
@@ -154,12 +158,11 @@ export default {
     if (inBrowser) {
     // fetch the decomposition when params change
       watch(
-        () => route.params.notation,
+        () => props.notation,
         async (notation) => {
           await fetchDecomposition(notation)
         },
       )
-      fetchDecomposition(route.params.notation)
       // fetch concept info when results changed
       watch(
         () => results.value,
@@ -177,6 +180,7 @@ export default {
           }
         },
       )
+      fetchDecomposition(props.notation)
     }
 
     return {

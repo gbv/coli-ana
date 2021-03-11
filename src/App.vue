@@ -39,23 +39,19 @@
             <span
               v-for="(notation, index) in examples"
               :key="notation">
-              <router-link :to="`/${notation}`">
+              <router-link :to="`/?notation=${notation}`">
                 <code>{{ notation }}</code>
               </router-link>
               <code v-if="index + 1 < examples.length">, </code>
             </span>
           </p>
         </form>
-
-        <router-view v-slot="{ Component }">
-          <Suspense>
-            <component :is="Component" />
-          </Suspense>
-        </router-view>
+        <decompose
+          :notation="$route.query.notation" />
       </div>
       <div class="section">
         <h2>Documentation</h2>
-        <template v-if="$route.params.notation">
+        <template v-if="$route.query.notation">
           <p>
             Format documentation:
             <a href="https://format.gbv.de/jskos">JSKOS</a> ・
@@ -91,19 +87,26 @@
 import { ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import config from "../config"
+import Decompose from "./components/Decompose.vue"
 
 export default {
+  components: { Decompose },
   setup() {
     const router = useRouter()
     const route = useRoute()
-    const notation = ref(route.params.notation)
+    const notation = ref(route.query.notation)
 
     const submit = (e) => {
-      router.push(`/${e.srcElement[0].value}`)
+      const notation = e.srcElement[0].value
+      if (notation) {
+        router.push(`/?notation=${notation}`)
+      } else {
+        router.push("/")
+      }
     }
 
     router.afterEach((to) => {
-      notation.value = to.params.notation ?? ""
+      notation.value = to.query.notation ?? ""
     })
 
     return {
