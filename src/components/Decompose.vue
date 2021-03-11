@@ -97,6 +97,8 @@ import { store } from "../store.js"
 import ConceptDetails from "./ConceptDetails.vue"
 import ItemName from "./ItemName.vue"
 
+import jskos from "jskos-tools"
+
 const inBrowser = typeof window !== "undefined"
 
 /**
@@ -205,18 +207,10 @@ export default {
         return `${notation.slice(0, matches[1].length)}<span style="background-color: #000; color: #F6F4F4;">${notation.slice(matches[1].length, matches[1].length + matches[2].length)}</span>${notation.slice(matches[1].length + matches[2].length)}`
       },
       isMemberParentOf: (member1, member2) => {
-        const member1notation = member1 && member1.notation && member1.notation[1],
-          member2notation = member2 && member2.notation && member2.notation[1]
-        if (!member1notation || !member2notation) {
+        if (!member1 || !member2 || !member2.broader || !member2.broader.length) {
           return false
         }
-        const regex = /([-.]*[\d.]*)([-.]*)/
-        const member1part = member1notation.match(regex)[1],
-          member2part = member2notation.match(regex)[1]
-        if (!member1part || !member2part) {
-          return false
-        }
-        return member2part.startsWith(member1part)
+        return jskos.compare(member1, member2.broader[0])
       },
     }
   },

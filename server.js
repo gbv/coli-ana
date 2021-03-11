@@ -4,7 +4,7 @@ import express from "express"
 import config from "./config/index.js"
 import compression from "compression"
 import serveStatic from "serve-static"
-import { decomposeDDC, build045H } from "./lib/index.js"
+import { decomposeDDC, build045H, isMemberParentOf } from "./lib/index.js"
 const { ddc } = config
 
 // we need require for including Vite's SSR build (see https://github.com/vitejs/vite/discussions/2074)
@@ -57,6 +57,14 @@ export async function createServer(
           for (let i = 1; i < memberList.length; i += 1) {
             if (memberList[i].notation[1] === memberList[i - 1].notation[1] && memberList[i].notation[0].length > memberList[i - 1].notation[0].length) {
               [memberList[i], memberList[i - 1]] = [memberList[i - 1], memberList[i]]
+            }
+          }
+          for (let i = 1; i < memberList.length; i += 1) {
+            // Add broader fields to members
+            const member1 = memberList[i - 1]
+            const member2 = memberList[i]
+            if (isMemberParentOf(member1, member2)) {
+              member2.broader = [{ uri: member1.uri }]
             }
           }
           concept.memberList = memberList
