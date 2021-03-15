@@ -3,9 +3,10 @@
 /**
  * Converts coli-ana decompositions to JSKOS. By default, prints out the result as JSON. Use with --import to import directly into the database. Add --reset to also clear the database (by default, only new decompositions will be added).
  *
- * node ./bin/convert.js [--import] [--reset] /path/to/input/file [/path/to/input/file|...]
+ * node ./bin/convert.js [--import] [--reset] [--pica] /path/to/input/file [/path/to/input/file|...]
  *
- * Outputs a JSON array with JSKOS concepts, each including the "memberList" property.
+ * Outputs JSKOS concepts as ndjson, each including the "memberList" property.
+ * Outputs PICA/JSON as ndjson if option --pica was given (pass to `picadata -f json -t plain` for PICA/Plain).
  */
 
 import fs from "fs"
@@ -13,6 +14,7 @@ import readline from "readline"
 import stream from "stream"
 import prisma from "../lib/prisma.js"
 import ddc from "../config/ddc.js"
+import build045H from "../lib/pica.js"
 
 // async readline, see https://medium.com/@wietsevenema/node-js-using-for-await-to-read-lines-from-a-file-ead1f4dd8c6f
 function readLines({ input }) {
@@ -32,6 +34,7 @@ const args = process.argv.slice(2)
 const files = args.filter(arg => !arg.startsWith("--"))
 const shouldImport = args.includes("--import")
 const shouldReset = args.includes("--reset")
+const picaFormat = args.includes("--pica")
 
 // Regular expressions
 const startRe = /^(\S*) \(\S*\)/
@@ -120,8 +123,12 @@ files.forEach(file => {
     })
     console.log(`Added ${createMany.count} records.`)
   } else {
-    // TODO: Adjust output format
-    console.log(JSON.stringify(result, null, 2))
+    result.forEach(item => {
+      if (picaFormat) {
+        item = [build045H(ddc, item)]
+      }
+      console.log(JSON.stringify(item))
+    })
   }
 
   await prisma.$disconnect()

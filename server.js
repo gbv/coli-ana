@@ -4,7 +4,8 @@ import express from "express"
 import config from "./config/index.js"
 import compression from "compression"
 import serveStatic from "serve-static"
-import { decomposeDDC, build045H, findMember, isMemberParentOf } from "./lib/index.js"
+import { decomposeDDC, findMember, isMemberParentOf } from "./lib/index.js"
+import build045H from "./lib/pica.js"
 const { ddc } = config
 
 // we need require for including Vite's SSR build (see https://github.com/vitejs/vite/discussions/2074)
