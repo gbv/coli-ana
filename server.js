@@ -38,19 +38,34 @@ export async function createServer(
    * /analyze API route
    */
   app.get("/analyze", async (req, res, next) => {
-    const notations = req.query.notation.split("|")
+    const notations = (req.query.notation || "").split("|").filter(n => n !== "")
     const format = req.query.format || "jskos"
+    // const member = req.query.member
 
-    const result = []
+    let result = []
 
     try {
-      for (let notation of notations) {
-        const concept = ddc.conceptFromNotation(notation, { inScheme: true })
-        if (!concept) {
-          continue
-        }
+      // Analyze notations
+      if (req.query.notation) {
+        for (let notation of notations) {
+          const concept = ddc.conceptFromNotation(notation, { inScheme: true })
+          if (!concept) {
+            continue
+          }
 
-        const memberList = await decomposeDDC(ddc, notation)
+          concept.memberList = await decomposeDDC(ddc, notation)
+          result.push(concept)
+        }
+      }
+      // Analyze member
+      else {
+        return res.status(500).send({
+          message: "Feature not yet implemented.",
+        })
+      }
+      // Adjust result
+      result = result.map(concept => {
+        const memberList = concept.memberList
         if (memberList) {
           // Check if it's necessary to swap some lines
           // TODO: Verify and test this check.
@@ -71,24 +86,26 @@ export async function createServer(
         }
 
         if (format === "picajson") {
-          const field = build045H(ddc, concept)
-          result.push(field)
+          return build045H(ddc, concept)
         } else if (format === "pp") {
           const field = build045H(ddc, concept)
           let pp = field.shift() + "/" + field.shift() + " "
           while (field.length) {
             pp += "$" + field.shift() + field.shift()
           }
-          return res.send(pp)
-        } else {
-          result.push(concept)
+          return pp
         }
-      }
+        return concept
+      })
     } catch (error) {
       next(error)
       return
     }
 
+    // TODO: Is this okay?
+    if (format === "pp") {
+      return res.send(result[0])
+    }
     return res.send(result)
   })
 
