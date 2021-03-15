@@ -10,6 +10,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 - [Install](#install)
 - [Usage](#usage)
   - [Preparing the database](#preparing-the-database)
+  - [Database migrations](#database-migrations)
   - [Development](#development)
   - [Production](#production)
 - [Configuration](#configuration)
@@ -61,6 +62,16 @@ node ./bin/convert --import ~/path/to/ou_liu_t_de-slim-21-02-15-1121
 ```
 
 Add `--reset` to delete old records from the database.
+
+### Database migrations
+
+Sometimes, a database migration might be necessary. It will be mentioned in the release notes. In that case, please run the following command to migrate your database:
+
+```bash
+npx prisma migrate dev --preview-feature
+```
+
+If the migration script shows "All data will be lost", you will need to reimport the data after migration.
 
 ### Development
 ```bash

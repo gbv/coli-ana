@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["createMany"]
 }
 
@@ -9,8 +9,8 @@ datasource db {
 }
 
 model data {
-  uri           String @id
-  notation      String[]
-  inScheme      Json[]
-  memberList    Json[]
+  uri        String   @id
+  notation   String[]
+  inScheme   Json
+  memberList Json
 }
