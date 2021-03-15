@@ -16,7 +16,8 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 - [Configuration](#configuration)
 - [API](#api)
   - [GET /](#get-)
-  - [GET /analyze](#get-analyze)
+  - [GET /analyze?notation=notations](#get-analyzenotationnotations)
+  - [GET /analyze?member=member](#get-analyzemembermember)
 - [Maintainers](#maintainers)
 - [Contribute](#contribute)
 - [License](#license)
@@ -107,12 +108,16 @@ BASE=/
 
 Shows a landing page with general information and a list of examples.
 
-### GET /analyze
+### GET /analyze?notation=notations
 
 Analyzes one or more DDC numbers in parameter `notation` (separated by `|`) and returns a [JSKOS concept](https://gbv.github.io/jskos/jskos.html#concept) by default. Parameter `format` can be used to chose another format:
 
 * `picajson` returns a [PICA/JSON](https://format.gbv.de/pica/json) record
 * `pp` returns a [PICA Plain](https://format.gbv.de/pica/plain) record; **note:** only one record can be requested at the time.
+
+### GET /analyze?member=member
+
+Returns JSKOS concepts which contain a certain `member` URI or notation in their `memberList`.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)

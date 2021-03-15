@@ -4,7 +4,7 @@ import express from "express"
 import config from "./config/index.js"
 import compression from "compression"
 import serveStatic from "serve-static"
-import { decomposeDDC, build045H, isMemberParentOf } from "./lib/index.js"
+import { decomposeDDC, build045H, findMember, isMemberParentOf } from "./lib/index.js"
 const { ddc } = config
 
 // we need require for including Vite's SSR build (see https://github.com/vitejs/vite/discussions/2074)
@@ -40,7 +40,7 @@ export async function createServer(
   app.get("/analyze", async (req, res, next) => {
     const notations = (req.query.notation || "").split("|").filter(n => n !== "")
     const format = req.query.format || "jskos"
-    // const member = req.query.member
+    const member = req.query.member || ""
 
     let result = []
 
@@ -59,9 +59,7 @@ export async function createServer(
       }
       // Analyze member
       else {
-        return res.status(500).send({
-          message: "Feature not yet implemented.",
-        })
+        result = await findMember(member)
       }
       // Adjust result
       result = result.map(concept => {
