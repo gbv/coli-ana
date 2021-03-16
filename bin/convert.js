@@ -14,7 +14,7 @@ import readline from "readline"
 import stream from "stream"
 import prisma from "../lib/prisma.js"
 import ddc from "../config/ddc.js"
-import build045H from "../lib/pica.js"
+import { picaFromDDC } from "../lib/pica.js"
 
 // async readline, see https://medium.com/@wietsevenema/node-js-using-for-await-to-read-lines-from-a-file-ead1f4dd8c6f
 function readLines({ input }) {
@@ -125,7 +125,7 @@ files.forEach(file => {
   } else {
     result.forEach(item => {
       if (picaFormat) {
-        item = [build045H(ddc, item)]
+        item = picaFromDDC(item)
       }
       console.log(JSON.stringify(item))
     })
