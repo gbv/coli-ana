@@ -16,8 +16,9 @@
         </li>
       </ul>
     </p>
+    <!-- TODO: Use pagination instead of manually limiting to 10 results. -->
     <div
-      v-for="result in resultsWithDecomposition"
+      v-for="result in resultsWithDecomposition.slice(0, 10)"
       :key="result.uri">
       <h4>
         <span
@@ -42,6 +43,7 @@
             :class="{
               row: true,
               'font-weight-bold': result.memberList[index - 1] && isMemberParentOf(result.memberList[index - 1], member) && !isMemberParentOf(member, result.memberList[index + 1]),
+              'row-highlight': mode === 'lookup' && member.notation.includes(notation),
             }"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">
@@ -115,6 +117,10 @@ export default {
       type: String,
       default: "",
     },
+    mode: {
+      type: String,
+      default: "analyze",
+    },
   },
   setup(props) {
     const results = ref(null)
@@ -134,13 +140,14 @@ export default {
     const hovered = ref({})
 
     // method to fetch decomposition info
-    const fetchDecomposition = async (notation) => {
+    const fetchDecomposition = async () => {
+      const { notation, mode } = props
       if (!notation) {
         results.value = []
         return
       }
       results.value = null
-      let url = `analyze?notation=${notation}`
+      let url = `analyze?${mode === "lookup" ? "member" : "notation"}=${notation}`
       if (!inBrowser) {
         url = `http://localhost:${config.port}/${url}`
       } else {
@@ -158,11 +165,14 @@ export default {
 
     // fetch decomposition on first load (only browser, see note above)
     if (inBrowser) {
-    // fetch the decomposition when params change
+      // fetch the decomposition when props change
       watch(
-        () => props.notation,
-        async (notation) => {
-          await fetchDecomposition(notation)
+        () => props,
+        async () => {
+          await fetchDecomposition()
+        },
+        {
+          deep: true,
         },
       )
       // fetch concept info when results changed
@@ -182,7 +192,7 @@ export default {
           }
         },
       )
-      fetchDecomposition(props.notation)
+      fetchDecomposition()
     }
 
     return {
@@ -238,6 +248,9 @@ export default {
 .table > .row > .label {
   flex: 1;
   padding-left: 10px;
+}
+.row-highlight {
+  color: #5780C1;
 }
 .loadedIndicator {
   color: red;

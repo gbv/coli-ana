@@ -31,8 +31,17 @@
           <input
             v-model="notation"
             type="text">
-          <button type="submit">
+          <button
+            title="analyzes DDC number(s)"
+            name="analyze"
+            type="submit">
             analyze
+          </button>
+          <button
+            title="performs a lookup of DDC number in analysis results"
+            name="lookup"
+            type="submit">
+            lookup
           </button>
           <p>
             Examples:
@@ -47,7 +56,8 @@
           </p>
         </form>
         <analyze
-          :notation="$route.query.notation" />
+          :notation="$route.query.notation"
+          :mode="$route.query.mode" />
       </div>
       <div class="section">
         <h2>Documentation</h2>
@@ -95,11 +105,12 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const notation = ref(route.query.notation)
+    const mode = ref(route.query.mode)
 
     const submit = (e) => {
       const notation = e.srcElement[0].value
       if (notation) {
-        router.push(`/?notation=${notation}`)
+        router.push(`/?notation=${notation}&mode=${e.submitter.name}`)
       } else {
         router.push("/")
       }
@@ -107,12 +118,14 @@ export default {
 
     router.afterEach((to) => {
       notation.value = to.query.notation ?? ""
+      mode.value = to.query.mode ?? ""
     })
 
     return {
       ...config,
       submit,
       notation,
+      mode,
     }
   },
 }
