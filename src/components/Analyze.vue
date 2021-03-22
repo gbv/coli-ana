@@ -235,6 +235,12 @@ export default {
 .table > .row:hover {
   background-color: #E9E1E1;
 }
+.table > .row > .notation-part {
+  font-weight: 500;
+}
+.table > .row.font-weight-bold > .notation-part {
+  font-weight: 600;
+}
 .table > .row > .notation-part, .table > .row > .hierarchy-info {
   font-family: monospace;
   font-size: 14px;

@@ -141,4 +141,7 @@ export default {
   float: right;
   max-height: none;
 }
+code {
+  font-weight: 500;
+}
 </style>
