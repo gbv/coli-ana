@@ -11,7 +11,7 @@ for (let key of Object.keys(process.env)) {
   let value = `${process.env[key]}`
   // Note that we need to surround strings with ""
   if (typeof value === "string" && (!value.startsWith("\"") || !value.endsWith("\""))) {
-    value = `"${value}"`
+    value = `"${value.replace(/"/g, "\\\"")}"`
   }
   define[`process.env.${key}`] = value
 }
