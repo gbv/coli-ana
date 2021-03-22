@@ -16,6 +16,16 @@
         </li>
       </ul>
     </p>
+    <p v-if="!results.length && mode === 'lookup'">
+      Not found as part of any analysis:
+      <ul>
+        <li
+          v-for="(member, index) in notation.split('|')"
+          :key="index">
+          {{ member }}
+        </li>
+      </ul>
+    </p>
     <!-- TODO: Use pagination instead of manually limiting to 10 results. -->
     <div
       v-for="result in resultsWithDecomposition.slice(0, 10)"
