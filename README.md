@@ -17,7 +17,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 - [API](#api)
   - [GET /](#get-)
   - [GET /analyze?notation=notations](#get-analyzenotationnotations)
-  - [GET /analyze?member=member](#get-analyzemembermember)
+  - [GET /analyze?member=members](#get-analyzemembermembers)
 - [Maintainers](#maintainers)
 - [Contribute](#contribute)
 - [License](#license)
@@ -115,9 +115,9 @@ Analyzes one or more DDC numbers in parameter `notation` (separated by `|`) and 
 * `picajson` returns a [PICA/JSON](https://format.gbv.de/pica/json) record
 * `pp` returns a [PICA Plain](https://format.gbv.de/pica/plain) record; **note:** only one record can be requested at the time.
 
-### GET /analyze?member=member
+### GET /analyze?member=members
 
-Returns JSKOS concepts which contain a certain `member` URI or notation in their `memberList`.
+Returns JSKOS concepts which contain one or more of the specified `member` URIs or notations (seperated by `|`) in their `memberList`.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)

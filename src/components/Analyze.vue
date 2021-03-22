@@ -43,7 +43,7 @@
             :class="{
               row: true,
               'font-weight-bold': result.memberList[index - 1] && isMemberParentOf(result.memberList[index - 1], member) && !isMemberParentOf(member, result.memberList[index + 1]),
-              'row-highlight': mode === 'lookup' && member.notation.includes(notation),
+              'row-highlight': mode === 'lookup' && notation.split('|').includes(member.notation[0]),
             }"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">

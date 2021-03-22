@@ -4,7 +4,7 @@ import express from "express"
 import config from "./config/index.js"
 import compression from "compression"
 import serveStatic from "serve-static"
-import { decomposeDDC, findMember, isMemberParentOf } from "./lib/index.js"
+import { decomposeDDC, findMembers, isMemberParentOf } from "./lib/index.js"
 import { serializePica, picaFromDDC } from "./lib/pica.js"
 const { ddc } = config
 
@@ -60,7 +60,7 @@ export async function createServer(
       }
       // Analyze member
       else {
-        result = await findMember(member)
+        result = await findMembers(member)
       }
       // Adjust result
       result = result.map(concept => {
