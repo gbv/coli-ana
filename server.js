@@ -100,7 +100,6 @@ export async function createServer(
   })
 
   // Redirect old URLs (#16)
-  console.log(config.base)
   app.get(new RegExp(`^/(${ddc.notationPattern})$`), (req, res) => {
     res.redirect(`${config.base}?notation=${req.params[0]}`)
   })
