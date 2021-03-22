@@ -77,6 +77,9 @@
           </div>
         </div>
         <p>
+          PICA: <code>{{ picaFromConcept(result) }}</code>
+        </p>
+        <p>
           <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a> ・
           <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
           <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
@@ -93,6 +96,7 @@
 import { watch, ref, computed } from "vue"
 // import "cross-fetch/polyfill"
 import config from "../../config"
+import { serializePica, picaFromDDC } from "../../lib/pica.js"
 
 import { store } from "../store.js"
 
@@ -221,6 +225,9 @@ export default {
           return false
         }
         return jskos.compare(member1, member2.broader[0])
+      },
+      picaFromConcept: (concept) => {
+        return serializePica(picaFromDDC(concept))
       },
     }
   },
