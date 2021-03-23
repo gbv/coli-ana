@@ -49,8 +49,7 @@ export default {
       required: true,
     },
   },
-  emits: ["change"],
-  setup(props, { emit }) {
+  setup(props) {
     const router = useRouter()
     const route = useRoute()
     const totalCount = computed(() => {
@@ -64,7 +63,6 @@ export default {
           page,
         },
       })
-      emit("change", page)
     }
     const previousPage = computed(() => {
       if (props.page === 1) {

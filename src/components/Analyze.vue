@@ -8,8 +8,7 @@
       <pagination
         :page="page"
         :per-page="perPage"
-        :results="results"
-        @change="fetchDecomposition" />
+        :results="results" />
     </p>
     <p v-show="resultsWithoutDecomposition.length">
       No decomposition found for:
@@ -115,15 +114,13 @@
       <pagination
         :page="page"
         :per-page="perPage"
-        :results="results"
-        @change="fetchDecomposition" />
+        :results="results" />
     </p>
   </template>
 </template>
 
 <script>
 import { watch, ref, computed } from "vue"
-import { useRoute } from "vue-router"
 // import "cross-fetch/polyfill"
 import config from "../../config"
 import { serializePica, picaFromDDC } from "../../lib/pica.js"
@@ -157,6 +154,10 @@ export default {
       type: String,
       default: "analyze",
     },
+    page: {
+      type: Number,
+      default: 1,
+    },
   },
   setup(props) {
     const results = ref(null)
@@ -175,9 +176,6 @@ export default {
 
     const hovered = ref({})
 
-    // For pagination
-    const route = useRoute()
-    const page = computed(() => parseInt(route.query.page) || 1)
     const perPage = 10
 
     // method to fetch decomposition info
@@ -191,7 +189,7 @@ export default {
       let url = `analyze?${mode === "lookup" ? "member" : "notation"}=${notation}`
       if (mode === "lookup") {
         // Pagination
-        url += `&limit=${perPage}&offset=${(page.value - 1) * perPage}`
+        url += `&limit=${perPage}&offset=${(props.page - 1) * perPage}`
       }
       if (!inBrowser) {
         url = `http://localhost:${config.port}/${url}`
@@ -275,7 +273,6 @@ export default {
       picaFromConcept: (concept) => {
         return serializePica(picaFromDDC(concept))
       },
-      page,
       perPage,
     }
   },
