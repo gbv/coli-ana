@@ -5,6 +5,12 @@
     Loading
   </div>
   <template v-else>
+    <p v-if="mode === 'lookup' && results.length">
+      <pagination
+        :page="page"
+        :per-page="perPage"
+        :results="results" />
+    </p>
     <p v-show="resultsWithoutDecomposition.length">
       No decomposition found for:
       <ul>
@@ -106,42 +112,17 @@
     </div>
     <p v-if="mode === 'lookup' && results.length">
       <br>
-      <a
-        v-if="page != 1"
-        href=""
-        title="go to first page"
-        @click.prevent="goToPage(1)">
-        ⏮
-      </a>
-      <a
-        v-if="previousPage"
-        href=""
-        title="go to previous page"
-        @click.prevent="goToPage(previousPage)">
-        ⏪
-      </a>
-      Page {{ page }} of {{ lastPage }}
-      <a
-        v-if="nextPage"
-        href=""
-        title="go to next page"
-        @click.prevent="goToPage(nextPage)">
-        ⏩
-      </a>
-      <a
-        v-if="page < lastPage"
-        href=""
-        title="go to last page"
-        @click.prevent="goToPage(lastPage)">
-        ⏭
-      </a>
+      <pagination
+        :page="page"
+        :per-page="perPage"
+        :results="results" />
     </p>
   </template>
 </template>
 
 <script>
 import { watch, ref, computed } from "vue"
-import { useRouter, useRoute } from "vue-router"
+import { useRoute } from "vue-router"
 // import "cross-fetch/polyfill"
 import config from "../../config"
 import { serializePica, picaFromDDC } from "../../lib/pica.js"
@@ -149,6 +130,7 @@ import { serializePica, picaFromDDC } from "../../lib/pica.js"
 import { store } from "../store.js"
 
 import ConceptDetails from "./ConceptDetails.vue"
+import Pagination from "./Pagination.vue"
 import ItemName from "./ItemName.vue"
 
 import jskos from "jskos-tools"
@@ -163,7 +145,7 @@ const inBrowser = typeof window !== "undefined"
  */
 
 export default {
-  components: { ConceptDetails, ItemName },
+  components: { ConceptDetails, ItemName, Pagination },
   props: {
     notation: {
       type: String,
@@ -192,35 +174,9 @@ export default {
     const hovered = ref({})
 
     // For pagination
-    const router = useRouter()
     const route = useRoute()
     const page = computed(() => parseInt(route.query.page) || 1)
     const perPage = 10
-    const totalCount = computed(() => {
-      return (results.value && results.value.totalCount) || 0
-    })
-    const goToPage = (page) => {
-      router.push({
-        path: "/",
-        query: {
-          ...route.query,
-          page,
-        },
-      })
-    }
-    const previousPage = computed(() => {
-      if (page.value === 1) {
-        return null
-      }
-      return page.value - 1
-    })
-    const nextPage = computed(() => {
-      if (totalCount.value <= page.value * perPage) {
-        return null
-      }
-      return page.value + 1
-    })
-    const lastPage = computed(() => Math.ceil(totalCount.value / perPage))
 
     // method to fetch decomposition info
     const fetchDecomposition = async () => {
@@ -324,11 +280,6 @@ export default {
       },
       page,
       perPage,
-      totalCount,
-      goToPage,
-      previousPage,
-      nextPage,
-      lastPage,
     }
   },
 }
