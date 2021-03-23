@@ -19,6 +19,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
   - [GET /analyze?notation=notations](#get-analyzenotationnotations)
   - [GET /analyze?member=members](#get-analyzemembermembers)
 - [Maintainers](#maintainers)
+- [Publish](#publish)
 - [Contribute](#contribute)
 - [License](#license)
 
@@ -122,6 +123,28 @@ Returns JSKOS concepts which contain one or more of the specified `member` URIs 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)
 - [@nichtich](https://github.com/nichtich)
+
+## Publish
+Please work on the `dev` branch or separate feature branch during development.
+
+When a new release is ready (i.e. the features are finished, merged into `dev`, and all tests succeed), run the included release script (replace "patch" with "minor" or "major" if necessary):
+
+```bash
+npm run release:patch
+```
+
+This will:
+- Run tests and build to make sure everything works
+- Switch to `dev`
+- Make sure `dev` is up-to-date
+- Run `npm version patch` (or "minor"/"major")
+- Push changes to `dev`
+- Switch to `main`
+- Merge changes from `dev`
+- Push `main` with tags
+- Switch back to `dev`
+
+After running this, GitHub Actions will automatically create a new GitHub Release draft. Please edit and publish the release manually.
 
 ## Contribute
 PRs accepted.
