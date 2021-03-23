@@ -49,20 +49,22 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  emits: ["change"],
+  setup(props, { emit }) {
     const router = useRouter()
     const route = useRoute()
     const totalCount = computed(() => {
       return (props.results && props.results.totalCount) || 0
     })
-    const goToPage = (page) => {
-      router.push({
+    const goToPage = async (page) => {
+      await router.push({
         path: "/",
         query: {
           ...route.query,
           page,
         },
       })
+      emit("change", page)
     }
     const previousPage = computed(() => {
       if (props.page === 1) {

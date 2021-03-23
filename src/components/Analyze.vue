@@ -8,7 +8,8 @@
       <pagination
         :page="page"
         :per-page="perPage"
-        :results="results" />
+        :results="results"
+        @change="fetchDecomposition" />
     </p>
     <p v-show="resultsWithoutDecomposition.length">
       No decomposition found for:
@@ -114,7 +115,8 @@
       <pagination
         :page="page"
         :per-page="perPage"
-        :results="results" />
+        :results="results"
+        @change="fetchDecomposition" />
     </p>
   </template>
 </template>
@@ -222,12 +224,6 @@ export default {
           deep: true,
         },
       )
-      watch(
-        () => page.value,
-        async () => {
-          await fetchDecomposition()
-        },
-      )
       // fetch concept info when results changed
       watch(
         () => results.value,
@@ -250,6 +246,7 @@ export default {
 
     return {
       ...config,
+      fetchDecomposition,
       results,
       resultsWithDecomposition,
       resultsWithoutDecomposition,
