@@ -99,11 +99,44 @@
         </p>
       </div>
     </div>
+    <p v-if="mode === 'lookup'">
+      <br>
+      <a
+        v-if="page != 1"
+        href=""
+        title="go to first page"
+        @click.prevent="goToPage(1)">
+        ⏮
+      </a>
+      <a
+        v-if="previousPage"
+        href=""
+        title="go to previous page"
+        @click.prevent="goToPage(previousPage)">
+        ⏪
+      </a>
+      Page {{ page }} of {{ lastPage }}
+      <a
+        v-if="nextPage"
+        href=""
+        title="go to next page"
+        @click.prevent="goToPage(nextPage)">
+        ⏩
+      </a>
+      <a
+        v-if="page < lastPage"
+        href=""
+        title="go to last page"
+        @click.prevent="goToPage(lastPage)">
+        ⏭
+      </a>
+    </p>
   </template>
 </template>
 
 <script>
 import { watch, ref, computed } from "vue"
+import { useRouter, useRoute } from "vue-router"
 // import "cross-fetch/polyfill"
 import config from "../../config"
 import { serializePica, picaFromDDC } from "../../lib/pica.js"
@@ -153,6 +186,37 @@ export default {
 
     const hovered = ref({})
 
+    // For pagination
+    const router = useRouter()
+    const route = useRoute()
+    const page = computed(() => parseInt(route.query.page) || 1)
+    const perPage = 10
+    const totalCount = computed(() => {
+      return (results.value && results.value.totalCount) || 0
+    })
+    const goToPage = (page) => {
+      router.push({
+        path: "/",
+        query: {
+          ...route.query,
+          page,
+        },
+      })
+    }
+    const previousPage = computed(() => {
+      if (page.value === 1) {
+        return null
+      }
+      return page.value - 1
+    })
+    const nextPage = computed(() => {
+      if (totalCount.value <= page.value * perPage) {
+        return null
+      }
+      return page.value + 1
+    })
+    const lastPage = computed(() => Math.ceil(totalCount.value / perPage))
+
     // method to fetch decomposition info
     const fetchDecomposition = async () => {
       const { notation, mode } = props
@@ -162,6 +226,10 @@ export default {
       }
       results.value = null
       let url = `analyze?${mode === "lookup" ? "member" : "notation"}=${notation}`
+      if (mode === "lookup") {
+        // Pagination
+        url += `&limit=${perPage}&offset=${(page.value - 1) * perPage}`
+      }
       if (!inBrowser) {
         url = `http://localhost:${config.port}/${url}`
       } else {
@@ -171,6 +239,10 @@ export default {
         const response = await fetch(url)
         const data = await response.json()
         results.value = data
+        const totalCount = response.headers.get("X-Total-Count")
+        if (totalCount) {
+          results.value.totalCount = totalCount
+        }
       } catch (error) {
         results.value = []
         inBrowser && console.warn("Error loading data:", error)
@@ -187,6 +259,12 @@ export default {
         },
         {
           deep: true,
+        },
+      )
+      watch(
+        () => page.value,
+        async () => {
+          await fetchDecomposition()
         },
       )
       // fetch concept info when results changed
@@ -239,6 +317,13 @@ export default {
       picaFromConcept: (concept) => {
         return serializePica(picaFromDDC(concept))
       },
+      page,
+      perPage,
+      totalCount,
+      goToPage,
+      previousPage,
+      nextPage,
+      lastPage,
     }
   },
 }
