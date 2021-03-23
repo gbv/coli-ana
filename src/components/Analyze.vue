@@ -104,7 +104,7 @@
         </p>
       </div>
     </div>
-    <p v-if="mode === 'lookup'">
+    <p v-if="mode === 'lookup' && results.length">
       <br>
       <a
         v-if="page != 1"
