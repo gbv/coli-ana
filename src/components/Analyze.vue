@@ -1,8 +1,7 @@
 <template>
   <div
-    v-if="!results"
-    class="section">
-    Loading
+    v-if="!results">
+    <loading-spinner />
   </div>
   <template v-else>
     <p v-if="mode === 'lookup' && results.length">
@@ -132,6 +131,7 @@ import { store } from "../store.js"
 import ConceptDetails from "./ConceptDetails.vue"
 import Pagination from "./Pagination.vue"
 import ItemName from "./ItemName.vue"
+import LoadingSpinner from "./LoadingSpinner.vue"
 
 import jskos from "jskos-tools"
 
@@ -145,7 +145,7 @@ const inBrowser = typeof window !== "undefined"
  */
 
 export default {
-  components: { ConceptDetails, ItemName, Pagination },
+  components: { ConceptDetails, ItemName, Pagination, LoadingSpinner },
   props: {
     notation: {
       type: String,
