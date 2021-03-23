@@ -35,6 +35,11 @@ export async function createServer(
   const app = express()
   app.set("json spaces", 2)
 
+  app.use((req, res, next) => {
+    res.setHeader("Access-Control-Expose-Headers", "X-Total-Count, Link")
+    next()
+  })
+
   /**
    * /analyze API route
    */
