@@ -53,7 +53,7 @@
               </router-link>
               <code v-if="index + 1 < examples.length">, </code>
             </span>
-            (the service is limited to a set of notations in 700 for testing)
+            (the service is limited to a set of notations for testing)
           </p>
         </form>
         <analyze
