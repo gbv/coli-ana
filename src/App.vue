@@ -32,16 +32,18 @@
             v-model="notation"
             type="text">
           <button
+            class="button"
             title="analyzes DDC number(s)"
             name="analyze"
             type="submit">
-            analyze
+            ⚛️ analyze
           </button>
           <button
+            class="button"
             title="performs a lookup of DDC number in analysis results"
             name="lookup"
             type="submit">
-            lookup
+            🔍 lookup
           </button>
           <p>
             Examples:
@@ -147,5 +149,13 @@ export default {
 }
 code {
   font-weight: 500;
+}
+input {
+  padding: calc(3px + 4 * ((100vw - 300px) / 1300)) 5px;
+  border-radius: 5px;
+  border-width: 1px;
+}
+form > * {
+  margin-right: 5px;
 }
 </style>
