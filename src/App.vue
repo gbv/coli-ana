@@ -53,6 +53,7 @@
               </router-link>
               <code v-if="index + 1 < examples.length">, </code>
             </span>
+            (the service is limited to a set of notations in 700 for testing)
           </p>
         </form>
         <analyze
@@ -61,6 +62,9 @@
       </div>
       <div class="section">
         <h2>Documentation</h2>
+        <p>
+          Non-English DDC is licensed by OCLC under <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/">CC-NC-ND 3.0</a>.
+        </p>
         <template v-if="$route.query.notation">
           <p>
             Format documentation:
