@@ -11,6 +11,11 @@
       target="cocoda">
       &nesear;
     </a>
+    <router-link
+      :to="`/?notation=${concept.notation[0]}&mode=lookup`"
+      title="look up member">
+      🔍
+    </router-link>
   </p>
 </template>
 
