@@ -37,6 +37,11 @@
         <item-name
           :item="result"
           :show-notation="false" />
+        <router-link
+          :to="`/?notation=${result.notation[0]}`"
+          :title="`show analysis for notation ${result.notation[0]}`">
+          ⚛️
+        </router-link>
       </h4>
       <div
         class="decomposition">
