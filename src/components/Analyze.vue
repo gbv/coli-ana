@@ -58,7 +58,7 @@
               v-html="notationWithHighlight(result, hovered)" />
           </div>
           <div
-            v-for="(member, index) in result.memberList"
+            v-for="(member, index) in result.memberList.filter(m => m != null)"
             :key="member.notation[1]"
             :class="{
               row: true,
@@ -93,6 +93,14 @@
                 class="loadedIndicator">
                 ·
               </tippy>
+            </div>
+          </div>
+          <div
+            v-if="result.memberList[result.memberList.length - 1] === null"
+            class="row">
+            <div class="hierarchy-info" />
+            <div class="notation-part">
+              Note: This analysis is still incomplete.
             </div>
           </div>
         </div>
@@ -230,7 +238,7 @@ export default {
             return
           }
           for (let result of results) {
-            const [concept, ...memberList] = await store.loadConcepts([].concat(result, result.memberList))
+            const [concept, ...memberList] = await store.loadConcepts([].concat(result, result.memberList.filter(m => m != null)))
             // Integrate loaded concepts in results
             store.integrate(result, concept)
             for (let i = 0; i < memberList.length; i += 1) {

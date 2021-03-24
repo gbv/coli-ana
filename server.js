@@ -89,6 +89,11 @@ export async function createServer(
               member2.broader = [{ uri: member1.uri }]
             }
           }
+          // Check if analysis is incomplete and add `null` to the end of the list
+          const last = memberList[memberList.length - 1]
+          if (last.notation[1].endsWith("-")) {
+            memberList.push(null)
+          }
           concept.memberList = memberList
         }
         return concept
