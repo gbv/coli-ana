@@ -95,19 +95,14 @@
               </tippy>
             </div>
           </div>
-          <div
-            v-if="!isComplete(result)"
-            class="row">
-            <div class="hierarchy-info" />
-            <div class="notation-part">
-              This DDC number could not fully be analyzed. Either
-              it was not build following current DDC number building
-              rules or analysis needs to be completed.
-            </div>
-          </div>
         </div>
         <p v-if="isComplete(result)">
           PICA: <code>{{ picaFromConcept(result) }}</code>
+        </p>
+        <p v-else>
+          This DDC number could not fully be analyzed. Either
+          it was not build following current DDC number building
+          rules or analysis needs to be completed!
         </p>
         <p>
           <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a> ・
