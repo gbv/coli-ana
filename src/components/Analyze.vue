@@ -96,15 +96,17 @@
             </div>
           </div>
           <div
-            v-if="result.memberList[result.memberList.length - 1] === null"
+            v-if="!isComplete(result)"
             class="row">
             <div class="hierarchy-info" />
             <div class="notation-part">
-              This analysis is still incomplete.
+              This DDC number could not fully be analyzed. Either
+              it was not build following current DDC number building
+              rules or analysis needs to be completed.
             </div>
           </div>
         </div>
-        <p>
+        <p v-if="isComplete(result)">
           PICA: <code>{{ picaFromConcept(result) }}</code>
         </p>
         <p>
@@ -282,6 +284,9 @@ export default {
         return serializePica(picaFromDDC(concept))
       },
       perPage,
+      isComplete: (result) => {
+        return result.memberList[result.memberList.length - 1] !== null
+      },
     }
   },
 }
