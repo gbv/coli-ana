@@ -91,7 +91,7 @@ export async function createServer(
           }
           // Check if analysis is incomplete and add `null` to the end of the list
           const last = memberList[memberList.length - 1]
-          if (last.notation[1].endsWith("-")) {
+          if (last && last.notation[1].endsWith("-")) {
             memberList.push(null)
           }
           concept.memberList = memberList
