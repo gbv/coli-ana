@@ -100,7 +100,7 @@
             class="row">
             <div class="hierarchy-info" />
             <div class="notation-part">
-              Note: This analysis is still incomplete.
+              This analysis is still incomplete.
             </div>
           </div>
         </div>
