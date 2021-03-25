@@ -100,9 +100,9 @@
           PICA: <code>{{ picaFromConcept(result) }}</code>
         </p>
         <p v-else>
-          This DDC number could not fully be analyzed. Either
-          it was not build following current DDC number building
-          rules or analysis needs to be completed!
+          This DDC number could not be fully analyzed. Either
+          it was not built following current DDC number building
+          rules or analysis is yet to be completed.
         </p>
         <p>
           <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a> ・
