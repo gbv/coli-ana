@@ -36,6 +36,15 @@ export async function createServer(
   app.set("json spaces", 2)
 
   app.use((req, res, next) => {
+    if (req.headers.origin) {
+      // Allow all origins by returning the request origin in the header
+      res.setHeader("Access-Control-Allow-Origin", req.headers.origin)
+    } else {
+      // Fallback to * if there is no origin in header
+      res.setHeader("Access-Control-Allow-Origin", "*")
+    }
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    res.setHeader("Access-Control-Allow-Methods", "GET")
     res.setHeader("Access-Control-Expose-Headers", "X-Total-Count, Link")
     next()
   })
