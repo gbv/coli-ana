@@ -27,7 +27,7 @@
         <h2>Analysis</h2>
         <p>You can analyze one or more synthesized DDC numbers here (separated via <code>|</code>).</p>
         <form
-          @submit.prevent="submit">
+          @submit.prevent="search()">
           <input
             v-model="notation"
             type="text">
@@ -35,14 +35,14 @@
             class="button"
             title="analyzes DDC number(s)"
             name="analyze"
-            type="submit">
+            @click.prevent.stop="search()">
             ⚛️ analyze
           </button>
           <button
             class="button"
             title="performs a lookup of DDC number in analysis results"
             name="lookup"
-            type="submit">
+            @click.prevent.stop="search('lookup')">
             🔍 lookup
           </button>
           <p>
@@ -114,10 +114,9 @@ export default {
     const notation = ref(route.query.notation)
     const mode = ref(route.query.mode)
 
-    const submit = (e) => {
-      const notation = e.srcElement[0].value
-      if (notation) {
-        router.push(`/?notation=${notation}&mode=${e.submitter.name}`)
+    const search = (mode = "analyze") => {
+      if (notation.value) {
+        router.push(`/?notation=${notation.value}&mode=${mode}`)
       } else {
         router.push("/")
       }
@@ -130,7 +129,7 @@ export default {
 
     return {
       ...config,
-      submit,
+      search,
       notation,
       mode,
     }
