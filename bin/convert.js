@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Converts coli-ana decompositions to JSKOS. By default, prints out the result as JSON. Use with --import to import directly into the database. Add --reset to also clear the database (by default, only new decompositions will be added).
+ * Converts coli-ana decompositions to JSKOS. By default, prints out the result as JSON. Use with --import to import directly into the database. Add --reset to also clear the database (by default, only new decompositions will be added). Add --quiet to suppress error outputs for individual records during import (it will still show general errors like missing files, and how many records were imported/deleted).
  *
- * node ./bin/convert.js [--import] [--reset] [--pica] /path/to/input/file [/path/to/input/file|...]
+ * node ./bin/convert.js [--import] [--reset] [--quiet] [--pica] /path/to/input/file [/path/to/input/file|...]
  *
  * Outputs JSKOS concepts as ndjson, each including the "memberList" property.
  * Outputs PICA/JSON as ndjson if option --pica was given (pass to `picadata -f json -t plain` for PICA/Plain).
@@ -34,6 +34,7 @@ const args = process.argv.slice(2)
 const files = args.filter(arg => !arg.startsWith("--"))
 const shouldImport = args.includes("--import")
 const shouldReset = args.includes("--reset")
+const quiet = args.includes("--quiet")
 const picaFormat = args.includes("--pica")
 
 // Regular expressions
@@ -107,10 +108,10 @@ files.forEach(file => {
           member.notation.push(lineMatch[1])
           current.memberList.push(member)
         } else {
-          console.warn(`Warning: Could not convert DDC notation ${lineMatch[3]}`)
+          !quiet && console.warn(`Warning: Could not convert DDC notation ${lineMatch[3]}`)
         }
       } else {
-        console.warn(`Warning: Could not parse line ${line}`)
+        !quiet && console.warn(`Warning: Could not parse line ${line}`)
       }
     }
     end()
