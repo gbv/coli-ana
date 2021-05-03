@@ -11,23 +11,9 @@
 
 import fs from "fs"
 import readline from "readline"
-import stream from "stream"
 import prisma from "../lib/prisma.js"
 import ddc from "../config/ddc.js"
 import { picaFromDDC } from "../lib/pica.js"
-
-// async readline, see https://medium.com/@wietsevenema/node-js-using-for-await-to-read-lines-from-a-file-ead1f4dd8c6f
-function readLines({ input }) {
-  const output = new stream.PassThrough({ objectMode: true })
-  const rl = readline.createInterface({ input })
-  rl.on("line", line => {
-    output.write(line)
-  })
-  rl.on("close", () => {
-    output.push(null)
-  })
-  return output
-}
 
 // Basic argument parsing
 const args = process.argv.slice(2)
@@ -64,16 +50,42 @@ files.forEach(file => {
 
   let result = []
   let current = null
-  function end() {
+  let totalAdded = 0
+
+  async function end(forceProcess = false) {
     if (current) {
       result.push(current)
     }
     current = null
+    // Process every 50k results
+    if (forceProcess || result.length >= 50000) {
+      if (shouldImport) {
+        const createMany = await prisma.data.createMany({
+          data: result,
+          skipDuplicates: true,
+        })
+        console.log(`Added ${createMany.count} records.`)
+        totalAdded += createMany.count
+        result = []
+      } else {
+        result.forEach(item => {
+          if (picaFormat) {
+            item = picaFromDDC(item)
+          }
+          console.log(JSON.stringify(item))
+        })
+      }
+    }
   }
 
   for (let file of files) {
-    const input = fs.createReadStream(file)
-    for await (const line of readLines({ input })) {
+    console.log(`Reading file ${file}...`)
+    const fileStream = fs.createReadStream(file)
+    const rl = readline.createInterface({
+      input: fileStream,
+      crlfDelay: Infinity,
+    })
+    for await (const line of rl) {
       const startMatch = startRe.exec(line)
       const facetIndicatorMatch = facetIndicatorRe.exec(line)
       const lineMatch = lineRe.exec(line)
@@ -83,8 +95,11 @@ files.forEach(file => {
         const notation = startMatch[1]
         current = ddc.conceptFromNotation(notation, { inScheme: true })
         current.memberList = []
+      } else if (!current) {
+        // TODO: How to deal with errors like this?
+        // It happens for example in ou_gvk_all18_3c_de_slim-21-05-01 (but where?)
       } else if (endMatch) {
-        end()
+        await end()
       } else if (facetIndicatorMatch) {
         // Special concept for facet indicator
         current.memberList.push({
@@ -114,22 +129,11 @@ files.forEach(file => {
         !quiet && console.warn(`Warning: Could not parse line ${line}`)
       }
     }
-    end()
+    await end()
   }
-
+  await end(true)
   if (shouldImport) {
-    const createMany = await prisma.data.createMany({
-      data: result,
-      skipDuplicates: true,
-    })
-    console.log(`Added ${createMany.count} records.`)
-  } else {
-    result.forEach(item => {
-      if (picaFormat) {
-        item = picaFromDDC(item)
-      }
-      console.log(JSON.stringify(item))
-    })
+    console.log(`Import completed. Added ${totalAdded} records in total.`)
   }
 
   await prisma.$disconnect()
