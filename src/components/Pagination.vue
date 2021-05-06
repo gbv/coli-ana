@@ -1,24 +1,30 @@
 <template>
   <a
-    v-if="page > 2"
     href=""
     title="go to first page"
-    @click.prevent="goToPage(1)">
+    :class="{
+      'disabled': page === 1,
+    }"
+    @click.prevent="page > 1 && goToPage(1)">
     ⏮
   </a>
   <a
-    v-if="previousPage"
     href=""
     title="go to previous page"
-    @click.prevent="goToPage(previousPage)">
+    :class="{
+      'disabled': !previousPage,
+    }"
+    @click.prevent="previousPage && goToPage(previousPage)">
     ⏪
   </a>
   Page {{ page }}
   <a
-    v-if="nextPage"
     href=""
     title="go to next page"
-    @click.prevent="goToPage(nextPage)">
+    :class="{
+      'disabled': !nextPage,
+    }"
+    @click.prevent="nextPage && goToPage(nextPage)">
     ⏩
   </a>
 </template>
@@ -77,3 +83,10 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+</style>
