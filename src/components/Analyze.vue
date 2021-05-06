@@ -47,6 +47,7 @@
           :title="`show analysis for notation ${result.notation[0]}`">
           ⚛️
         </router-link>
+
       </h4>
       <div
         class="decomposition">
@@ -97,7 +98,8 @@
           </div>
         </div>
         <p v-if="isComplete(result)">
-          PICA: <code>{{ picaFromConcept(result) }}</code>
+          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&katalog=Standard&val=5400">PICA+</a>
+          <code class="language-pica">{{ picaFromConcept(result) }}</code>
         </p>
         <p v-else>
           This DDC number could not be fully analyzed. Either
