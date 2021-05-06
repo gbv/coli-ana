@@ -47,7 +47,12 @@
           :title="`show analysis for notation ${result.notation[0]}`">
           ⚛️
         </router-link>
-
+        <a
+          :href="`https://opac.k10plus.de/DB=2.299/CMD?ACT=SRCHA&IKT=3011&TRM=${result.notation[0]}`"
+          target="k10plus"
+          title="search in K10plus catalog">
+          📚
+        </a>
       </h4>
       <div
         class="decomposition">
