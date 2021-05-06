@@ -56,8 +56,8 @@ export async function createServer(
     const notations = (req.query.notation || "").split("|").filter(n => n !== "")
     const format = req.query.format || "jskos"
     req.query.member = req.query.member || ""
-    req.query.limit = req.query.limit || 10
-    req.query.offset = req.query.offset || 0
+    req.query.limit = parseInt(req.query.limit) || 10
+    req.query.offset = parseInt(req.query.offset) || 0
 
     let result = []
 
@@ -78,7 +78,9 @@ export async function createServer(
       else {
         result = await findMembers(req.query)
       }
-      res.set("X-Total-Count", result.totalCount || result.length)
+      if (result.totalCount !== undefined) {
+        res.set("X-Total-Count", result.totalCount)
+      }
       // Adjust result
       result = result.map(concept => {
         const memberList = concept.memberList

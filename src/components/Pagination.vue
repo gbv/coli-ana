@@ -13,20 +13,13 @@
     @click.prevent="goToPage(previousPage)">
     ⏪
   </a>
-  Page {{ page }} of {{ lastPage }}
+  Page {{ page }}
   <a
     v-if="nextPage"
     href=""
     title="go to next page"
     @click.prevent="goToPage(nextPage)">
     ⏩
-  </a>
-  <a
-    v-if="page < lastPage - 1"
-    href=""
-    title="go to last page"
-    @click.prevent="goToPage(lastPage)">
-    ⏭
   </a>
 </template>
 
@@ -52,9 +45,6 @@ export default {
   setup(props) {
     const router = useRouter()
     const route = useRoute()
-    const totalCount = computed(() => {
-      return (props.results && props.results.totalCount) || 0
-    })
     const goToPage = async (page) => {
       await router.push({
         path: "/",
@@ -71,18 +61,17 @@ export default {
       return props.page - 1
     })
     const nextPage = computed(() => {
-      if (totalCount.value <= props.page * props.perPage) {
+      const totalCount = props.results.totalCount
+      if (totalCount !== undefined && totalCount <= props.page * props.perPage) {
         return null
       }
       return props.page + 1
     })
-    const lastPage = computed(() => Math.ceil(totalCount.value / props.perPage))
 
     return {
       goToPage,
       previousPage,
       nextPage,
-      lastPage,
     }
   },
 }
