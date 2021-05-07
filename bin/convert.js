@@ -19,9 +19,16 @@ import { picaFromDDC } from "../lib/pica.js"
 const args = process.argv.slice(2)
 const files = args.filter(arg => !arg.startsWith("--"))
 const shouldImport = args.includes("--import")
-const shouldReset = args.includes("--reset")
+const shouldReset = args.includes("--reset") && shouldImport
 const quiet = args.includes("--quiet")
 const picaFormat = args.includes("--pica")
+
+const log = (...args) => {
+  shouldImport && console.log(...args)
+}
+const warn = (...args) => {
+  shouldImport && !quiet && console.warn(...args)
+}
 
 // Regular expressions
 const startRe = /^(\S*) \(\S*\)/
@@ -45,7 +52,7 @@ files.forEach(file => {
 
   if (shouldReset) {
     const { count } = await prisma.data.deleteMany()
-    console.log(`Deleted ${count} records.`)
+    log(`Deleted ${count} records.`)
   }
 
   let result = []
@@ -64,7 +71,7 @@ files.forEach(file => {
           data: result,
           skipDuplicates: true,
         })
-        console.log(`Added ${createMany.count} records.`)
+        log(`Added ${createMany.count} records.`)
         totalAdded += createMany.count
         result = []
       } else {
@@ -74,12 +81,13 @@ files.forEach(file => {
           }
           console.log(JSON.stringify(item))
         })
+        result = []
       }
     }
   }
 
   for (let file of files) {
-    console.log(`Reading file ${file}...`)
+    log(`Reading file ${file}...`)
     const fileStream = fs.createReadStream(file)
     const rl = readline.createInterface({
       input: fileStream,
@@ -123,18 +131,16 @@ files.forEach(file => {
           member.notation.push(lineMatch[1])
           current.memberList.push(member)
         } else {
-          !quiet && console.warn(`Warning: Could not convert DDC notation ${lineMatch[3]}`)
+          warn(`Warning: Could not convert DDC notation ${lineMatch[3]}`)
         }
       } else {
-        !quiet && console.warn(`Warning: Could not parse line ${line}`)
+        warn(`Warning: Could not parse line ${line}`)
       }
     }
     await end()
   }
   await end(true)
-  if (shouldImport) {
-    console.log(`Import completed. Added ${totalAdded} records in total.`)
-  }
+  log(`Import completed. Added ${totalAdded} records in total.`)
 
   await prisma.$disconnect()
 
