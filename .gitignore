@@ -19,3 +19,6 @@ config/config.user.js
 .env
 prisma/migrations/*
 !prisma/migrations/migration_lock.toml
+
+public/dump.ndjson
+public/stats.json

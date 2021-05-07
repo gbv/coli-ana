@@ -10,6 +10,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 - [Install](#install)
 - [Usage](#usage)
   - [Preparing the database](#preparing-the-database)
+  - [Data dumps and statistics](#data-dumps-and-statistics)
   - [Database migrations](#database-migrations)
   - [Development](#development)
   - [Production](#production)
@@ -64,6 +65,10 @@ node ./bin/convert --import ~/path/to/ou_liu_t_de-slim-21-02-15-1121
 ```
 
 Add `--reset` to delete old records from the database.
+
+### Data dumps and statistics
+
+The script `./bin/stats.sh` creates a database dump (unless the file already exists, so it is not updated) and calculates some statistics into `public/stats.json`.
 
 ### Database migrations
 
