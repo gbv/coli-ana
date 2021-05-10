@@ -121,9 +121,13 @@ Analyzes one or more DDC numbers in parameter `notation` (separated by `|`) and 
 * `picajson` returns a [PICA/JSON](https://format.gbv.de/pica/json) record
 * `pp` returns a [PICA Plain](https://format.gbv.de/pica/plain) record; **note:** only one record can be requested at the time.
 
+Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
+
 ### GET /analyze?member=members
 
 Returns JSKOS concepts which contain one or more of the specified `member` URIs or notations (seperated by `|`) in their `memberList`.
+
+Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)

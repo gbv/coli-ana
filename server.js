@@ -55,6 +55,8 @@ export async function createServer(
   app.get("/analyze", async (req, res, next) => {
     const notations = (req.query.notation || "").split("|").filter(n => n !== "")
     const format = req.query.format || "jskos"
+    const complete = req.query.complete
+
     req.query.member = req.query.member || ""
     req.query.limit = parseInt(req.query.limit) || 10
     req.query.offset = parseInt(req.query.offset) || 0
@@ -112,6 +114,11 @@ export async function createServer(
     } catch (error) {
       next(error)
       return
+    }
+
+    if (complete) {
+      // filter out incomplete results and empty member lists
+      result = result.filter(({memberList}) => memberList[memberList.length - 1])
     }
 
     if (format === "picajson") {
