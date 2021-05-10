@@ -5,7 +5,7 @@ import config from "./config/index.js"
 import compression from "compression"
 import serveStatic from "serve-static"
 import { decomposeDDC, findMembers, isMemberParentOf } from "./lib/index.js"
-import { serializePica, picaFromDDC } from "./lib/pica.js"
+import { serializePica, picaFromDDC, pica3FromDDC } from "./lib/pica.js"
 const { ddc } = config
 
 // we need require for including Vite's SSR build (see https://github.com/vitejs/vite/discussions/2074)
@@ -118,6 +118,8 @@ export async function createServer(
       result = [].concat.apply([],result.map(picaFromDDC)) // merge into one record
     } else if (format === "pp") {
       result = result.map(concept => serializePica(picaFromDDC(concept))).join("\n")
+    } else if (format === "pica3") {
+      result = result.map(pica3FromDDC).join("\n")
     }
 
     return res.send(result)

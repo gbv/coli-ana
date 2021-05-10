@@ -103,11 +103,11 @@
           </div>
         </div>
         <p v-if="isComplete(result)">
-          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&katalog=Standard&val=5400">PICA+: </a>
+          <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA+: </a>
           <code class="language-pica">{{ picaFromConcept(result) }}</code>
           <br />
+          <a :href="`analyze?notation=${result.notation[0]}&format=pp`">Pica3: </a>
           <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&katalog=Standard&val=5400">Pica3: </a>
-          <code>{{ pica3FromDDC(result) }}</code>
         </p>
         <p v-else>
           This DDC number could not be fully analyzed. Either
@@ -118,6 +118,7 @@
           <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a> ・
           <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
           <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
+          <a :href="`analyze?notation=${result.notation[0]}&format=pica3`">Pica3</a> ・
           <a :href="`${cocoda}?fromScheme=${ddc.uri}&from=${ddc.uriFromNotation(result.notation[0])}`">
             &nesear; open in Cocoda
           </a>
