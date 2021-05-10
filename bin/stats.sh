@@ -21,7 +21,7 @@ ELEMENTS_COUNT=$(
   | jq -R 'split(" ")|{key:.[1],value:(.[0]|tonumber)}' | jq -s 'from_entries'
 )
 
-cat <<-JSON
+cat > public/stats.json <<-JSON
 {
   "numbers": $TOTAL,
   "incomplete": $INCOMPLETE,
