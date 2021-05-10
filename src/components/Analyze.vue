@@ -103,8 +103,11 @@
           </div>
         </div>
         <p v-if="isComplete(result)">
-          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&katalog=Standard&val=5400">PICA+</a>
+          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&katalog=Standard&val=5400">PICA+: </a>
           <code class="language-pica">{{ picaFromConcept(result) }}</code>
+          <br />
+          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&katalog=Standard&val=5400">Pica3: </a>
+          <code>{{ pica3FromDDC(result) }}</code>
         </p>
         <p v-else>
           This DDC number could not be fully analyzed. Either
@@ -135,7 +138,7 @@
 import { watch, ref, computed } from "vue"
 // import "cross-fetch/polyfill"
 import config from "../../config"
-import { serializePica, picaFromDDC } from "../../lib/pica.js"
+import { serializePica, picaFromDDC, pica3FromDDC } from "../../lib/pica.js"
 
 import { store } from "../store.js"
 
@@ -285,6 +288,7 @@ export default {
       picaFromConcept: (concept) => {
         return serializePica(picaFromDDC(concept))
       },
+      pica3FromDDC,
       perPage,
       isComplete: (result) => {
         return result.memberList[result.memberList.length - 1] !== null
