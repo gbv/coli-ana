@@ -21,6 +21,7 @@ const files = args.filter(arg => !arg.startsWith("--"))
 const shouldImport = args.includes("--import")
 const shouldReset = args.includes("--reset") && shouldImport
 const quiet = args.includes("--quiet")
+const ignoreErrors = args.includes("--ignore-errors")
 const picaFormat = args.includes("--pica")
 
 const log = (...args) => {
@@ -58,7 +59,7 @@ files.forEach(file => {
   let result = []
   let current = null
   let totalAdded = 0
-  let skipCurrent = false
+  let currentHasError = false
   let totalErrors = 0
 
   async function end(forceProcess = false) {
@@ -105,8 +106,8 @@ files.forEach(file => {
         const notation = startMatch[1]
         current = ddc.conceptFromNotation(notation, { inScheme: true })
         current.memberList = []
-        skipCurrent = false
-      } else if (skipCurrent || !current) {
+        currentHasError = false
+      } else if (!current || (!ignoreErrors && currentHasError)) {
         // TODO: How to deal with errors like this?
         // It happens for example in ou_gvk_all18_3c_de_slim-21-05-01 (but where?)
       } else if (endMatch) {
@@ -136,17 +137,17 @@ files.forEach(file => {
           // 1. Check length of notation
           if (current.notation[0].length !== member.notation[1].length) {
             warn(`Error: Second notations should have the same length as analyzed notation, skipping. (${current.notation[0]})`)
-            !skipCurrent && (totalErrors += 1)
-            skipCurrent = true
+            !currentHasError && (totalErrors += 1)
+            currentHasError = true
           }
           // 2. Check for unexpected duplicates
           if (current.memberList.find((m) => m.notation.join(" ") === member.notation.join(" "))) {
             warn(`Error: Unexpected duplicate in analysis, skipping. (${current.notation[0]})`)
-            !skipCurrent && (totalErrors += 1)
-            skipCurrent = true
+            !currentHasError && (totalErrors += 1)
+            currentHasError = true
           }
           // Add member to memberList
-          !skipCurrent && current.memberList.push(member)
+          !currentHasError && current.memberList.push(member)
         } else {
           warn(`Warning: Could not convert DDC notation ${lineMatch[3]}`)
         }
@@ -157,7 +158,7 @@ files.forEach(file => {
     await end()
   }
   await end(true)
-  log(`Import completed. Added ${totalAdded} records in total. ${totalErrors} records had an error and were skipped.`)
+  log(`Import completed. Added ${totalAdded} records in total. ${totalErrors} records had an error and were ${ignoreErrors ? "not " : ""}skipped${ignoreErrors ? " (--ignore-errors was given)" : ""}.`)
 
   await prisma.$disconnect()
 
