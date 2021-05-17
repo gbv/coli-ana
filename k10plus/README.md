@@ -1,13 +1,29 @@
 # Anreicherung des K10plus mit DDC-Zerlegungen
 
-Dieses Verzeichnis enthält Skripte umd den K10plus-Katalog um im Rahmen des Projekt coli-ana ermittelten DDC-Zerlegungen anzureichern.
+Dieses Verzeichnis enthält Skripte zur Anreicherung des K10plus-Katalog um im Rahmen des Projekt coli-ana ermittelte Analysen von DDC-Notationen.
 
-* `cpanfile` Perl-Dependencies (`cpanm --installdeps .`)
-* `catmandu.yaml` Konfigurationsdatei
-* `avram.json` Avram-Schema der Felder 003@, 045F und 045F (`curl 'https://format.k10plus.de/avram.pl?profile=&field=003@|045H|045F' > avram.json`)
-*  `./download-by-ddc.sh` läd ausgehend von einer DDC-Notation Titeldatensätze beschränkt auf DDC-Felder aus dem K10plus.
-* ...
+## Installation
 
-## Beispiele
+    cpanm --installdeps .
 
-    ./download-by-ddc.sh 700.23
+## Benutzung
+
+Das Skript `enrich.pl` ermittelt per coli-ana API die Zerlegung einer übergebenen DDC-Notation und reichert anschließend per STDIN übergebene PICA-Datensätze mit dieser Notation um die Zerlegung an. Die Ausgabe erfolgt im PICA-Änderungsformat.
+
+Beispiel (ausgehend von einer PPN):
+
+    ./record-with-ppn 276856457 | ./enrich.pl 709.044
+
+Beispiel für mehrere Datensätze (ausgehend von einer DDC-Notation):
+
+    ./enrich-with-ddc 700.23
+    ./records-with-ddc 700.23 | ./enrich.pl 700.23  # equivalent
+
+Zur Sicherheit sollte die Ausgabe gegen das Katalogisierungsformat validiert werden:
+
+    picadata -s ./avram.json -u output.pica
+
+Das Avram-Schema der Felder 003@, 045F und 045F kann bei Bedarf so aktualisiert werden:
+
+    curl 'https://format.k10plus.de/avram.pl?profile=&field=003@|045H|045F' > avram.json`
+

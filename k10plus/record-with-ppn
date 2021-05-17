@@ -1,0 +1,8 @@
+#!/bin/bash
+if [[ $1 =~ ^[0-9]+[0-9Xx]$ ]]
+then
+  catmandu convert kxp --query "pica.ppn=$1" to pp | picadata -p '003@|045F|045H'
+else
+  echo "'$1' ist keine PPN." >&1
+  exit 1
+fi

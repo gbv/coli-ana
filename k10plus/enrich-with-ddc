@@ -1,0 +1,3 @@
+#!/bin/bash
+DDC=$1
+./records-with-ddc "$DDC" | ./enrich.pl "$DDC"
