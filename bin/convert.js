@@ -58,6 +58,8 @@ files.forEach(file => {
   let result = []
   let current = null
   let totalAdded = 0
+  let skipCurrent = false
+  let totalErrors = 0
 
   async function end(forceProcess = false) {
     if (current) {
@@ -103,7 +105,8 @@ files.forEach(file => {
         const notation = startMatch[1]
         current = ddc.conceptFromNotation(notation, { inScheme: true })
         current.memberList = []
-      } else if (!current) {
+        skipCurrent = false
+      } else if (skipCurrent || !current) {
         // TODO: How to deal with errors like this?
         // It happens for example in ou_gvk_all18_3c_de_slim-21-05-01 (but where?)
       } else if (endMatch) {
@@ -129,7 +132,21 @@ files.forEach(file => {
         if (member) {
           member.prefLabel = { de: prefLabel }
           member.notation.push(lineMatch[1])
-          current.memberList.push(member)
+          // Some error checks (#31)
+          // 1. Check length of notation
+          if (current.notation[0].length !== member.notation[1].length) {
+            warn(`Error: Second notations should have the same length as analyzed notation, skipping. (${current.notation[0]})`)
+            !skipCurrent && (totalErrors += 1)
+            skipCurrent = true
+          }
+          // 2. Check for unexpected duplicates
+          if (current.memberList.find((m) => m.notation.join(" ") === member.notation.join(" "))) {
+            warn(`Error: Unexpected duplicate in analysis, skipping. (${current.notation[0]})`)
+            !skipCurrent && (totalErrors += 1)
+            skipCurrent = true
+          }
+          // Add member to memberList
+          !skipCurrent && current.memberList.push(member)
         } else {
           warn(`Warning: Could not convert DDC notation ${lineMatch[3]}`)
         }
@@ -140,7 +157,7 @@ files.forEach(file => {
     await end()
   }
   await end(true)
-  log(`Import completed. Added ${totalAdded} records in total.`)
+  log(`Import completed. Added ${totalAdded} records in total. ${totalErrors} records had an error and were skipped.`)
 
   await prisma.$disconnect()
 
