@@ -4,6 +4,7 @@ Dieses Verzeichnis enthält Skripte umd den K10plus-Katalog um im Rahmen des Pro
 
 * `cpanfile` Perl-Dependencies (`cpanm --installdeps .`)
 * `catmandu.yaml` Konfigurationsdatei
+* `avram.json` Avram-Schema der Felder 003@, 045F und 045F (`curl 'https://format.k10plus.de/avram.pl?profile=&field=003@|045H|045F' > avram.json`)
 *  `./download-by-ddc.sh` läd ausgehend von einer DDC-Notation Titeldatensätze beschränkt auf DDC-Felder aus dem K10plus.
 * ...
 
