@@ -147,7 +147,7 @@ files.forEach(file => {
             currentHasError = true
           }
           // Add member to memberList
-          !currentHasError && current.memberList.push(member)
+          current.memberList.push(member)
         } else {
           warn(`Warning: Could not convert DDC notation ${lineMatch[3]}`)
         }
