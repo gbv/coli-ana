@@ -3,7 +3,7 @@
 /**
  * Converts coli-ana decompositions to JSKOS. By default, prints out the result as JSON. Use with --import to import directly into the database. Add --reset to also clear the database (by default, only new decompositions will be added). Add --quiet to suppress error outputs for individual records during import (it will still show general errors like missing files, and how many records were imported/deleted).
  *
- * node ./bin/convert.js [--import] [--reset] [--quiet] [--pica] /path/to/input/file [/path/to/input/file|...]
+ * node ./bin/convert.js [--import] [--reset] [--quiet] [--ignore-errors] [--pica] /path/to/input/file [/path/to/input/file|...]
  *
  * Outputs JSKOS concepts as ndjson, each including the "memberList" property.
  * Outputs PICA/JSON as ndjson if option --pica was given (pass to `picadata -f json -t plain` for PICA/Plain).

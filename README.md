@@ -64,7 +64,7 @@ Now that the database and tables are prepared, you can import coli-ana results (
 node ./bin/convert --import ~/path/to/ou_liu_t_de-slim-21-02-15-1121
 ```
 
-Add `--reset` to delete old records from the database.
+Add `--reset` to delete old records from the database. At the moment, there are some basic error checks that exclude some analyses from being imported. To import those anyway, add the `--ignore-errors` flag.
 
 ### Data dumps and statistics
 
