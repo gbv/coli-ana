@@ -14,6 +14,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
   - [Database migrations](#database-migrations)
   - [Development](#development)
   - [Production](#production)
+  - [Clients](#clients)
 - [Configuration](#configuration)
 - [API](#api)
   - [GET /](#get-)
@@ -92,6 +93,10 @@ npm run build
 # Run server in production
 npm run serve
 ```
+
+### Clients
+
+Directory `k10plus` contains scripts to enrich K10plus library catalog with analyzed DDC notations. See [README.md](k10plus/README.md) in this directory.
 
 ## Configuration
 

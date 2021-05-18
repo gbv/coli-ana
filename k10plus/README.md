@@ -17,11 +17,8 @@ Beispiel (ausgehend von einer PPN):
 Beispiel für mehrere Datensätze (ausgehend von einer DDC-Notation):
 
     ./enrich-with-ddc 700.23
-    ./records-with-ddc 700.23 | ./enrich.pl 700.23  # equivalent
 
-Zur Sicherheit sollte die Ausgabe gegen das Katalogisierungsformat validiert werden:
-
-    picadata -s ./avram.json -u output.pica
+Letzterer Befehl läd mit `records-with-ddc` per SRU Datensätze aus dem K10plus, reichert sie mit `enrich.pl` an stellt mi `picadata -s avram.json` sicher, dass die Formatrichtlinien eingehalten werden.
 
 Das Avram-Schema der Felder 003@, 045F und 045F kann bei Bedarf so aktualisiert werden:
 
