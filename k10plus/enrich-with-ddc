@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-PICA=`./records-with-ddc "$1" | ./enrich.pl "$1"`
-
-echo "$PICA" | picadata -s avram.json -u  # will exit on error
-echo "$PICA"
+for ddc in "$@"
+do
+  PICA=`./records-with-ddc "$1" | ./enrich.pl "$1"`
+  echo "$PICA" | picadata -s avram.json -u  # will exit on error
+  echo "$PICA"
+done

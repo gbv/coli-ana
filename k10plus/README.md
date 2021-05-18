@@ -14,7 +14,7 @@ Beispiel (ausgehend von einer PPN):
 
     ./record-with-ppn 276856457 | ./enrich.pl 709.044
 
-Beispiel für mehrere Datensätze (ausgehend von einer DDC-Notation):
+Beispiel für mehrere Datensätze (ausgehend von einer oder mehreren DDC-Notationen):
 
     ./enrich-with-ddc 700.23
 
