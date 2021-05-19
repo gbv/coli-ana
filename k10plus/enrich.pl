@@ -56,7 +56,7 @@ RECORD: while ( my $record = $parser->next ) {
 
         # check if coli-ana already in the record
         my %sf = @$_;
-        if ( $sf{a} eq $ddc && $sf{A} eq 'DE-601' ) {
+        if ( $sf{a} eq $ddc && $sf{A} eq 'coli-ana' ) {
             say STDERR "Datensatz $ppn wurde bereits mit DDC '$ddc' analysiert";
 
             # TODO: check whether existing analysis differs
