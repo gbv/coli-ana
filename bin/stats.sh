@@ -3,8 +3,9 @@
 DUMP=public/dump.ndjson
 
 # Zur Aktualisierung bitte Dump löschen!
+QUERY='select row_to_json(row(uri,notation,"memberList")) from data'
 [[ -f $DUMP ]] || \
-  psql coli-ana --no-align -q -c '\t' -c 'SELECT "memberList" FROM data' | jq -c '{memberList:.}' > $DUMP
+  psql coli-ana --no-align -q -c '\t' -c "$QUERY" | jq -c '{uri:.f1,notation:.f2,memberList:.f3}' > $DUMP
 
 # Anzahl analysierter DDC-Notationen
 TOTAL=$(wc -l < $DUMP)
