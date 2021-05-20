@@ -14,7 +14,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
   - [Database migrations](#database-migrations)
   - [Development](#development)
   - [Production](#production)
-  - [Clients](#clients)
+  - [K10plus enrichment](#k10plus-enrichment)
 - [Configuration](#configuration)
 - [API](#api)
   - [GET /](#get-)
@@ -94,9 +94,11 @@ npm run build
 npm run serve
 ```
 
-### Clients
+### K10plus enrichment
 
 Directory `k10plus` contains scripts to enrich K10plus library catalog with analyzed DDC notations. See [README.md](k10plus/README.md) in this directory.
+
+The script `bin/labels.sh` created one text file for each DDC number in directory `labels` for full text indexing.
 
 ## Configuration
 
