@@ -24,3 +24,4 @@ Das Avram-Schema der Felder 003@, 045F und 045F kann bei Bedarf so aktualisiert 
 
     curl 'https://format.k10plus.de/avram.pl?profile=&field=003@|045H|045F' > avram.json`
 
+Die Reihenfolge der Unterfelder wird momentan nicht überprüft.

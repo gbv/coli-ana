@@ -10,7 +10,6 @@
                "code" : "0",
                "label" : "Pica-Produktionsnummer",
                "modified" : "2020-11-23T18:27:42",
-               "order" : 1,
                "pica3" : "",
                "repeatable" : false
             }
@@ -28,7 +27,6 @@
                "code" : "A",
                "label" : "Quelle",
                "modified" : "2019-11-28T13:12:34",
-               "order" : 4,
                "pica3" : "$A",
                "repeatable" : true
             },
@@ -36,7 +34,6 @@
                "code" : "a",
                "label" : "Notation",
                "modified" : "2019-11-28T13:12:20",
-               "order" : 2,
                "pica3" : "",
                "repeatable" : true
             },
@@ -44,7 +41,6 @@
                "code" : "e",
                "label" : "Angabe der zugrunde liegenden DDC-Ausgabe",
                "modified" : "2019-11-28T13:12:50",
-               "order" : 1,
                "pica3" : "[...]",
                "repeatable" : false
             },
@@ -52,7 +48,6 @@
                "code" : "j",
                "label" : "Benennung",
                "modified" : "2019-11-29T11:53:59",
-               "order" : 3,
                "pica3" : "$j",
                "repeatable" : false
             }
@@ -71,7 +66,6 @@
                "code" : "A",
                "label" : "Quelle",
                "modified" : "2019-11-29T12:50:04",
-               "order" : 15,
                "pica3" : "$A",
                "repeatable" : true
             },
@@ -79,7 +73,6 @@
                "code" : "L",
                "label" : "Sprache",
                "modified" : "2019-11-29T12:48:47",
-               "order" : 14,
                "pica3" : "$L",
                "repeatable" : false
             },
@@ -87,7 +80,6 @@
                "code" : "a",
                "label" : "Synthetische Notation bzw. Klassenbenennung",
                "modified" : "2020-09-23T15:17:48",
-               "order" : 2,
                "pica3" : "",
                "repeatable" : false
             },
@@ -95,7 +87,6 @@
                "code" : "c",
                "label" : "Grundnotation DDC",
                "modified" : "2019-11-29T12:49:02",
-               "order" : 3,
                "pica3" : "-G--",
                "repeatable" : false
             },
@@ -103,7 +94,6 @@
                "code" : "d",
                "label" : "Notationen anderer Haupttafeln",
                "modified" : "2019-11-29T12:49:07",
-               "order" : 4,
                "pica3" : "-H--",
                "repeatable" : true
             },
@@ -111,7 +101,6 @@
                "code" : "e",
                "label" : "Angabe der zugrunde liegenden DDC-Ausgabe",
                "modified" : "2020-09-23T15:16:47",
-               "order" : 1,
                "pica3" : "[...]",
                "repeatable" : false
             },
@@ -119,7 +108,6 @@
                "code" : "f",
                "label" : "Notation aus Hilfstafel T1",
                "modified" : "2019-11-29T12:49:12",
-               "order" : 5,
                "pica3" : "-T1--",
                "repeatable" : true
             },
@@ -127,7 +115,6 @@
                "code" : "g",
                "label" : "Notation aus Hilfstafel T2",
                "modified" : "2019-11-29T12:49:18",
-               "order" : 6,
                "pica3" : "-T2--",
                "repeatable" : true
             },
@@ -135,7 +122,6 @@
                "code" : "h",
                "label" : "Notation aus Hilfstafel T3A",
                "modified" : "2019-11-29T12:49:24",
-               "order" : 7,
                "pica3" : "-T3A--",
                "repeatable" : false
             },
@@ -143,7 +129,6 @@
                "code" : "i",
                "label" : "Notation aus Hilfstafel T3B",
                "modified" : "2019-11-29T12:49:30",
-               "order" : 8,
                "pica3" : "-T3B--",
                "repeatable" : false
             },
@@ -151,7 +136,6 @@
                "code" : "j",
                "label" : "Notation aus Hilfstafel T3C",
                "modified" : "2019-11-29T12:49:35",
-               "order" : 9,
                "pica3" : "-T3C--",
                "repeatable" : false
             },
@@ -159,7 +143,6 @@
                "code" : "k",
                "label" : "Notation aus Hilfstafel T4",
                "modified" : "2019-11-29T12:49:41",
-               "order" : 10,
                "pica3" : "-T4--",
                "repeatable" : false
             },
@@ -167,7 +150,6 @@
                "code" : "l",
                "label" : "Notation aus Hilfstafel T5",
                "modified" : "2019-11-29T12:49:47",
-               "order" : 11,
                "pica3" : "-T5--",
                "repeatable" : false
             },
@@ -175,7 +157,6 @@
                "code" : "m",
                "label" : "Notation aus Hilfstafel T6",
                "modified" : "2019-11-29T12:49:53",
-               "order" : 12,
                "pica3" : "-T6--",
                "repeatable" : true
             },
@@ -183,7 +164,6 @@
                "code" : "t",
                "label" : "Notation aus Anhängetafeln (extern)",
                "modified" : "2019-11-29T12:49:58",
-               "order" : 13,
                "pica3" : "-I--",
                "repeatable" : true
             }
