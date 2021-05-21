@@ -18,10 +18,9 @@ Beispiel für mehrere Datensätze (ausgehend von einer oder mehreren DDC-Notatio
 
     ./enrich-with-ddc 700.23
 
-Letzterer Befehl läd mit `search-ddc` per SRU Datensätze aus dem K10plus, reichert sie mit `enrich.pl` an stellt mi `picadata -s avram.json` sicher, dass die Formatrichtlinien eingehalten werden.
+Letzterer Befehl läd mit `search-ddc` per SRU Datensätze aus dem K10plus, reichert sie mit `enrich.pl` an stellt mi `picadata -s avram.json` sicher, dass die Formatrichtlinien eingehalten werden. Die Reihenfolge der Unterfelder wird momentan nicht überprüft.
 
-Das Avram-Schema der Felder 003@, 045F und 045F kann bei Bedarf so aktualisiert werden:
+Das Skript `enrich-all` liesst DDC-Nummern von der Standardeingabe, ermittelt dazu passende Datensätze und ihre Anreicherung und speichert diese in Dateien im Verzeichnis `pica/`. Um die Anreicherung für alle bekannten DDC-Nummer zu ermitteln und zu speichern:
 
-    curl 'https://format.k10plus.de/avram.pl?profile=&field=003@|045H|045F' > avram.json`
+    jq -r .notation[0] ../public/dump.ndjson | ./enrich-all
 
-Die Reihenfolge der Unterfelder wird momentan nicht überprüft.

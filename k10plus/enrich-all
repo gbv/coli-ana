@@ -1,0 +1,22 @@
+#!/bin/bash
+
+while IFS=$'\t' read ddc
+do
+  if [[ $ddc =~ ^[0-9]{3}(\.[0-9]+)?$ ]]
+  then
+    main=${ddc:0:3}
+    mkdir -p pica/$main
+    file=pica/$main/$ddc.pica
+    echo -n "$file"
+    ./enrich-with-ddc "$ddc" > "$file"
+    if [ $? -eq 0 ]
+    then
+      echo " ok"
+    else
+      echo " error"
+      rm "$file"
+    fi
+  else
+    echo >&2 "'$ddc' ist keine DDC-Nummer!"
+  fi
+done
