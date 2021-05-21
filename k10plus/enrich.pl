@@ -6,8 +6,8 @@ use Pod::Usage;
 use HTTP::Tiny;
 
 my $ddc = shift @ARGV;
-$ddc =~ /^[0-9]{3}\.[0-9]+$/
-  or die "'$ddc' ist keine DDC-Notation mit mindestens vier Ziffern.\n";
+$ddc =~ /^[0-9]{3}(\.[0-9]+)$/
+  or die "'$ddc' ist keine DDC-Nummer!\n";
 
 # get analysis via coli-ana API
 my $url =
