@@ -1,14 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Converts coli-ana decompositions to JSKOS. By default, prints out the result as JSON. Use with --import to import directly into the database. Add --reset to also clear the database (by default, only new decompositions will be added). Add --quiet to suppress error outputs for individual records during import (it will still show general errors like missing files, and how many records were imported/deleted).
- *
- * node ./bin/convert.js [--import] [--reset] [--quiet] [--ignore-errors] [--pica] /path/to/input/file [/path/to/input/file|...]
- *
- * Outputs JSKOS concepts as ndjson, each including the "memberList" property.
- * Outputs PICA/JSON as ndjson if option --pica was given (pass to `picadata -f json -t plain` for PICA/Plain).
- */
-
 import fs from "fs"
 import readline from "readline"
 import prisma from "../lib/prisma.js"
@@ -23,6 +14,24 @@ const shouldReset = args.includes("--reset") && shouldImport
 const quiet = args.includes("--quiet")
 const ignoreErrors = args.includes("--ignore-errors")
 const picaFormat = args.includes("--pica")
+const help = args.includes("--help")
+
+if (help || !args.length) {
+  console.log(`
+node ./bin/convert.js {options} input-files...
+
+Converts coli-ana decompositions to JSKOS. By default, prints result
+as JSKOS concepts, each including the "memberList" property.
+
+Options:
+  --import  import directly into the database
+  --reset   clear database (by default, only new decompositions are added)
+  --quiet   suppress error output for individual records during import
+	    (it will still show general errors and statistics)
+  --pica    output PICA/JSON as ndjson. For PICA/Plain pass to
+	    picadata -f json -t plain`)
+  process.exit(0)
+}
 
 const log = (...args) => {
   shouldImport && console.log(...args)
