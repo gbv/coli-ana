@@ -41,7 +41,7 @@ const warn = (...args) => {
 }
 
 // Regular expressions
-const startRe = /^(\S*) \(\S*\)/
+const startRe = /^([0-9.-]+) \(\S*\)/
 const facetIndicatorRe = /^(\S*) <(Facet Indicator)> \(notation: (.*)\)/
 const lineRe = /^(\S*) (.*) \(notation: (.*)\)/
 const endRe = /^\s*$/
