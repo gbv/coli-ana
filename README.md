@@ -113,6 +113,9 @@ COCODA=https://coli-conc.gbv.de/cocoda/app/
 PORT=11033
 # Base for URL (e.g. when not running under root of domain)
 BASE=/
+# Host and port for backend service vc_day_srv (can be used as fallback/alternative to importing into database)
+BACKEND_HOST=
+BACKEND_PORT=
 ```
 
 ## API

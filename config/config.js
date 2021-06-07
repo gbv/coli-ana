@@ -17,6 +17,12 @@ if (!inBrowser) {
   if (!config.base.endsWith("/")) {
     config.base = `${config.base}/`
   }
+  if (process.env.BACKEND_HOST) {
+    config.backend = {
+      host: process.env.BACKEND_HOST,
+      port: process.env.BACKEND_PORT,
+    }
+  }
 }
 
 export default config
