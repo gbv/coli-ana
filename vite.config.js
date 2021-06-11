@@ -1,5 +1,4 @@
-import dotenv from "dotenv"
-dotenv.config()
+import "dotenv/config"
 import vuePlugin from "@vitejs/plugin-vue"
 import config from "./config/config.js"
 
