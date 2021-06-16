@@ -9,7 +9,8 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 ## Table of Contents <!-- omit in toc -->
 - [Install](#install)
 - [Usage](#usage)
-  - [Preparing the database](#preparing-the-database)
+  - [vc_day_srv Backend](#vc_day_srv-backend)
+  - [Database Backend](#database-backend)
   - [Data dumps and statistics](#data-dumps-and-statistics)
   - [Database migrations](#database-migrations)
   - [Development](#development)
@@ -37,9 +38,24 @@ npm install
 
 The server provides a HTTP API at port 11033 by default. (Fun fact: 11033 = Octal 025431 (025.431=Dewey Decimal Classification))
 
-### Preparing the database
+It provides two possible backends to retrieve analysis results:
 
-coli-ana uses a PostgreSQL database. For instance create a database `coli-ana`:
+### vc_day_srv Backend
+
+vc_day_srv is a server component developed as part of project colibri (currently closed source) that can analyse DDC numbers and return the analyses to a client. It can be configured via `.env`:
+
+```env
+BACKEND_HOST=my-server.com
+BACKEND_PORT=7070
+```
+
+Note that requests are performed via nc/netcat, so no protocol should be given for host. If there is no backend configured or the backend does not return a result, the database will be queried as a fallback.
+
+### Database Backend
+
+coli-ana can use a PostgreSQL database. Instead of doing a live analysis, you can import pre-analyzed numbers into the database which will then be retrieved in case the vc_day_srv backend fails.
+
+For instance create a database `coli-ana`:
 
 ```sql
 CREATE DATABASE "coli-ana";
@@ -105,6 +121,9 @@ The script `bin/labels.sh` created one text file for each DDC number in director
 You can adjust a few configuration options in `.env`. Here are the available options and default values:
 
 ```bash
+# Host and port for backend service vc_day_srv
+BACKEND_HOST=
+BACKEND_PORT=
 # URL to access PostgreSQL database
 DATABASE_URL=
 # URL to Cocoda instance
@@ -113,9 +132,6 @@ COCODA=https://coli-conc.gbv.de/cocoda/app/
 PORT=11033
 # Base for URL (e.g. when not running under root of domain)
 BASE=/
-# Host and port for backend service vc_day_srv (can be used as fallback/alternative to importing into database)
-BACKEND_HOST=
-BACKEND_PORT=
 ```
 
 ## API
