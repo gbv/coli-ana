@@ -74,6 +74,11 @@ export async function createServer(
 
           concept.memberList = await decomposeDDC(ddc, notation)
           result.push(concept)
+          // Set backend header
+          if (concept.memberList._backend) {
+            res.setHeader("coli-ana-backend", concept.memberList._backend)
+            delete concept.memberList._backend
+          }
         }
       }
       // Analyze member

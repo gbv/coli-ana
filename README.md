@@ -149,6 +149,8 @@ Analyzes one or more DDC numbers in parameter `notation` (separated by `|`) and 
 
 Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
 
+The response header `coli-ana-backend` will contain the backend used for the analysis (either "vc_day_srv" or "database"). If multiple numbers are analyzed, the backend for the last analyzed number in the list is returned.
+
 ### GET /analyze?member=members
 
 Returns JSKOS concepts which contain one or more of the specified `member` URIs or notations (seperated by `|`) in their `memberList`.
