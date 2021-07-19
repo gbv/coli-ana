@@ -111,7 +111,7 @@
         <p v-if="isComplete(result)">
           <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA+: </a>
           <code class="language-pica">{{ picaFromConcept(result) }}</code>
-          <br />
+          <br>
           <a :href="`analyze?notation=${result.notation[0]}&format=pp`">Pica3: </a>
           <code>{{ pica3FromDDC(result) }}</code>
         </p>
@@ -119,6 +119,11 @@
           This DDC number could not be fully analyzed. Either
           it was not built following current DDC number building
           rules or analysis is yet to be completed.
+        </p>
+        <p v-if="results.backend === 'database'">
+          This result was retrieved from the database cache. It might be outdated. (See <a
+            href="https://coli-conc.gbv.de/coli-ana/#faq"
+            target="blank">FAQ</a>)
         </p>
         <p>
           <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a> ・
@@ -223,6 +228,8 @@ export default {
         if (totalCount) {
           results.value.totalCount = totalCount
         }
+        const backend = response.headers.get("coli-ana-backend")
+        results.value.backend = backend
       } catch (error) {
         results.value = []
         inBrowser && console.warn("Error loading data:", error)
