@@ -109,10 +109,10 @@
           </div>
         </div>
         <p v-if="isComplete(result)">
-          <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA+: </a>
+          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>PICA+: </code></a>
           <code class="language-pica">{{ picaFromConcept(result) }}</code>
           <br>
-          <a :href="`analyze?notation=${result.notation[0]}&format=pp`">Pica3: </a>
+          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>Pica3: </code></a>
           <code>{{ pica3FromDDC(result) }}</code>
         </p>
         <p v-else>

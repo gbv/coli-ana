@@ -64,23 +64,20 @@
       </div>
       <div class="section">
         <h2>Documentation</h2>
-        <p>
-          Non-English DDC is licensed by OCLC under <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/">CC-NC-ND 3.0</a>.
-        </p>
         <template v-if="$route.query.notation">
           <p>
             Format documentation:
-            <a href="https://format.gbv.de/jskos">JSKOS</a> ・
-            <a href="https://format.gbv.de/pica/json">PICA/JSON</a> ・
-            <a href="https://format.gbv.de/pica/plain">PICA Plain</a>
-          </p>
-          <p>
-            The set of analyzed notations is limited for testing.
+            <a href="https://format.gbv.de/jskos">JSKOS</a>,
+            <a href="https://format.gbv.de/pica/json">PICA/JSON</a>,
+            <a href="https://format.gbv.de/pica/plain">PICA Plain</a>.
             PICA format is limited to <a
               href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"
               target="_blank">field 045H/00</a> in <a
                 href="https://format.gbv.de/pica/k10plus"
                 target="_blank">K10Plus format</a>.
+          </p>
+          <p>
+            The set of analyzed notations is limited for testing.
           </p>
         </template>
         <p>
@@ -90,6 +87,9 @@
           <a
             href="https://github.com/gbv/coli-ana"
             target="_blank">GitHub</a> for technical documentation.
+        </p>
+        <p>
+          Non-English DDC is licensed by OCLC under <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/">CC-NC-ND 3.0</a>.
         </p>
       </div>
     </main>
