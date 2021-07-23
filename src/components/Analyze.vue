@@ -92,7 +92,7 @@
                 <item-name
                   :item="member"
                   :show-notation="false" />
-                ({{ jskos.notation(member) }})
+                (<span v-html="notationPlugin(jskos.notation(member), { item: member })" />)
                 <template #content>
                   <concept-details
                     :concept="member" />
@@ -155,6 +155,7 @@ import Pagination from "./Pagination.vue"
 import LoadingSpinner from "./LoadingSpinner.vue"
 
 import jskos from "jskos-tools"
+import notationPlugin from "../utils/notationPlugin.js"
 
 const inBrowser = typeof window !== "undefined"
 
@@ -303,6 +304,7 @@ export default {
         return result.memberList[result.memberList.length - 1] !== null
       },
       jskos,
+      notationPlugin,
     }
   },
 }
