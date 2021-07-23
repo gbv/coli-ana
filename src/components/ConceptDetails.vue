@@ -27,12 +27,10 @@
 
 <script>
 import jskos from "jskos-tools"
-import ItemName from "./ItemName.vue"
 import config from "../../config"
 import { computed } from "vue"
 
 export default {
-  components: { ItemName },
   props: {
     concept: {
       type: Object,

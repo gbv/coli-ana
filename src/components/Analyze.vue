@@ -39,9 +39,7 @@
         <span
           class="notation-part"
           v-html="notationWithHighlight(result, hovered)" />
-        <item-name
-          :item="result"
-          :show-notation="false" />
+        {{ jskos.prefLabel(result, { fallbackToUri: false }) }}
         <router-link
           :to="`/?notation=${result.notation[0]}`"
           :title="`show analysis for notation ${result.notation[0]}`">
@@ -94,6 +92,7 @@
                 <item-name
                   :item="member"
                   :show-notation="false" />
+                ({{ jskos.notation(member) }})
                 <template #content>
                   <concept-details
                     :concept="member" />
@@ -153,7 +152,6 @@ import { store } from "../store.js"
 
 import ConceptDetails from "./ConceptDetails.vue"
 import Pagination from "./Pagination.vue"
-import ItemName from "./ItemName.vue"
 import LoadingSpinner from "./LoadingSpinner.vue"
 
 import jskos from "jskos-tools"
@@ -168,7 +166,7 @@ const inBrowser = typeof window !== "undefined"
  */
 
 export default {
-  components: { ConceptDetails, ItemName, Pagination, LoadingSpinner },
+  components: { ConceptDetails, Pagination, LoadingSpinner },
   props: {
     notation: {
       type: String,
@@ -304,6 +302,7 @@ export default {
       isComplete: (result) => {
         return result.memberList[result.memberList.length - 1] !== null
       },
+      jskos,
     }
   },
 }
