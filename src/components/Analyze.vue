@@ -115,9 +115,9 @@
           <code>{{ pica3FromDDC(result) }}</code>
         </p>
         <p v-else>
-          This DDC number could not be fully analyzed. Either
+          ⚠️  This DDC number could not be fully analyzed. Either
           it was not built following current DDC number building
-          rules or analysis is yet to be completed.
+          rules or analysis is incomplete.
         </p>
         <p v-if="results.backend === 'database'">
           This result was retrieved from the database cache. It might be outdated. (See <a
