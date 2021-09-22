@@ -1,5 +1,5 @@
 import { reactive } from "vue"
-import cdk from "cocoda-sdk"
+import { cdk } from "cocoda-sdk"
 
 export const registry = cdk.initializeRegistry({
   provider: "ConceptApi",
