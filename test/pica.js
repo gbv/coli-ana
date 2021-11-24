@@ -13,6 +13,6 @@ var memberList = [
 describe("picaFromDDC", () => {
   it("should detect base number", () => {
     const pica = picaFromDDC({ memberList, notation: ["282.5"] })
-    expect(serializePicaField(pica[0])).equal("045H/10 $eDDC23ger$a282.5$c282$g5$Acoli-ana")
+    expect(serializePicaField(pica[0])).equal("045H/20 $eDDC23ger$a282.5$c282$g5$Acoli-ana")
   })
 })
