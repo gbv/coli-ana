@@ -99,8 +99,8 @@
                 </template>
               </tippy>
               <tippy
-                v-if="!member._loaded"
-                content="Info about this DDC class could not be loaded."
+                v-if="!member._loaded || !member._loaded[language]"
+                :content="`Info about this DDC class in ${languages.find(l => l.id === language).label} could not be loaded.`"
                 class="loadedIndicator">
                 ·
               </tippy>
@@ -148,7 +148,7 @@ import { watch, ref, computed } from "vue"
 import config from "../../config"
 import { serializePica, picaFromDDC, pica3FromDDC } from "../../lib/pica.js"
 
-import { store } from "../store.js"
+import { store, languages } from "../store.js"
 
 import ConceptDetails from "./ConceptDetails.vue"
 import Pagination from "./Pagination.vue"
@@ -200,6 +200,7 @@ export default {
     const hovered = ref({})
 
     const perPage = 10
+    const language = computed(() => store.languages[0])
 
     // method to fetch decomposition info
     const fetchDecomposition = async () => {
@@ -249,12 +250,15 @@ export default {
       )
       // fetch concept info when results changed
       watch(
-        () => results.value,
-        async (results) => {
+        () => [results.value, language.value],
+        async ([results]) => {
           if (!results) {
             return
           }
           for (let result of results) {
+            if (!result.memberList) {
+              continue
+            }
             const [concept, ...memberList] = await store.loadConcepts([].concat(result, result.memberList.filter(m => m != null)))
             // Integrate loaded concepts in results
             store.integrate(result, concept)
@@ -305,6 +309,8 @@ export default {
       },
       jskos,
       notationPlugin,
+      languages,
+      language,
     }
   },
 }

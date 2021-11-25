@@ -16,6 +16,28 @@
             ⬅ back to coli-conc website
           </a>
         </li>
+        <li class="dropdown">
+          <a
+            href=""
+            @click.prevent="">
+            {{ languages.find(lang => lang.id === languageList[0] ).label }}
+          </a>
+          <div class="dropdown-menu">
+            <div
+              v-for="lang in languages.filter(l => l.id !== languageList[0])"
+              :key="lang.id"
+              :style="{
+                'font-weight': languageList[0] === lang.id ? 'bold' : 'normal',
+                'cursor': 'pointer',
+              }">
+              <a
+                href=""
+                @click.prevent="languageList.sort((a, b) => a === lang.id ? -1 : b === lang.id ? 1 : 0)">
+                {{ lang.label }}
+              </a>
+            </div>
+          </div>
+        </li>
       </ul>
       <div style="clear:both" />
     </header>
@@ -105,6 +127,11 @@ import { useRouter, useRoute } from "vue-router"
 import config from "../config"
 import Analyze from "./components/Analyze.vue"
 
+import { store, languages } from "./store.js"
+// Set jskos-tools language
+import jskos from "jskos-tools"
+jskos.languagePreference.defaults = store.languages
+
 export default {
   components: { Analyze },
   setup() {
@@ -131,6 +158,8 @@ export default {
       search,
       notation,
       mode,
+      languages,
+      languageList: store.languages,
     }
   },
 }
