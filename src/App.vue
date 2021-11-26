@@ -16,28 +16,6 @@
             ⬅ back to coli-conc website
           </a>
         </li>
-        <li class="dropdown">
-          <a
-            href=""
-            @click.prevent="">
-            {{ languages.find(lang => lang.id === languageList[0] ).label }}
-          </a>
-          <div class="dropdown-menu">
-            <div
-              v-for="lang in languages.filter(l => l.id !== languageList[0])"
-              :key="lang.id"
-              :style="{
-                'font-weight': languageList[0] === lang.id ? 'bold' : 'normal',
-                'cursor': 'pointer',
-              }">
-              <a
-                href=""
-                @click.prevent="languageList.sort((a, b) => a === lang.id ? -1 : b === lang.id ? 1 : 0)">
-                {{ lang.label }}
-              </a>
-            </div>
-          </div>
-        </li>
       </ul>
       <div style="clear:both" />
     </header>
@@ -76,6 +54,21 @@
                 <code>{{ notation }}</code>
               </router-link>
               <code v-if="index + 1 < examples.length">, </code>
+            </span>
+          </p>
+          <p>
+            Caption language:
+            <span
+              v-for="(lang, index) in languages"
+              :key="lang.id">
+              <a
+                href=""
+                :style="{
+                  'font-weight': languageList[0] === lang.id ? 'bold' : 'normal',
+                }"
+                @click.prevent="languageList.sort((a, b) => a === lang.id ? -1 : b === lang.id ? 1 : 0)">
+                {{ lang.label }}
+              </a><span v-if="index + 1 < languages.length">, </span>
             </span>
           </p>
         </form>
