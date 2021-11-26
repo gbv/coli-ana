@@ -256,14 +256,20 @@ export default {
             return
           }
           for (let result of results) {
-            if (!result.memberList) {
-              continue
+            const [concept] = await store.loadConcepts([].concat(result, result.memberList.filter(Boolean)))
+            // Integrate loaded concept in result
+            if (jskos.compare(result, concept)) {
+              store.integrate(result, concept)
             }
-            const [concept, ...memberList] = await store.loadConcepts([].concat(result, result.memberList.filter(m => m != null)))
-            // Integrate loaded concepts in results
-            store.integrate(result, concept)
-            for (let i = 0; i < memberList.length; i += 1) {
-              store.integrate(result.memberList[i], memberList[i])
+            // Integrate memberList with concepts from store
+            if (result.memberList) {
+              // TODO: We need a better solution for this...
+              result.memberList.forEach(member => {
+                const conceptFromStore = member && store.getConcept(member)
+                if (conceptFromStore) {
+                  store.integrate(member, conceptFromStore)
+                }
+              })
             }
           }
         },
@@ -305,7 +311,7 @@ export default {
       pica3FromDDC,
       perPage,
       isComplete: (result) => {
-        return result.memberList[result.memberList.length - 1] !== null
+        return !result.memberList.includes(null)
       },
       jskos,
       notationPlugin,

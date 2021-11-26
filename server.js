@@ -99,14 +99,29 @@ export async function createServer(
               [memberList[i], memberList[i - 1]] = [memberList[i - 1], memberList[i]]
             }
           }
+          const missingMemberPositions = []
           for (let i = 1; i < memberList.length; i += 1) {
             // Add broader fields to members
             const member1 = memberList[i - 1]
             const member2 = memberList[i]
             if (isMemberParentOf(member1, member2)) {
               member2.broader = [{ uri: member1.uri }]
+            } else {
+              // Check if a member is missing
+              const notation = member2.notation[1]
+              let index = notation.search(/[^-.]/) - 1
+              if (index < 1) {
+                continue
+              }
+              if (notation[index] === ".") {
+                index -= 1
+              }
+              if (member1.notation[1][index] === "-") {
+                missingMemberPositions.push(i + missingMemberPositions.length)
+              }
             }
           }
+          missingMemberPositions.forEach(index => memberList.splice(index, 0, null))
           // Check if analysis is incomplete and add `null` to the end of the list
           const last = memberList[memberList.length - 1]
           if (last && last.notation[1].endsWith("-")) {
@@ -123,7 +138,7 @@ export async function createServer(
 
     if (complete) {
       // filter out incomplete results and empty member lists
-      result = result.filter(({memberList}) => memberList[memberList.length - 1])
+      result = result.filter(({memberList}) => !memberList.includes(null))
     }
 
     if (format === "picajson") {
