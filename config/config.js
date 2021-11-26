@@ -19,6 +19,7 @@ if (!inBrowser) {
   }
   if (process.env.BACKEND_HOST) {
     config.backend = {
+      command: process.env.BACKEND_COMMAND || "nc -N",
       host: process.env.BACKEND_HOST,
       port: process.env.BACKEND_PORT,
     }
