@@ -125,6 +125,7 @@
             target="blank">FAQ</a>)
         </p>
         <p>
+          API:
           <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a>
           <span v-if="isComplete(result)">
             ・ <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
