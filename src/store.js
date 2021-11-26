@@ -50,54 +50,61 @@ const facetIndicator = {
   },
 }
 
-export const store = {
-  state: reactive({ "http://dewey.info/facet/0": facetIndicator }),
-  languages: reactive(languages.map(lang => lang.id)),
-  getConcept(concept) {
-    return this.state[concept.uri]
-  },
-  async loadConcepts(concepts) {
-    const lang = this.languages[0]
-    const registry = registries[lang]
-    let toLoad = concepts.filter(c => !this.state[c.uri] || !this.state[c.uri]._loaded || !this.state[c.uri]._loaded[lang])
-    toLoad = toLoad.map(concept => ({ ...concept, inScheme: registry.schemes }))
-    if (toLoad.length) {
-      // TODO: Right now, `getConcepts` fails if just one concept returns an error, so we're calling it separately for each concept. This should be improved.
-      // const loadedConcepts = await registry.getConcepts({ concepts: toLoad })
-      const loadedConcepts = (await Promise.all(
-        toLoad.map(
-          concept => registry.getConcepts({ concepts: [concept] })
-            .catch(() => [])
-            .then(concepts => concepts[0]),
-        ),
-      )).filter(Boolean)
-      for (let concept of loadedConcepts) {
-        if (!concept._loaded) {
-          concept._loaded = {}
-        }
-        concept._loaded[lang] = true
-        if (!this.state[concept.uri]) {
-          this.state[concept.uri] = concept
-        } else {
-          this.integrate(this.state[concept.uri], concept)
+function getNewStore() {
+  return {
+    state: reactive({ "http://dewey.info/facet/0": facetIndicator }),
+    languages: reactive(languages.map(lang => lang.id)),
+    getConcept(concept) {
+      return this.state[concept.uri]
+    },
+    async loadConcepts(concepts) {
+      const lang = this.languages[0]
+      const registry = registries[lang]
+      let toLoad = concepts.filter(c => !this.state[c.uri] || !this.state[c.uri]._loaded || !this.state[c.uri]._loaded[lang])
+      toLoad = toLoad.map(concept => ({ ...concept, inScheme: registry.schemes }))
+      if (toLoad.length) {
+        // TODO: Right now, `getConcepts` fails if just one concept returns an error, so we're calling it separately for each concept. This should be improved.
+        // const loadedConcepts = await registry.getConcepts({ concepts: toLoad })
+        const loadedConcepts = (await Promise.all(
+          toLoad.map(
+            concept => registry.getConcepts({ concepts: [concept] })
+              .catch(() => [])
+              .then(concepts => concepts[0]),
+          ),
+        )).filter(Boolean)
+        for (let concept of loadedConcepts) {
+          if (!concept._loaded) {
+            concept._loaded = {}
+          }
+          concept._loaded[lang] = true
+          if (!this.state[concept.uri]) {
+            this.state[concept.uri] = concept
+          } else {
+            this.integrate(this.state[concept.uri], concept)
+          }
         }
       }
-    }
-    return concepts.map(c => this.getConcept(c) || c)
-  },
-  async loadConcept(concept) {
-    return (await this.loadConcepts([concept]))[0]
-  },
-  integrate(target, source) {
-    for (let key of Object.keys(source)) {
-      if (!target[key]) {
-        target[key] = source[key]
-      } else if (Array.isArray(target[key]) && Array.isArray(source[key])) {
-        // TODO: Integrate arrays
-      } else if (target[key] instanceof Object && source[key] instanceof Object) {
-        // TODO: Could cause an infinite loop?
-        this.integrate(target[key], source[key])
+      return concepts.map(c => this.getConcept(c) || c)
+    },
+    async loadConcept(concept) {
+      return (await this.loadConcepts([concept]))[0]
+    },
+    integrate(target, source) {
+      for (let key of Object.keys(source)) {
+        if (!target[key]) {
+          target[key] = source[key]
+        } else if (Array.isArray(target[key]) && Array.isArray(source[key])) {
+          // TODO: Integrate arrays
+        } else if (target[key] instanceof Object && source[key] instanceof Object) {
+          // TODO: Could cause an infinite loop?
+          this.integrate(target[key], source[key])
+        }
       }
-    }
-  },
+    },
+  }
+}
+export let store = getNewStore()
+// We need to create a new store for each SSR instance. Therefore, we export a function that is called in main.js - createApp.
+export function createStore() {
+  store = getNewStore()
 }

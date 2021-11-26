@@ -66,7 +66,7 @@
                 :style="{
                   'font-weight': languageList[0] === lang.id ? 'bold' : 'normal',
                 }"
-                @click.prevent="languageList.sort((a, b) => a === lang.id ? -1 : b === lang.id ? 1 : 0)">
+                @click.prevent="setCaptionLanguage(lang.id)">
                 {{ lang.label }}
               </a><span v-if="index + 1 < languages.length">, </span>
             </span>
@@ -133,6 +133,24 @@ export default {
     const notation = ref(route.query.notation)
     const mode = ref(route.query.mode)
 
+    const setCaptionLanguage = (id) => {
+      store.languages.sort((a, b) => a === id ? -1 : b === id ? 1 : 0)
+      if (route.query.lang === id) {
+        return
+      }
+      if (languages[0].id !== id) {
+        // Set lang parameter in URL
+        router.push({ query: { ...route.query, lang: id } })
+      } else {
+        // Remove lang parameter from URL
+        router.push({ query: { ...route.query, lang: undefined } })
+      }
+    }
+    // Adjust language from query params if necessary
+    if (route.query.lang && route.query.lang !== store.languages[0]) {
+      setCaptionLanguage(route.query.lang)
+    }
+
     const search = (mode = "analyze") => {
       if (notation.value) {
         router.push(`/?notation=${notation.value}&mode=${mode}`)
@@ -144,6 +162,10 @@ export default {
     router.afterEach((to) => {
       notation.value = to.query.notation ?? ""
       mode.value = to.query.mode ?? ""
+      // Set lang parameter in URL if necessary
+      if (!to.query.lang && languages[0].id !== store.languages[0]) {
+        router.push({ query: { ...route.query, lang: store.languages[0] } })
+      }
     })
 
     return {
@@ -153,6 +175,7 @@ export default {
       mode,
       languages,
       languageList: store.languages,
+      setCaptionLanguage,
     }
   },
 }

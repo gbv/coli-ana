@@ -195,7 +195,7 @@ export async function createServer(
         render = require("./dist/server/entry-server.cjs").render
       }
 
-      const [appHtml, preloadLinks] = await render(url, manifest)
+      const [appHtml, preloadLinks] = await render(url, manifest, __dirname)
 
       const html = template
         .replace("<!--preload-links-->", preloadLinks)
