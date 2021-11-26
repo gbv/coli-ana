@@ -125,10 +125,12 @@
             target="blank">FAQ</a>)
         </p>
         <p>
-          <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a> ・
-          <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
-          <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
-          <a :href="`analyze?notation=${result.notation[0]}&format=pica3`">Pica3</a>
+          <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a>
+          <span v-if="isComplete(result)">
+            ・ <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
+            <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
+            <a :href="`analyze?notation=${result.notation[0]}&format=pica3`">Pica3</a>
+          </span>
         </p>
       </div>
     </div>
