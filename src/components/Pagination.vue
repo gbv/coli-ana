@@ -89,4 +89,8 @@ export default {
   cursor: default;
   opacity: 0.5;
 }
+a {
+  font-family: "apple color emoji","segoe ui emoji","noto color emoji","android emoji","emojisymbols","emojione mozilla","twemoji mozilla","segoe ui symbol";
+  margin-right: -10px;
+}
 </style>
