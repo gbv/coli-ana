@@ -11,11 +11,6 @@
       target="cocoda">
       &nesear;
     </a>
-    <router-link
-      :to="`/?notation=${concept.notation[0]}&mode=lookup`"
-      title="look up member">
-      🔍
-    </router-link>
     <a
       :href="`https://opac.k10plus.de/DB=2.299/CMD?ACT=SRCHA&IKT=3011&TRM=${concept.notation[0]}`"
       target="k10plus"

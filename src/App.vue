@@ -38,13 +38,6 @@
             @click.prevent.stop="search()">
             ⚛️ analyze
           </button>
-          <button
-            class="button"
-            title="performs a lookup of DDC number in analysis results"
-            name="lookup"
-            @click.prevent.stop="search('lookup')">
-            🔍 lookup
-          </button>
           <p>
             Examples:
             <span
