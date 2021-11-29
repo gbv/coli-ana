@@ -44,14 +44,14 @@
     "express": "^4.17.1",
     "jskos-tools": "^1.0.23",
     "jskos-vue": "^0.2.1",
-    "vue": "^3.2.22",
+    "vue": "^3.2.23",
     "vue-router": "^4.0.12",
     "vue-tippy": "6.0.0-alpha.32"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.10.0",
-    "@vue/compiler-sfc": "^3.2.22",
-    "@vue/server-renderer": "^3.2.22",
+    "@vitejs/plugin-vue": "^1.10.1",
+    "@vue/compiler-sfc": "^3.2.23",
+    "@vue/server-renderer": "^3.2.23",
     "chai": "^4.3.4",
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
