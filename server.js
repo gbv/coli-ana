@@ -152,6 +152,75 @@ export async function createServer(
     return res.send(result)
   })
 
+  /**
+   * /status API route
+   */
+  app.get("/status", async (req, res) => {
+    // TODO: Remove code duplication.
+    const result = {
+      backend: {
+        ok: 0,
+      },
+      database: {
+        ok: 0,
+      },
+    }
+    const testNotation = "700.23"
+    const testNotationMemberUris = [
+      "http://dewey.info/class/7/e23/",
+      "http://dewey.info/class/70/e23/",
+      "http://dewey.info/class/700/e23/",
+      "http://dewey.info/class/700.1-700.9/e23/",
+      "http://dewey.info/class/700.2/e23/",
+      "http://dewey.info/facet/0",
+      "http://dewey.info/class/1--0/e23/",
+      "http://dewey.info/class/1--02/e23/",
+      "http://dewey.info/class/1--023/e23/",
+    ]
+    const checkMemberList = (memberList) => {
+      return JSON.stringify(testNotationMemberUris) !== JSON.stringify((memberList || []).map(m => m && m.uri))
+    }
+    // 1. Try backend
+    if (!config.backend) {
+      result.backend.message = "Backend is not configured."
+    } else {
+      try {
+        const memberList = await decomposeDDC(ddc, testNotation)
+        if (memberList._backend !== "vc_day_srv") {
+          result.backend.message = `No result from backend for example notation ${testNotation}.`
+        } else {
+          // Compare member URIs via JSON.stringify
+          if (checkMemberList(memberList)) {
+            result.backend.message = `Invalid result from backend for example notation ${testNotation}.`
+          } else {
+            result.backend.ok = 1
+          }
+        }
+      } catch (error) {
+        // This means that the database was used as a fallback => no result from backend
+        result.backend.message = `No result from backend for example notation ${testNotation}.`
+      }
+    }
+    // 2. Try database
+    try {
+      const memberList = await decomposeDDC(ddc, testNotation, { forceDatabase: true })
+      if (memberList._backend !== "database") {
+        result.database.message = `No result from database for example notation ${testNotation}.`
+      } else {
+        // Compare member URIs via JSON.stringify
+        if (checkMemberList(memberList)) {
+          result.database.message = `Invalid result from database for example notation ${testNotation}.`
+        } else {
+          result.database.ok = 1
+        }
+      }
+    } catch (error) {
+      // This means that the database access failed
+      result.database.message = "Error accessing the database."
+    }
+    return res.send(result)
+  })
+
   // Redirect old URLs (#16)
   app.get(new RegExp(`^/(${ddc.notationPattern})$`), (req, res) => {
     res.redirect(`${config.base}?notation=${req.params[0]}`)
