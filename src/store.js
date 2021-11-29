@@ -91,6 +91,9 @@ function getNewStore() {
     },
     integrate(target, source) {
       for (let key of Object.keys(source)) {
+        if (["notation", "memberList"].includes(key)) {
+          continue
+        }
         if (!target[key]) {
           target[key] = source[key]
         } else if (Array.isArray(target[key]) && Array.isArray(source[key])) {
