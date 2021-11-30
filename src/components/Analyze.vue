@@ -109,7 +109,7 @@
         </div>
         <p v-if="isComplete(result)">
           <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>PICA+: </code></a>
-          <code class="language-pica" v-html="picaFromConcept(result).replace(/\$(.)/g,'<b>$$$1</b>')"></code>
+          <code class="language-pica" v-html="picaFromConcept(result).replace(/\\$(.)/g,'<b>$$$1</b>')"></code>
           <br>
           <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>Pica3: </code></a>
           <code>{{ pica3FromDDC(result) }}</code>
