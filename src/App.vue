@@ -97,7 +97,10 @@
             target="_blank">GitHub</a> for technical documentation.
         </p>
         <p>
-          Non-English DDC is licensed by OCLC under <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/">CC-NC-ND 3.0</a>.
+          Non-English DDC is licensed by OCLC under <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/">CC BY-NC-ND 3.0</a>.
+          <img
+            src="/by-nc-nd.svg"
+            alt="CC BY-NC-ND Icon">
         </p>
       </div>
     </main>
