@@ -6,16 +6,16 @@
   <p>
     {{ concept.uri }}
     <a
-      :href="cocodaLink"
-      title="Cocoda"
-      target="cocoda">
-      &nesear;
-    </a>
-    <a
       :href="`https://opac.k10plus.de/DB=2.299/CMD?ACT=SRCHA&IKT=3011&TRM=${concept.notation[0]}`"
       target="k10plus"
       title="search in K10plus catalog">
       📚
+    </a>
+    <a
+      :href="cocodaLink"
+      title="Cocoda"
+      target="cocoda">
+      &nesear;
     </a>
   </p>
 </template>
