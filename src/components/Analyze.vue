@@ -68,18 +68,18 @@
               v-html="notationWithHighlight(result, hovered)" />
           </div>
           <div
-            v-for="(member, index) in result.memberList.filter(m => m != null)"
+            v-for="(member, i) in result.memberList.filter(m => m != null)"
             :key="member.notation[1]"
             :class="{
               row: true,
-              'font-weight-bold': result.memberList[index - 1] && isMemberParentOf(result.memberList[index - 1], member) && !isMemberParentOf(member, result.memberList[index + 1]),
+              'font-weight-bold': (isComplete(result) && i == result.memberList.length-1) || (result.memberList[i - 1] && isMemberParentOf(result.memberList[i - 1], member) && !isMemberParentOf(member, result.memberList[i + 1])),
               'row-highlight': mode === 'lookup' && notation.split('|').includes(member.notation[0]),
             }"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">
             <div class="hierarchy-info">
               <tippy
-                v-if="isMemberParentOf(result.memberList[index - 1], member)"
+                v-if="isMemberParentOf(result.memberList[i - 1], member)"
                 content="This DDC class is a child of the previous class.">
                 ↳
               </tippy>
