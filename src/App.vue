@@ -39,7 +39,7 @@
             ⚛️ analyze
           </button>
           <span>
-            language:
+            Language:
             <span
               v-for="(lang, index) in languages"
               :key="lang.id">
