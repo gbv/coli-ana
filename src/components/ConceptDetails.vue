@@ -5,6 +5,11 @@
   </p>
   <p>
     {{ concept.uri }}
+    <router-link
+      :to="`/?notation=${concept.notation[0]}`"
+      :title="`show analysis for notation ${concept.notation[0]}`">
+      ⚛️
+    </router-link>
     <a
       :href="`https://opac.k10plus.de/DB=2.299/CMD?ACT=SRCHA&IKT=3011&TRM=${concept.notation[0]}`"
       target="k10plus"
