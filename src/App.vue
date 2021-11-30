@@ -38,19 +38,8 @@
             @click.prevent.stop="search()">
             ⚛️ analyze
           </button>
-          <p>
-            Examples:
-            <span
-              v-for="(notation, index) in examples"
-              :key="notation">
-              <router-link :to="`/?notation=${notation}`">
-                <code>{{ notation }}</code>
-              </router-link>
-              <code v-if="index + 1 < examples.length">, </code>
-            </span>
-          </p>
-          <p>
-            Caption language:
+          <span>
+            language:
             <span
               v-for="(lang, index) in languages"
               :key="lang.id">
@@ -62,6 +51,17 @@
                 @click.prevent="setCaptionLanguage(lang.id)">
                 {{ lang.label }}
               </a><span v-if="index + 1 < languages.length">, </span>
+            </span>
+          </span>
+          <p>
+            Examples:
+            <span
+              v-for="(notation, index) in examples"
+              :key="notation">
+              <router-link :to="`/?notation=${notation}`">
+                <code>{{ notation }}</code>
+              </router-link>
+              <code v-if="index + 1 < examples.length">, </code>
             </span>
           </p>
         </form>
