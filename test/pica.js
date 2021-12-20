@@ -9,7 +9,11 @@ describe("serializePicaField", () => {
   tests.forEach(({notation, memberList, pica}) => {
     it(`${notation}`, () => {
       const field = picaFromDDC({ notation, memberList })[0]
-      expect(serializePicaField(field)).equal(pica)
+      if (field) {
+        expect(serializePicaField(field)).equal(pica)
+      } else {
+        expect(null, pica)
+      }
     })
   })
 })
