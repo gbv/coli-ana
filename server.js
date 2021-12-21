@@ -108,15 +108,20 @@ export async function createServer(
               member2.broader = [{ uri: member1.uri }]
             } else {
               // Check if a member is missing
-              const notation = member2.notation[1]
-              let index = notation.search(/[^-.]/) - 1
-              if (index < 1) {
+              const notation2 = member2.notation[1]
+              let index2 = notation2.search(/[^-.]/) - 1
+              if (index2 < 1) {
                 continue
               }
-              if (notation[index] === ".") {
-                index -= 1
+              if (notation2[index2] === ".") {
+                index2 -= 1
               }
-              if (member1.notation[1][index] === "-") {
+              const notation1 = member1.notation[1]
+              let index1 = notation1.search(/[^-.]/) - 1
+              if (notation1[index1] === ".") {
+                index1 -= 1
+              }
+              if (index1 < index2 && notation1[index2] === "-") {
                 missingMemberPositions.push(i + missingMemberPositions.length)
               }
             }
