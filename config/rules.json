@@ -1,182 +1,92 @@
 {
-  "r1": {
-    "pattern": "^Unless it is redundant, add to base number$|[Aa]dd to base number$"
+  "parts": {
+    "1": "^Unless it is redundant, add to base number$|[Aa]dd to base number$",
+    "2": "^the numbers following$",
+    "3": "^in notation$",
+    "4": "^; then to the number given for each literature listed below add further as instructed at beginning of$",
+    "5": "^[Nn]otation$",
+    "6": "from the period table for the specific literature",
+    "7": "^in",
+    "8": "^Add",
+    "9": "^Add as instructed under",
+    "10": "^[Aa]dd to each subdivision identified by$",
+    "11": "(but not",
+    "12": "^Notation from Table 1 as modified under$",
+    "13": "^Use notation$",
+    "14": "^from Table 1 as modified at$",
+    "15": "^Apply notation$",
+    "16": "^from Table 1 as modified here throughout$",
+    "17": "^; then.*add further as instructed under$",
+    "18": "^to base number$",
+    "19": "^and at beginning of$",
+    "20": "^Add to$|^Add to $",
+    "21": "^Add the numbers following$",
+    "22": "^Add to the various subdivisions of$",
+    "23": "^the historical period numbers following$",
+    "24": "^that appear in subdivisions of$",
+    "25": "^Add notation$",
+    "26": "^Add to base number as instructed at beginning of$|^as instructed at beginning of",
+    "27": "^Add to notation for each term identified by \\* the numbers following$",
+    "28": "^; then add further as follows, but in no case add standard subdivisions:$",
+    "29": "^As modified under$",
+    "30": "^; then add further as follows|^and to the result add as follows:$",
+    "31": "^from table under$",
+    "32": "^For a specific part of this jurisdiction, region, or feature, see the part and follow instructions under$",
+    "33": "^from the table under$",
+    "34": "^as instructed under$",
+    "35": "^; then add$|; then.*add$",
+    "36": "add the numbers following$",
+    "37": "^for standard subdivisions; see instructions at beginning of$",
+    "38": "and again add notation$|^and add notation$",
+    "39": "except$",
+    "40": "^from Table 1, e\\.g\\.,$",
+    "41": "^from Table 2, e\\.g\\.,$",
+    "42": "^from Table 5, e\\.g\\.,$",
+    "43": "^from Table 3B, e\\.g\\.,$",
+    "44": "^from Table 1 as required for",
+    "45": "^the period division numbers following$",
+    "46": "^from the appropriate continent, country, locality in$",
+    "47": "^; then add further as instructed at beginning of$",
+    "48": "^and to the result add further as instructed at beginning of$",
+    "49": "^Except where instructed otherwise, and unless it is redundant, add|Unless it is redundant, add$",
+    "50": "^to$",
+    "51": "^and to the result add notation$|^and to the result add$|^and to the result add notation$",
+    "52": "^to the number from this table and to the result add notation$",
+    "53": "^or$",
+    "54": "^from the period table under$",
+    "55": "^Number built according to instructions under$",
+    "56": "^Add to base number as instructed under$",
+    "57": "add to base number for each language identified by \\* as instructed at beginning of$",
+    "58": "^; then to the result add historical period numbers from appropriate subdivisions of$",
+    "59": "^. In all cases use one$",
+    "60": "^three-digit numbers$"
   },
-  "r2": {
-    "pattern": "^the numbers following$"
-  },
-  "r3": {
-    "pattern": "^in notation$"
-  },
-  "r4": {
-    "pattern": "^; then to the number given for each literature listed below add further as instructed at beginning of$"
-  },
-  "r5": {
-    "pattern": "^[Nn]otation$"
-  },
-  "r6": {
-    "pattern": "from the period table for the specific literature"
-  },
-  "r7": {
-    "pattern": "^in"
-  },
-  "r8": {
-    "pattern": "^Add"
-  },
-  "r9": {
-    "pattern": "^Add as instructed under"
-  },
-  "r10": {
-    "pattern": "^[Aa]dd to each subdivision identified by$"
-  },
-  "r11": {
-    "pattern": "(but not"
-  },
-  "r12": {
-    "pattern": "^Notation from Table 1 as modified under$"
-  },
-  "r13": {
-    "pattern": "^Use notation$"
-  },
-  "r14": {
-    "pattern": "^from Table 1 as modified at$"
-  },
-  "r15": {
-    "pattern": "^Apply notation$"
-  },
-  "r16": {
-    "pattern": "^from Table 1 as modified here throughout$"
-  },
-  "r17": {
-    "pattern": "^; then.*add further as instructed under$"
-  },
-  "r18": {
-    "pattern": "^to base number$"
-  },
-  "r19": {
-    "pattern": "^and at beginning of$"
-  },
-  "r20": {
-    "pattern": "^Add to$|^Add to $"
-  },
-  "r21": {
-    "pattern": "^Add the numbers following$"
-  },
-  "r22": {
-    "pattern": "^Add to the various subdivisions of$"
-  },
-  "r23": {
-    "pattern": "^the historical period numbers following$"
-  },
-  "r24": {
-    "pattern": "^that appear in subdivisions of$"
-  },
-  "r25": {
-    "pattern": "^Add notation$"
-  },
-  "r26": {
-    "pattern": "^Add to base number as instructed at beginning of$|^as instructed at beginning of"
-  },
-  "r27": {
-    "pattern": "^Add to notation for each term identified by \\* the numbers following$"
-  },
-  "r28": {
-    "pattern": "^; then add further as follows, but in no case add standard subdivisions:$"
-  },
-  "r29": {
-    "pattern": "^As modified under$"
-  },
-  "r30": {
-    "pattern": "^; then add further as follows|^and to the result add as follows:$"
-  },
-  "r31": {
-    "pattern": "^from table under$"
-  },
-  "r32": {
-    "pattern": "^For a specific part of this jurisdiction, region, or feature, see the part and follow instructions under$"
-  },
-  "r33": {
-    "pattern": "^from the table under$"
-  },
-  "r34": {
-    "pattern": "^as instructed under$"
-  },
-  "r35": {
-    "pattern": "^; then add$|; then.*add$"
-  },
-  "r36": {
-    "pattern": "add the numbers following$"
-  },
-  "r37": {
-    "pattern": "^for standard subdivisions; see instructions at beginning of$"
-  },
-  "r38": {
-    "pattern": "and again add notation$|^and add notation$"
-  },
-  "r39": {
-    "pattern": "except$"
-  },
-  "r40": {
-    "pattern": "^from Table 1, e\\.g\\.,$"
-  },
-  "r41": {
-    "pattern": "^from Table 2, e\\.g\\.,$"
-  },
-  "r42": {
-    "pattern": "^from Table 5, e\\.g\\.,$"
-  },
-  "r43": {
-    "pattern": "^from Table 3B, e\\.g\\.,$"
-  },
-  "r44": {
-    "pattern": "^from Table 1 as required for"
-  },
-  "r45": {
-    "pattern": "^the period division numbers following$"
-  },
-  "r46": {
-    "pattern": "^from the appropriate continent, country, locality in$"
-  },
-  "r47": {
-    "pattern": "^; then add further as instructed at beginning of$"
-  },
-  "r48": {
-    "pattern": "^and to the result add further as instructed at beginning of$"
-  },
-  "r49": {
-    "pattern": "^Except where instructed otherwise, and unless it is redundant, add|Unless it is redundant, add$"
-  },
-  "r50": {
-    "pattern": "^to$"
-  },
-  "r51": {
-    "pattern": "^and to the result add notation$|^and to the result add$|^and to the result add notation$"
-  },
-  "r52": {
-    "pattern": "^to the number from this table and to the result add notation$"
-  },
-  "r53": {
-    "pattern": "^or$"
-  },
-  "r54": {
-    "pattern": "^from the period table under$"
-  },
-  "r55": {
-    "pattern": "^Number built according to instructions under$"
-  },
-  "r56": {
-    "pattern": "^Add to base number as instructed under$"
-  },
-  "r57": {
-    "pattern": "add to base number for each language identified by \\* as instructed at beginning of$"
-  },
-  "r58": {
-    "pattern": "^; then to the result add historical period numbers from appropriate subdivisions of$"
-  },
-  "r59": {
-    "pattern": "^. In all cases use one$"
-  },
-  "r60": {
-    "pattern": "^three-digit numbers$"
+  "patterns": {
+    "01": "r1.r2.r7.[r17|r30]",
+    "02": "r1.r2.r3.[r4|r17|r31|r35.r36.r7|r35.r38|r35.r51]",
+    "03": "r1.r5.[r11|r17|r30]",
+    "04": "r1.r5.r35.r36.r7",
+    "05": "r1.r5.r35.r38",
+    "05b": "r1.r5.r35.r48",
+    "05c": "r1.r60.[r35.r51]",
+    "06": "r8.r37|r8.r18.r17",
+    "07": "r9.[r19]",
+    "08a": "r10.r2.r7",
+    "08b": "r10.34",
+    "09": "r12",
+    "10": "r13.r14",
+    "11": "r15.r16",
+    "12": "r20.r2.[r3|r7]",
+    "13": "r20.r5",
+    "14": "r20.r23.r24",
+    "15": "r20.r34",
+    "16": "r21.r7",
+    "17": "r22.r5",
+    "18": "r25",
+    "19": "r26",
+    "20": "r27.r7",
+    "21": "r29",
+    "22": "r32",
+    "23": "r49.r50.r51"
   }
 }
