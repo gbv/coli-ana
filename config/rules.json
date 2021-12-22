@@ -1,0 +1,182 @@
+{
+  "r1": {
+    "pattern": "^Unless it is redundant, add to base number$|[Aa]dd to base number$"
+  },
+  "r2": {
+    "pattern": "^the numbers following$"
+  },
+  "r3": {
+    "pattern": "^in notation$"
+  },
+  "r4": {
+    "pattern": "^; then to the number given for each literature listed below add further as instructed at beginning of$"
+  },
+  "r5": {
+    "pattern": "^[Nn]otation$"
+  },
+  "r6": {
+    "pattern": "from the period table for the specific literature"
+  },
+  "r7": {
+    "pattern": "^in"
+  },
+  "r8": {
+    "pattern": "^Add"
+  },
+  "r9": {
+    "pattern": "^Add as instructed under"
+  },
+  "r10": {
+    "pattern": "^[Aa]dd to each subdivision identified by$"
+  },
+  "r11": {
+    "pattern": "(but not"
+  },
+  "r12": {
+    "pattern": "^Notation from Table 1 as modified under$"
+  },
+  "r13": {
+    "pattern": "^Use notation$"
+  },
+  "r14": {
+    "pattern": "^from Table 1 as modified at$"
+  },
+  "r15": {
+    "pattern": "^Apply notation$"
+  },
+  "r16": {
+    "pattern": "^from Table 1 as modified here throughout$"
+  },
+  "r17": {
+    "pattern": "^; then.*add further as instructed under$"
+  },
+  "r18": {
+    "pattern": "^to base number$"
+  },
+  "r19": {
+    "pattern": "^and at beginning of$"
+  },
+  "r20": {
+    "pattern": "^Add to$|^Add to $"
+  },
+  "r21": {
+    "pattern": "^Add the numbers following$"
+  },
+  "r22": {
+    "pattern": "^Add to the various subdivisions of$"
+  },
+  "r23": {
+    "pattern": "^the historical period numbers following$"
+  },
+  "r24": {
+    "pattern": "^that appear in subdivisions of$"
+  },
+  "r25": {
+    "pattern": "^Add notation$"
+  },
+  "r26": {
+    "pattern": "^Add to base number as instructed at beginning of$|^as instructed at beginning of"
+  },
+  "r27": {
+    "pattern": "^Add to notation for each term identified by \\* the numbers following$"
+  },
+  "r28": {
+    "pattern": "^; then add further as follows, but in no case add standard subdivisions:$"
+  },
+  "r29": {
+    "pattern": "^As modified under$"
+  },
+  "r30": {
+    "pattern": "^; then add further as follows|^and to the result add as follows:$"
+  },
+  "r31": {
+    "pattern": "^from table under$"
+  },
+  "r32": {
+    "pattern": "^For a specific part of this jurisdiction, region, or feature, see the part and follow instructions under$"
+  },
+  "r33": {
+    "pattern": "^from the table under$"
+  },
+  "r34": {
+    "pattern": "^as instructed under$"
+  },
+  "r35": {
+    "pattern": "^; then add$|; then.*add$"
+  },
+  "r36": {
+    "pattern": "add the numbers following$"
+  },
+  "r37": {
+    "pattern": "^for standard subdivisions; see instructions at beginning of$"
+  },
+  "r38": {
+    "pattern": "and again add notation$|^and add notation$"
+  },
+  "r39": {
+    "pattern": "except$"
+  },
+  "r40": {
+    "pattern": "^from Table 1, e\\.g\\.,$"
+  },
+  "r41": {
+    "pattern": "^from Table 2, e\\.g\\.,$"
+  },
+  "r42": {
+    "pattern": "^from Table 5, e\\.g\\.,$"
+  },
+  "r43": {
+    "pattern": "^from Table 3B, e\\.g\\.,$"
+  },
+  "r44": {
+    "pattern": "^from Table 1 as required for"
+  },
+  "r45": {
+    "pattern": "^the period division numbers following$"
+  },
+  "r46": {
+    "pattern": "^from the appropriate continent, country, locality in$"
+  },
+  "r47": {
+    "pattern": "^; then add further as instructed at beginning of$"
+  },
+  "r48": {
+    "pattern": "^and to the result add further as instructed at beginning of$"
+  },
+  "r49": {
+    "pattern": "^Except where instructed otherwise, and unless it is redundant, add|Unless it is redundant, add$"
+  },
+  "r50": {
+    "pattern": "^to$"
+  },
+  "r51": {
+    "pattern": "^and to the result add notation$|^and to the result add$|^and to the result add notation$"
+  },
+  "r52": {
+    "pattern": "^to the number from this table and to the result add notation$"
+  },
+  "r53": {
+    "pattern": "^or$"
+  },
+  "r54": {
+    "pattern": "^from the period table under$"
+  },
+  "r55": {
+    "pattern": "^Number built according to instructions under$"
+  },
+  "r56": {
+    "pattern": "^Add to base number as instructed under$"
+  },
+  "r57": {
+    "pattern": "add to base number for each language identified by \\* as instructed at beginning of$"
+  },
+  "r58": {
+    "pattern": "^; then to the result add historical period numbers from appropriate subdivisions of$"
+  },
+  "r59": {
+    "pattern": "^. In all cases use one$"
+  },
+  "r60": {
+    "pattern": "^three-digit numbers$"
+  }
+}
