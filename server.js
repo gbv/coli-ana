@@ -4,7 +4,8 @@ import express from "express"
 import config from "./config/index.js"
 import compression from "compression"
 import serveStatic from "serve-static"
-import { decomposeDDC, findMembers, isMemberParentOf } from "./lib/index.js"
+import { decomposeDDC, findMembers  } from "./lib/index.js"
+import isMemberParentOf from "./lib/isMemberParentOf.js"
 import { serializePica, picaFromDDC, pica3FromDDC } from "./lib/pica.js"
 const { ddc } = config
 
