@@ -1,10 +1,5 @@
 <template>
-  <p>
-    <item-name
-      :item="concept" />
-  </p>
-  <p>
-    {{ concept.uri }}
+  <span>
     <router-link
       :to="`/?notation=${concept.notation[0]}`"
       :title="`show analysis for notation ${concept.notation[0]}`">
@@ -22,7 +17,7 @@
       target="cocoda">
       &nesear;
     </a>
-  </p>
+  </span>
 </template>
 
 <script>

@@ -67,8 +67,7 @@
         </form>
         <analyze
           :notation="$route.query.notation"
-          :mode="$route.query.mode"
-          :page="parseInt($route.query.page) || 1" />
+          :mode="$route.query.mode" />
       </div>
       <div class="section">
         <h2>Documentation</h2>

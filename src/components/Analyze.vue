@@ -3,43 +3,22 @@
     v-if="!results">
     <loading-spinner />
   </div>
-  <template v-else>
-    <p v-show="resultsWithoutDecomposition.length">
-      No decomposition found for:
-      <ul>
-        <li
-          v-for="result in resultsWithoutDecomposition"
-          :key="result.uri">
-          <item-name
-            :item="result" />
-        </li>
-      </ul>
+  <template v-else-if="results.length">
+    <p v-if="!results[0].memberList.length">
+      No decomposition found for
+      <item-name
+        :item="results[0]" />
     </p>
     <div
-      v-for="result in resultsWithDecomposition"
-      :key="result.uri">
+      v-else
+      v-for="result in results">
       <h4>
         <span
           class="notation-part"
           v-html="notationWithHighlight(result, hovered)" />
         {{ jskos.prefLabel(result, { fallbackToUri: false }) }}
-        <router-link
-          :to="`/?notation=${result.notation[0]}`"
-          :title="`show analysis for notation ${result.notation[0]}`">
-          ⚛️
-        </router-link>
-        <a
-          :href="`https://opac.k10plus.de/DB=2.299/CMD?ACT=SRCHA&IKT=3011&TRM=${result.notation[0]}`"
-          target="k10plus"
-          title="search in K10plus catalog">
-          📚
-        </a>
-        <a
-          :href="`${cocoda}?fromScheme=${ddc.uri}&from=${ddc.uriFromNotation(result.notation[0])}`"
-          target="cocoda"
-          title="open in Cocoda">
-          &nesear;
-        </a>
+        <concept-links
+          :concept="result" />
       </h4>
       <div
         class="decomposition">
@@ -55,7 +34,7 @@
             :key="member.notation[1]"
             :class="{
               row: true,
-              'font-weight-bold': (isComplete(result) && i == result.memberList.length-1) || (result.memberList[i - 1] && isMemberParentOf(result.memberList[i - 1], member) && !isMemberParentOf(member, result.memberList[i + 1])),
+              'font-weight-bold': member.ATOMIC,
             }"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">
@@ -76,7 +55,12 @@
                   :show-notation="false" />
                 (<span v-html="notationPlugin(jskos.notation(member), { item: member })" />)
                 <template #content>
-                  <concept-details
+                  <p>
+                    <item-name
+                      :item="member" />
+                  </p>
+                  {{ member.uri }}
+                  <concept-links
                     :concept="member" />
                 </template>
               </tippy>
@@ -125,16 +109,26 @@ import { watch, ref, computed } from "vue"
 // import "cross-fetch/polyfill"
 import config from "../../config"
 import { serializePica, picaFromDDC, pica3FromDDC } from "../../lib/pica.js"
+import { baseNumberIndex, baseNumberFromIndex } from "../../lib/baseNumber.js"
 
 import { store, languages } from "../store.js"
 
-import ConceptDetails from "./ConceptDetails.vue"
+import ConceptLinks from "./ConceptLinks.vue"
 import LoadingSpinner from "./LoadingSpinner.vue"
 
 import jskos from "jskos-tools"
 import notationPlugin from "../utils/notationPlugin.js"
 
 const inBrowser = typeof window !== "undefined"
+
+const isComplete = result => !result.memberList.includes(null)
+
+const isMemberParentOf = (member1, member2) => {
+  if (!member1 || !member2 || !member2.broader || !member2.broader.length) {
+    return false
+  }
+  return jskos.compare(member1, member2.broader[0])
+}
 
 /**
  * Currently, data is not fetched during SSR. To accomplish this, we need to use a data store like Vuex.
@@ -144,7 +138,7 @@ const inBrowser = typeof window !== "undefined"
  */
 
 export default {
-  components: { ConceptDetails, LoadingSpinner },
+  components: { ConceptLinks, LoadingSpinner },
   props: {
     notation: {
       type: String,
@@ -153,22 +147,9 @@ export default {
   },
   setup(props) {
     const results = ref(null)
-    const resultsWithDecomposition = computed(() => {
-      if (!results.value) {
-        return []
-      }
-      return results.value.filter(r => r.memberList.length)
-    })
-    const resultsWithoutDecomposition = computed(() => {
-      if (!results.value) {
-        return []
-      }
-      return results.value.filter(r => !r.memberList.length)
-    })
 
     const hovered = ref({})
 
-    const perPage = 10
     const language = computed(() => store.languages[0])
 
     // method to fetch decomposition info
@@ -222,16 +203,37 @@ export default {
             if (jskos.compare(result, concept)) {
               store.integrate(result, concept)
             }
-            // Integrate memberList with concepts from store
-            if (result.memberList) {
-              // TODO: We need a better solution for this...
-              result.memberList.forEach(member => {
-                const conceptFromStore = member && store.getConcept(member)
-                if (conceptFromStore) {
-                  store.integrate(member, conceptFromStore)
-                }
-              })
+
+            // Calculate atomic elements.
+            const memberList = result.memberList || []
+
+            var i = baseNumberIndex(memberList)
+            const baseNumber = baseNumberFromIndex(memberList, i)
+
+            memberList.forEach(member => {
+              if (member.notation[0] === baseNumber) {
+                member.ATOMIC = true
+              }
+            })
+
+            for (i++; i<memberList.length; i++) {
+              if (isMemberParentOf(memberList[i-1], memberList[i]) && !isMemberParentOf(memberList[i], memberList[i+1])) {
+                memberList[i].ATOMIC = true
+              }
             }
+
+            if (isComplete(result) && memberList.length) {
+              memberList[memberList.length-1].ATOMIC = true
+            }
+
+            // Integrate memberList with concepts from store
+            // TODO: We need a better solution for this...
+            memberList.forEach(member => {
+              const conceptFromStore = member && store.getConcept(member)
+              if (conceptFromStore) {
+                store.integrate(member, conceptFromStore)
+              }
+            })
           }
         },
       )
@@ -242,8 +244,6 @@ export default {
       ...config,
       fetchDecomposition,
       results,
-      resultsWithDecomposition,
-      resultsWithoutDecomposition,
       hovered,
       /**
        * Highlights part of a result's notation if that part is currently hovered.
@@ -260,20 +260,12 @@ export default {
         }
         return `${notation.slice(0, matches[1].length)}<span style="background-color: #000; color: #F6F4F4;">${notation.slice(matches[1].length, matches[1].length + matches[2].length)}</span>${notation.slice(matches[1].length + matches[2].length)}`
       },
-      isMemberParentOf: (member1, member2) => {
-        if (!member1 || !member2 || !member2.broader || !member2.broader.length) {
-          return false
-        }
-        return jskos.compare(member1, member2.broader[0])
-      },
+      isMemberParentOf,
       picaFromConcept: (concept) => {
         return serializePica(picaFromDDC(concept))
       },
       pica3FromDDC,
-      perPage,
-      isComplete: (result) => {
-        return !result.memberList.includes(null)
-      },
+      isComplete,
       jskos,
       notationPlugin,
       languages,
