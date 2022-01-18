@@ -4,12 +4,6 @@
     <loading-spinner />
   </div>
   <template v-else>
-    <p v-if="mode === 'lookup' && results.length">
-      <pagination
-        :page="page"
-        :per-page="perPage"
-        :results="results" />
-    </p>
     <p v-show="resultsWithoutDecomposition.length">
       No decomposition found for:
       <ul>
@@ -21,19 +15,8 @@
         </li>
       </ul>
     </p>
-    <p v-if="!results.length && mode === 'lookup'">
-      Not found as part of any analysis:
-      <ul>
-        <li
-          v-for="(member, index) in notation.split('|')"
-          :key="index">
-          {{ member }}
-        </li>
-      </ul>
-    </p>
-    <!-- TODO: Use pagination instead of manually limiting to 10 results. -->
     <div
-      v-for="result in resultsWithDecomposition.slice(0, 10)"
+      v-for="result in resultsWithDecomposition"
       :key="result.uri">
       <h4>
         <span
@@ -73,7 +56,6 @@
             :class="{
               row: true,
               'font-weight-bold': (isComplete(result) && i == result.memberList.length-1) || (result.memberList[i - 1] && isMemberParentOf(result.memberList[i - 1], member) && !isMemberParentOf(member, result.memberList[i + 1])),
-              'row-highlight': mode === 'lookup' && notation.split('|').includes(member.notation[0]),
             }"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">
@@ -135,13 +117,6 @@
         </p>
       </div>
     </div>
-    <p v-if="mode === 'lookup' && results.length">
-      <br>
-      <pagination
-        :page="page"
-        :per-page="perPage"
-        :results="results" />
-    </p>
   </template>
 </template>
 
@@ -154,7 +129,6 @@ import { serializePica, picaFromDDC, pica3FromDDC } from "../../lib/pica.js"
 import { store, languages } from "../store.js"
 
 import ConceptDetails from "./ConceptDetails.vue"
-import Pagination from "./Pagination.vue"
 import LoadingSpinner from "./LoadingSpinner.vue"
 
 import jskos from "jskos-tools"
@@ -170,19 +144,11 @@ const inBrowser = typeof window !== "undefined"
  */
 
 export default {
-  components: { ConceptDetails, Pagination, LoadingSpinner },
+  components: { ConceptDetails, LoadingSpinner },
   props: {
     notation: {
       type: String,
       default: "",
-    },
-    mode: {
-      type: String,
-      default: "analyze",
-    },
-    page: {
-      type: Number,
-      default: 1,
     },
   },
   setup(props) {
@@ -207,17 +173,13 @@ export default {
 
     // method to fetch decomposition info
     const fetchDecomposition = async () => {
-      const { notation, mode } = props
+      const { notation } = props
       if (!notation) {
         results.value = []
         return
       }
       results.value = null
-      let url = `analyze?${mode === "lookup" ? "member" : "notation"}=${notation}`
-      if (mode === "lookup") {
-        // Pagination
-        url += `&limit=${perPage}&offset=${(props.page - 1) * perPage}`
-      }
+      let url = `analyze?notation=${notation}`
       if (!inBrowser) {
         url = `http://localhost:${config.port}/${url}`
       } else {
@@ -227,10 +189,6 @@ export default {
         const response = await fetch(url)
         const data = await response.json()
         results.value = data
-        const totalCount = response.headers.get("X-Total-Count")
-        if (totalCount) {
-          results.value.totalCount = totalCount
-        }
         const backend = response.headers.get("coli-ana-backend")
         results.value.backend = backend
       } catch (error) {

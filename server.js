@@ -54,7 +54,7 @@ export async function createServer(
    * /analyze API route
    */
   app.get("/analyze", async (req, res, next) => {
-    const notations = (req.query.notation || "").split("|").filter(n => n !== "")
+    const notation = req.query.notation || ""
     const format = req.query.format || "jskos"
     const complete = req.query.complete
 
@@ -65,16 +65,13 @@ export async function createServer(
     let result = []
 
     try {
-      // Analyze notations
-      if (req.query.notation) {
-        for (let notation of notations) {
-          const concept = ddc.conceptFromNotation(notation, { inScheme: true })
-          if (!concept) {
-            continue
-          }
-
+      // Analyze notation
+      if (notation) {
+        const concept = ddc.conceptFromNotation(notation, { inScheme: true })
+        if (concept) {
           concept.memberList = await decomposeDDC(ddc, notation)
           result.push(concept)
+
           // Set backend header
           if (concept.memberList._backend) {
             res.setHeader("coli-ana-backend", concept.memberList._backend)

@@ -25,7 +25,7 @@
       </div>
       <div class="section">
         <h2>Analysis</h2>
-        <p>You can analyze one or more synthesized DDC numbers here (separated via <code>|</code>).</p>
+        <p>You can analyze a synthesized DDC numbers here:</p>
         <form
           @submit.prevent="search()">
           <input
@@ -33,7 +33,7 @@
             type="text">
           <button
             class="button"
-            title="analyzes DDC number(s)"
+            title="analyzes DDC number"
             name="analyze"
             @click.prevent.stop="search()">
             ⚛️ analyze

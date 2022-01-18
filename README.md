@@ -142,7 +142,7 @@ Shows a landing page with general information and a list of examples.
 
 ### GET /analyze?notation=notations
 
-Analyzes one or more DDC numbers in parameter `notation` (separated by `|`) and returns a [JSKOS concept](https://gbv.github.io/jskos/jskos.html#concept) by default. Parameter `format` can be used to chose another format:
+Analyzes a DDC number in parameter `notation` and returns an array with zero or one [JSKOS concepts](https://gbv.github.io/jskos/jskos.html#concept) by default. Parameter `format` can be used to chose another format:
 
 * `picajson` returns a [PICA/JSON](https://format.gbv.de/pica/json) record
 * `pp` returns a [PICA Plain](https://format.gbv.de/pica/plain) record; **note:** only one record can be requested at the time.
@@ -156,6 +156,8 @@ The response header `coli-ana-backend` will contain the backend used for the ana
 Returns JSKOS concepts which contain one or more of the specified `member` URIs or notations (seperated by `|`) in their `memberList`.
 
 Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
+
+Results of this API method are always based on the database backend.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)
