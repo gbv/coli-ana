@@ -45,7 +45,7 @@ export default {
         return
       }
       try {
-        const url = `https://ws.gbv.de/suggest/csl2?query=pica.ddc=${notation}&citationstyle=${citationstyle}&language=${language}&highlight=1`
+        const url = `https://ws.gbv.de/suggest/csl2?query=pica.ddc=${notation}&citationstyle=${citationstyle}&language=${language}&highlight=1&database=opac-de-627`
         const response = await fetch(url)
         const data = await response.json()
         titles.value = data[1].map((title, i) => {
