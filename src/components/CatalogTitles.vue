@@ -18,6 +18,8 @@
 <script>
 import { watch, ref, computed } from "vue"
 
+const inBrowser = typeof window !== "undefined"
+
 export default {
   props: {
     notation: {
@@ -52,15 +54,17 @@ export default {
         })
       } catch (error) {
         titles.value = []
+        inBrowser && console.warn("Error loading data:", error)
       }
     }
 
-    fetchTitles()
-    watch(
-      () => props,
-      async () => { await fetchTitles() },
-      { deep: true },
-    )
+    if (inBrowser) {
+      watch(
+        () => props,
+        async () => { await fetchTitles() },
+      )
+      fetchTitles()
+    }
 
     return {
       fetchTitles,
