@@ -99,6 +99,8 @@
             target="blank">FAQ</a>)
         </p>
       </div>
+      <catalog-titles
+        :notation="result.notation[0]" />
     </div>
   </template>
 </template>
@@ -113,6 +115,7 @@ import { baseNumberIndex, baseNumberFromIndex } from "../../lib/baseNumber.js"
 import { store, languages } from "../store.js"
 
 import ConceptLinks from "./ConceptLinks.vue"
+import CatalogTitles from "./CatalogTitles.vue"
 import LoadingSpinner from "./LoadingSpinner.vue"
 
 import jskos from "jskos-tools"
@@ -137,7 +140,7 @@ const isMemberParentOf = (member1, member2) => {
  */
 
 export default {
-  components: { ConceptLinks, LoadingSpinner },
+  components: { ConceptLinks, CatalogTitles, LoadingSpinner },
   props: {
     notation: {
       type: String,
