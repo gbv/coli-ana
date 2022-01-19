@@ -19,6 +19,9 @@
         {{ jskos.prefLabel(result, { fallbackToUri: false }) }}
         <concept-links
           :concept="result" />
+         <a
+          title="API result in JSKOS format"
+          :href="`analyze?notation=${result.notation[0]}`">{}</a>
       </h4>
       <div
         class="decomposition">
@@ -76,9 +79,14 @@
         <p v-if="isComplete(result)">
           <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>PICA+: </code></a>
           <code class="language-pica" v-html="picaFromConcept(result).replace(/\\$(.)/g,'<b>$$$1</b>')"></code>
+          &#xA0;
+          <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
+          <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a>
           <br>
           <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>Pica3: </code></a>
           <code>{{ pica3FromDDC(result) }}</code>
+          &#xA0;
+          <a :href="`analyze?notation=${result.notation[0]}&format=pica3`">Pica3</a>
         </p>
         <p v-else>
           ⚠️  This DDC number could not be fully analyzed. Either
@@ -89,15 +97,6 @@
           This result was retrieved from the database cache. It might be outdated. (See <a
             href="https://coli-conc.gbv.de/coli-ana/#faq"
             target="blank">FAQ</a>)
-        </p>
-        <p>
-          API:
-          <a :href="`analyze?notation=${result.notation[0]}`">JSKOS</a>
-          <span v-if="isComplete(result)">
-            ・ <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
-            <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a> ・
-            <a :href="`analyze?notation=${result.notation[0]}&format=pica3`">Pica3</a>
-          </span>
         </p>
       </div>
     </div>
