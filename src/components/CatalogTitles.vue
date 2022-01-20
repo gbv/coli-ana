@@ -26,6 +26,7 @@
 
 <script>
 import { watch, ref, computed } from "vue"
+import linkifyStr from "linkify-string"
 
 export default {
   props: {
@@ -62,7 +63,8 @@ export default {
         additionalPagesAvailable.value = data[1].length === count.value
         titles.value = data[1].slice(0, additionalPagesAvailable.value ? -1 : data[1].length).map((title, i) => {
           const ppn = data[3][i].replace(/^.+:/,"")
-          return { citation: title, ppn }
+          const citation = linkifyStr(title)
+          return { citation, ppn }
         })
       } catch (error) {
         titles.value = []
