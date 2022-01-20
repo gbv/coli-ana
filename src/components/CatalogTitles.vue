@@ -45,7 +45,7 @@ export default {
   setup(props) {
     const titles = ref({})
     const additionalPages = ref(0)
-    const additionalPagesAvailable = ref(true)
+    const additionalPagesAvailable = ref(false)
     const count = computed(() => 11 + additionalPages.value * 10)
 
     const fetchTitles = async () => {
@@ -60,7 +60,7 @@ export default {
         const data = await response.json()
         // Request loaded one more than shown (see slice below); if there's more, show "load more" button
         additionalPagesAvailable.value = data[1].length === count.value
-        titles.value = data[1].slice(0, -1).map((title, i) => {
+        titles.value = data[1].slice(0, additionalPagesAvailable.value ? -1 : data[1].length).map((title, i) => {
           const ppn = data[3][i].replace(/^.+:/,"")
           return { citation: title, ppn }
         })
@@ -79,6 +79,7 @@ export default {
     const loadMore = () => {
       if (additionalPagesAvailable.value) {
         additionalPages.value += 1
+        additionalPagesAvailable.value = false
         fetchTitles()
       }
     }
