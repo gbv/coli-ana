@@ -1,14 +1,43 @@
 <template>
-  <div class="lds-spinner">
+  <div
+    :class="`lds-spinner lds-spinner-${size}`">
     <div /><div /><div /><div /><div /><div /><div /><div /><div /><div /><div /><div />
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    size: {
+      type: String,
+      default: "xl",
+      validator(value) {
+        return ["sm", "md", "xl"].includes(value)
+      },
+    },
+  },
+}
+</script>
+
 
 <style>
 .lds-spinner {
   color: official;
   display: inline-block;
   position: relative;
+}
+.lds-spinner-sm {
+  scale: 25%;
+  width: 20px;
+  height: 20px;
+}
+.lds-spinner-md {
+  scale: 50%;
+  width: 40px;
+  height: 40px;
+}
+.lds-spinner-xl {
+  scale: 100%;
   width: 80px;
   height: 80px;
 }
