@@ -1,6 +1,5 @@
 import {
-  createMemoryHistory,
-  createRouter as _createRouter,
+  createRouter,
   createWebHistory,
 } from "vue-router"
 
@@ -16,11 +15,7 @@ if (base.endsWith("/")) {
   base = base.substring(0, base.length - 1)
 }
 
-export function createRouter() {
-  return _createRouter({
-    // use appropriate history implementation for server/client
-    // import.meta.env.SSR is injected by Vite.
-    history: import.meta.env.SSR ? createMemoryHistory(base) : createWebHistory(base),
-    routes,
-  })
-}
+export default createRouter({
+  history: createWebHistory(base),
+  routes,
+})

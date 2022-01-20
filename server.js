@@ -1,4 +1,3 @@
-import fs from "fs"
 import path from "path"
 import express from "express"
 import config from "./config/index.js"
@@ -8,10 +7,6 @@ import { decomposeDDC, findMembers  } from "./lib/index.js"
 import isMemberParentOf from "./lib/isMemberParentOf.js"
 import { serializePica, picaFromDDC, pica3FromDDC } from "./lib/pica.js"
 const { ddc } = config
-
-// we need require for including Vite's SSR build (see https://github.com/vitejs/vite/discussions/2074)
-import { createRequire } from "module"
-const require = createRequire(import.meta.url)
 
 // __dirname is not defined in ES6 modules (https://techsparx.com/nodejs/esnext/dirname-es-modules.html)
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
@@ -23,15 +18,6 @@ export async function createServer(
   isProd = process.env.NODE_ENV === "production",
 ) {
   const resolve = (p) => path.resolve(__dirname, p)
-
-  const indexProd = isProd
-    ? fs.readFileSync(resolve("dist/client/index.html"), "utf-8")
-    : ""
-
-  const manifest = isProd
-    ? // @ts-ignore
-    await import("./dist/client/ssr-manifest.json")
-    : {}
 
   const app = express()
   app.set("json spaces", 2)
@@ -238,7 +224,7 @@ export async function createServer(
       root,
       logLevel: isTest ? "error" : "info",
       server: {
-        middlewareMode: true,
+        middlewareMode: "html",
       },
     })
     // use vite's connect instance as middleware
@@ -246,40 +232,9 @@ export async function createServer(
   } else {
     app.use(compression())
     app.use(
-      serveStatic(resolve("dist/client"), {
-        index: false,
-      }),
+      serveStatic(resolve("dist")),
     )
   }
-
-  app.use("*", async (req, res) => {
-    try {
-      const url = req.originalUrl
-
-      let template, render
-      if (!isProd) {
-        // always read fresh template in dev
-        template = fs.readFileSync(resolve("index.html"), "utf-8")
-        template = await vite.transformIndexHtml(url, template)
-        render = (await vite.ssrLoadModule("./src/entry-server.js")).render
-      } else {
-        template = indexProd
-        render = require("./dist/server/entry-server.cjs").render
-      }
-
-      const [appHtml, preloadLinks] = await render(url, manifest, __dirname)
-
-      const html = template
-        .replace("<!--preload-links-->", preloadLinks)
-        .replace("<!--app-html-->", appHtml)
-
-      res.status(200).set({ "Content-Type": "text/html" }).end(html)
-    } catch (e) {
-      vite && vite.ssrFixStacktrace(e)
-      console.log(e.stack)
-      res.status(500).end(e.stack)
-    }
-  })
 
   // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {

@@ -157,6 +157,10 @@ export default {
     router.afterEach((to) => {
       notation.value = to.query.notation ?? ""
       mode.value = to.query.mode ?? ""
+      // Set caption language if necessary
+      if (to.query.lang && to.query.lang !== store.languages[0]) {
+        setCaptionLanguage(to.query.lang)
+      }
       // Set lang parameter in URL if necessary
       if (!to.query.lang && languages[0].id !== store.languages[0]) {
         router.push({ query: { ...route.query, lang: store.languages[0] } })
