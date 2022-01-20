@@ -3,6 +3,7 @@
     <h5>Titles in K10plus catalog</h5>
     <ul style="list-style-type: none; padding-left: 0">
       <li
+        class="citation"
         v-for="title of titles.filter(Boolean)"
         :key="title.ppn">
         <a
@@ -104,3 +105,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.citation a {
+  font-weight: normal;
+}
+</style>
