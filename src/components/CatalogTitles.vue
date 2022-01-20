@@ -11,12 +11,19 @@
         </a>
         <span v-html="title.citation" />
       </li>
+      <li v-if="additionalPagesAvailable">
+        <a
+          href=""
+          @click.prevent="loadMore">
+          load more...
+        </a>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { watch, ref } from "vue"
+import { watch, ref, computed } from "vue"
 
 export default {
   props: {
@@ -35,6 +42,9 @@ export default {
   },
   setup(props) {
     const titles = ref({})
+    const additionalPages = ref(0)
+    const additionalPagesAvailable = ref(true)
+    const count = computed(() => 11 + additionalPages.value * 10)
 
     const fetchTitles = async () => {
       const { notation, language, citationstyle } = props
@@ -43,10 +53,12 @@ export default {
         return
       }
       try {
-        const url = `https://ws.gbv.de/suggest/csl2?query=pica.ddc=${notation}&citationstyle=${citationstyle}&language=${language}&highlight=1&database=opac-de-627`
+        const url = `https://ws.gbv.de/suggest/csl2?query=pica.ddc=${notation}&citationstyle=${citationstyle}&language=${language}&highlight=1&database=opac-de-627&count=${count.value}`
         const response = await fetch(url)
         const data = await response.json()
-        titles.value = data[1].map((title, i) => {
+        // Request loaded one more than shown (see slice below); if there's more, show "load more" button
+        additionalPagesAvailable.value = data[1].length === count.value
+        titles.value = data[1].slice(0, -1).map((title, i) => {
           const ppn = data[3][i].replace(/^.+:/,"")
           return { citation: title, ppn }
         })
@@ -62,9 +74,18 @@ export default {
     )
     fetchTitles()
 
+    const loadMore = () => {
+      if (additionalPagesAvailable.value) {
+        additionalPages.value += 1
+        fetchTitles()
+      }
+    }
+
     return {
       fetchTitles,
       titles,
+      additionalPagesAvailable,
+      loadMore,
     }
   },
 }
