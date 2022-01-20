@@ -16,9 +16,7 @@
 </template>
 
 <script>
-import { watch, ref, computed } from "vue"
-
-const inBrowser = typeof window !== "undefined"
+import { watch, ref } from "vue"
 
 export default {
   props: {
@@ -33,7 +31,7 @@ export default {
     citationstyle: {
       type: String,
       default: "ieee",
-    }
+    },
   },
   setup(props) {
     const titles = ref({})
@@ -49,27 +47,25 @@ export default {
         const response = await fetch(url)
         const data = await response.json()
         titles.value = data[1].map((title, i) => {
-          const ppn = data[3][i].replace(/^.+:/,'')
+          const ppn = data[3][i].replace(/^.+:/,"")
           return { citation: title, ppn }
         })
       } catch (error) {
         titles.value = []
-        inBrowser && console.warn("Error loading data:", error)
+        console.warn("Error loading data:", error)
       }
     }
 
-    if (inBrowser) {
-      watch(
-        () => props,
-        async () => { await fetchTitles() },
-      )
-      fetchTitles()
-    }
+    watch(
+      () => props,
+      async () => { await fetchTitles() },
+    )
+    fetchTitles()
 
     return {
       fetchTitles,
-      titles
+      titles,
     }
-  }
+  },
 }
 </script>

@@ -10,8 +10,8 @@
         :item="results[0]" />
     </p>
     <div
-      v-else
-      v-for="result in results">
+      v-for="result in results"
+      v-else>
       <h4>
         <span
           class="notation-part"
@@ -19,7 +19,7 @@
         {{ jskos.prefLabel(result, { fallbackToUri: false }) }}
         <concept-links
           :concept="result" />
-         <a
+        <a
           title="API result in JSKOS format"
           :href="`analyze?notation=${result.notation[0]}`">{}</a>
       </h4>
@@ -78,7 +78,9 @@
         </div>
         <p v-if="isComplete(result)">
           <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>PICA+: </code></a>
-          <code class="language-pica" v-html="picaFromConcept(result).replace(/\\$(.)/g,'<b>$$$1</b>')"></code>
+          <code
+            class="language-pica"
+            v-html="picaFromConcept(result).replace(/\\$(.)/g,'<b>$$$1</b>')" />
           &#xA0;
           <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
           <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a>
@@ -121,8 +123,6 @@ import LoadingSpinner from "./LoadingSpinner.vue"
 import jskos from "jskos-tools"
 import notationPlugin from "../utils/notationPlugin.js"
 
-const inBrowser = typeof window !== "undefined"
-
 const isComplete = result => !result.memberList.includes(null)
 
 const isMemberParentOf = (member1, member2) => {
@@ -131,13 +131,6 @@ const isMemberParentOf = (member1, member2) => {
   }
   return jskos.compare(member1, member2.broader[0])
 }
-
-/**
- * Currently, data is not fetched during SSR. To accomplish this, we need to use a data store like Vuex.
- * For example, see https://ssr.vuejs.org/guide/data.html.
- *
- * TODO
- */
 
 export default {
   components: { ConceptLinks, CatalogTitles, LoadingSpinner },
@@ -163,11 +156,7 @@ export default {
       }
       results.value = null
       let url = `analyze?notation=${notation}`
-      if (!inBrowser) {
-        url = `http://localhost:${config.port}/${url}`
-      } else {
-        url = `${import.meta.env.BASE_URL}${url}`
-      }
+      url = `${import.meta.env.BASE_URL}${url}`
       try {
         const response = await fetch(url)
         const data = await response.json()
@@ -176,71 +165,68 @@ export default {
         results.value.backend = backend
       } catch (error) {
         results.value = []
-        inBrowser && console.warn("Error loading data:", error)
+        console.warn("Error loading data:", error)
       }
     }
 
-    // fetch decomposition on first load (only browser, see note above)
-    if (inBrowser) {
-      // fetch the decomposition when props change
-      watch(
-        () => props,
-        async () => {
-          await fetchDecomposition()
-        },
-        {
-          deep: true,
-        },
-      )
-      // fetch concept info when results changed
-      watch(
-        () => [results.value, language.value],
-        async ([results]) => {
-          if (!results) {
-            return
+    // fetch the decomposition when props change
+    watch(
+      () => props,
+      async () => {
+        await fetchDecomposition()
+      },
+      {
+        deep: true,
+      },
+    )
+    // fetch concept info when results changed
+    watch(
+      () => [results.value, language.value],
+      async ([results]) => {
+        if (!results) {
+          return
+        }
+        for (let result of results) {
+          const [concept] = await store.loadConcepts([].concat(result, result.memberList.filter(Boolean)))
+          // Integrate loaded concept in result
+          if (jskos.compare(result, concept)) {
+            store.integrate(result, concept)
           }
-          for (let result of results) {
-            const [concept] = await store.loadConcepts([].concat(result, result.memberList.filter(Boolean)))
-            // Integrate loaded concept in result
-            if (jskos.compare(result, concept)) {
-              store.integrate(result, concept)
+
+          // Calculate atomic elements.
+          const memberList = result.memberList || []
+
+          var i = baseNumberIndex(memberList)
+          const baseNumber = baseNumberFromIndex(memberList, i)
+
+          memberList.forEach(member => {
+            if (member.notation[0] === baseNumber) {
+              member.ATOMIC = true
             }
+          })
 
-            // Calculate atomic elements.
-            const memberList = result.memberList || []
-
-            var i = baseNumberIndex(memberList)
-            const baseNumber = baseNumberFromIndex(memberList, i)
-
-            memberList.forEach(member => {
-              if (member.notation[0] === baseNumber) {
-                member.ATOMIC = true
-              }
-            })
-
-            for (i++; i<memberList.length; i++) {
-              if (isMemberParentOf(memberList[i-1], memberList[i]) && !isMemberParentOf(memberList[i], memberList[i+1])) {
-                memberList[i].ATOMIC = true
-              }
+          for (i++; i<memberList.length; i++) {
+            if (isMemberParentOf(memberList[i-1], memberList[i]) && !isMemberParentOf(memberList[i], memberList[i+1])) {
+              memberList[i].ATOMIC = true
             }
-
-            if (isComplete(result) && memberList.length) {
-              memberList[memberList.length-1].ATOMIC = true
-            }
-
-            // Integrate memberList with concepts from store
-            // TODO: We need a better solution for this...
-            memberList.forEach(member => {
-              const conceptFromStore = member && store.getConcept(member)
-              if (conceptFromStore) {
-                store.integrate(member, conceptFromStore)
-              }
-            })
           }
-        },
-      )
-      fetchDecomposition()
-    }
+
+          if (isComplete(result) && memberList.length) {
+            memberList[memberList.length-1].ATOMIC = true
+          }
+
+          // Integrate memberList with concepts from store
+          // TODO: We need a better solution for this...
+          memberList.forEach(member => {
+            const conceptFromStore = member && store.getConcept(member)
+            if (conceptFromStore) {
+              store.integrate(member, conceptFromStore)
+            }
+          })
+        }
+      },
+    )
+    fetchDecomposition()
 
     return {
       ...config,

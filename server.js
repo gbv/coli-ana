@@ -216,7 +216,7 @@ export async function createServer(
   })
 
   /**
-   * Vite SSR
+   * Vite middleware
    */
   let vite
   if (!isProd) {
