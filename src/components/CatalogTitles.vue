@@ -2,7 +2,9 @@
   <div v-if="titles.length">
     <h5>Titles in K10plus catalog</h5>
     <ul style="list-style-type: none; padding-left: 0">
-      <li v-for="title of titles">
+      <li
+        v-for="title of titles"
+        :key="title.ppn">
         <a
           :href="`https://opac.k10plus.de/DB=2.299/PPNSET?PPN=${title.ppn}`"
           target="k10plus"
