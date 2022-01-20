@@ -69,7 +69,7 @@ export default {
         additionalPagesAvailable.value = data[1].length === count.value
         titles.value = data[1].slice(0, additionalPagesAvailable.value ? -1 : data[1].length).map((title, i) => {
           const ppn = data[3][i].replace(/^.+:/,"")
-          const citation = linkifyStr(title)
+          const citation = linkifyStr(title, { target: "_blank" })
           return { citation, ppn }
         })
       } catch (error) {
