@@ -3,7 +3,7 @@
     <h5>Titles in K10plus catalog</h5>
     <ul style="list-style-type: none; padding-left: 0">
       <li
-        v-for="title of titles"
+        v-for="title of titles.filter(Boolean)"
         :key="title.ppn">
         <a
           :href="`https://opac.k10plus.de/DB=2.299/PPNSET?PPN=${title.ppn}`"
@@ -20,6 +20,9 @@
           load more...
         </a>
       </li>
+      <li v-if="titles.includes(null)">
+        <loading-spinner size="sm" />
+      </li>
     </ul>
   </div>
 </template>
@@ -27,8 +30,10 @@
 <script>
 import { watch, ref, computed } from "vue"
 import linkifyStr from "linkify-string"
+import LoadingSpinner from "./LoadingSpinner.vue"
 
 export default {
+  components: { LoadingSpinner },
   props: {
     notation: {
       type: String,
@@ -44,7 +49,7 @@ export default {
     },
   },
   setup(props) {
-    const titles = ref({})
+    const titles = ref([null])
     const additionalPages = ref(0)
     const additionalPagesAvailable = ref(false)
     const count = computed(() => 11 + additionalPages.value * 10)
@@ -56,6 +61,7 @@ export default {
         return
       }
       try {
+        titles.value.push(null)
         const url = `https://ws.gbv.de/suggest/csl2?query=pica.ddc=${notation}&citationstyle=${citationstyle}&language=${language}&highlight=1&database=opac-de-627&count=${count.value}`
         const response = await fetch(url)
         const data = await response.json()
@@ -74,7 +80,10 @@ export default {
 
     watch(
       () => props,
-      async () => { await fetchTitles() },
+      async () => {
+        titles.value = []
+        await fetchTitles()
+      },
     )
     fetchTitles()
 
