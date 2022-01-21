@@ -74,20 +74,9 @@
             </div>
           </div>
         </div>
-        <p v-if="isComplete(result)">
-          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>PICA+: </code></a>
-          <code
-            class="language-pica"
-            v-html="picaFromConcept(result).replace(/\\$(.)/g,'<b>$$$1</b>')" />
-          &#xA0;
-          <a :href="`analyze?notation=${result.notation[0]}&format=picajson`">PICA/JSON</a> ・
-          <a :href="`analyze?notation=${result.notation[0]}&format=pp`">PICA Plain</a>
-          <br>
-          <a href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"><code>Pica3: </code></a>
-          <code>{{ pica3FromDDC(result) }}</code>
-          &#xA0;
-          <a :href="`analyze?notation=${result.notation[0]}&format=pica3`">Pica3</a>
-        </p>
+        <pica-info
+          v-if="isComplete(result)"
+          :concept="result" />
         <p v-else>
           ⚠️  This DDC number could not be fully analyzed. Either
           it was not built following current DDC number building
@@ -109,13 +98,13 @@
 import { watch, ref, computed } from "vue"
 // import "cross-fetch/polyfill"
 import config from "../../config"
-import { serializePica, picaFromDDC, pica3FromDDC } from "../../lib/pica.js"
 import { baseNumberIndex, baseNumberFromIndex } from "../../lib/baseNumber.js"
 
 import { store, languages } from "../store.js"
 
 import ConceptLinks from "./ConceptLinks.vue"
 import CatalogTitles from "./CatalogTitles.vue"
+import PicaInfo from "./PicaInfo.vue"
 import LoadingSpinner from "./LoadingSpinner.vue"
 
 import jskos from "jskos-tools"
@@ -131,7 +120,7 @@ const isMemberParentOf = (member1, member2) => {
 }
 
 export default {
-  components: { ConceptLinks, CatalogTitles, LoadingSpinner },
+  components: { ConceptLinks, CatalogTitles, LoadingSpinner, PicaInfo },
   props: {
     notation: {
       type: String,
@@ -247,10 +236,6 @@ export default {
         return `${notation.slice(0, matches[1].length)}<span style="background-color: #000; color: #F6F4F4;">${notation.slice(matches[1].length, matches[1].length + matches[2].length)}</span>${notation.slice(matches[1].length + matches[2].length)}`
       },
       isMemberParentOf,
-      picaFromConcept: (concept) => {
-        return serializePica(picaFromDDC(concept))
-      },
-      pica3FromDDC,
       isComplete,
       jskos,
       notationPlugin,
