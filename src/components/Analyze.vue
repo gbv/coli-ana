@@ -58,13 +58,7 @@
                   :show-notation="false" />
                 (<span v-html="notationPlugin(jskos.notation(member), { item: member })" />)
                 <template #content>
-                  <p>
-                    <item-name
-                      :item="member" />
-                  </p>
                   {{ member.uri }}
-                  <concept-links
-                    :concept="member" />
                 </template>
               </tippy>
               <tippy
@@ -73,6 +67,10 @@
                 class="loadedIndicator">
                 ·
               </tippy>
+            </div>
+            <div>
+              <concept-links
+                :concept="member" />
             </div>
           </div>
         </div>
