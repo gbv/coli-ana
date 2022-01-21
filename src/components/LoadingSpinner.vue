@@ -27,17 +27,18 @@ export default {
   position: relative;
 }
 .lds-spinner-sm {
-  scale: 25%;
+  -webkit-transform:scale(0.25, 0.25);
+  transform:scale(0.25, 0.25);
   width: 20px;
   height: 20px;
 }
 .lds-spinner-md {
-  scale: 50%;
+  -webkit-transform:scale(0.5, 0.5);
+  transform:scale(0.5, 0.5);
   width: 40px;
   height: 40px;
 }
 .lds-spinner-xl {
-  scale: 100%;
   width: 80px;
   height: 80px;
 }
