@@ -12,25 +12,21 @@
     <div
       v-for="result in results"
       v-else>
-      <h4>
-        <span
-          class="notation-part"
-          v-html="notationWithHighlight(result, hovered)" />
-        {{ jskos.prefLabel(result, { fallbackToUri: false }) }}
-        <concept-links
-          :concept="result" />
-        <a
-          title="API result in JSKOS format"
-          :href="`analyze?notation=${result.notation[0]}`">{}</a>
-      </h4>
       <div
         class="decomposition">
         <div class="table">
-          <div class="row">
+          <div class="row head">
             <div class="hierarchy-info" />
             <div
               class="notation-part"
               v-html="notationWithHighlight(result, hovered)" />
+            <div class="label">
+              {{ jskos.prefLabel(result, { fallbackToUri: false }) }}
+            </div>
+            <div>
+              <concept-links
+                :concept="result" />
+            </div>
           </div>
           <div
             v-for="(member, i) in result.memberList.filter(m => m != null)"
@@ -74,9 +70,10 @@
             </div>
           </div>
         </div>
-        <pica-info
-          v-if="isComplete(result)"
-          :concept="result" />
+        <div v-if="isComplete(result)" class="pica-info">
+          <pica-info
+            :concept="result" />
+        </div>
         <p v-else>
           ⚠️  This DDC number could not be fully analyzed. Either
           it was not built following current DDC number building
@@ -251,6 +248,12 @@ export default {
   display: flex;
   margin-bottom: 3px;
 }
+.table > .head {
+  border-bottom: 1px solid #2121217F;
+}
+.table > .row.head > .notation-part {
+  font-weight: bold;
+}
 .table > .row:hover {
   background-color: #E9E1E1;
 }
@@ -282,7 +285,7 @@ export default {
   font-weight: bold;
   user-select: none;
 }
-h4 {
-  margin-top: 30px;
+.pica-info {
+  padding: 1em;
 }
 </style>

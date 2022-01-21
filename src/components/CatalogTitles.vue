@@ -1,6 +1,5 @@
 <template>
   <div v-if="titles.length">
-    <h5>Titles in K10plus catalog</h5>
     <ul style="list-style-type: none; padding-left: 0">
       <li
         class="citation"

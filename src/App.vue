@@ -25,7 +25,6 @@
       </div>
       <div class="section">
         <h2>Analysis</h2>
-        <p>You can analyze a synthesized DDC numbers here:</p>
         <form
           @submit.prevent="search()">
           <input
@@ -53,7 +52,7 @@
               </a><span v-if="index + 1 < languages.length">, </span>
             </span>
           </span>
-          <p>
+          <span>
             Examples:
             <span
               v-for="(notation, index) in examples"
@@ -63,7 +62,7 @@
               </router-link>
               <code v-if="index + 1 < examples.length">, </code>
             </span>
-          </p>
+          </span>
         </form>
         <analyze
           :notation="$route.query.notation"
@@ -197,6 +196,10 @@ input {
   padding: calc(3px + 4 * ((100vw - 300px) / 1300)) 5px;
   border-radius: 5px;
   border-width: 1px;
+}
+form {
+  padding: 0.5em;
+  margin-bottom: 1em;
 }
 form > * {
   margin-right: 5px;
