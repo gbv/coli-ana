@@ -24,6 +24,7 @@ app.use(VueTippy, {
     followCursor: "horizontal",
     plugins: [followCursor],
     duration: [275, 100],
+    delay: [300, 0],
     offset: 0,
   },
 })
