@@ -42,8 +42,10 @@
             <div class="hierarchy-info">
               <tippy
                 v-if="isMemberParentOf(result.memberList[i - 1], member)"
-                content="This DDC class is a child of the previous class.">
-                ↳
+                content="This DDC class is a child of the previous class. Click to truncate.">
+                <router-link :to="`/?notation=${truncatedNotation(notation, member)}`">
+                  ↳
+                </router-link>
               </tippy>
             </div>
             <div class="notation-part">
@@ -242,6 +244,10 @@ export default {
       notationPlugin,
       languages,
       language,
+      truncatedNotation(notation, member) {
+        const length = member.notation[1].replace(/-+$/,'').length
+        return notation.substr(0, length).replace(/[.]$/,'')
+      }
     }
   },
 }
