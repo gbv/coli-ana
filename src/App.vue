@@ -35,7 +35,7 @@
             title="analyzes DDC number"
             name="analyze"
             @click.prevent.stop="search()">
-            ⚛️ analyze
+            <i-mdi-file-tree /> analyze
           </button>
           <span>
             Language:
@@ -95,10 +95,15 @@
             target="_blank">GitHub</a> for technical documentation.
         </p>
         <p>
-          Non-English DDC is licensed by OCLC under <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/">CC BY-NC-ND 3.0</a>.
+          Non-English DDC is licensed by OCLC under <a
+            href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/"
+            target="_blank">CC BY-NC-ND 3.0</a>.
           <img
             src="/by-nc-nd.svg"
             alt="CC BY-NC-ND Icon">
+          Icons by <a
+            href="https://github.com/Templarian/MaterialDesign"
+            target="_blank">Material Design Icons</a>.
         </p>
       </div>
     </main>

@@ -9,7 +9,7 @@
           :href="`https://opac.k10plus.de/DB=2.299/PPNSET?PPN=${title.ppn}`"
           target="k10plus"
           title="show in K10plus catalog">
-          📚
+          <i-mdi-file />
         </a>
         <span v-html="title.citation" />
       </li>
@@ -106,6 +106,10 @@ export default {
 </script>
 
 <style>
+/* Adjustments to file icon */
+.citation > a > svg {
+  margin: 0 5px 1px 0;
+}
 .citation a {
   font-weight: normal;
 }

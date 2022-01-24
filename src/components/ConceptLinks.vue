@@ -3,19 +3,19 @@
     <router-link
       :to="`/?notation=${concept.notation[0]}`"
       :title="`show analysis for notation ${concept.notation[0]}`">
-      ⚛️
+      <i-mdi-file-tree />
     </router-link>
     <a
       :href="`https://opac.k10plus.de/DB=2.299/CMD?ACT=SRCHA&IKT=3011&TRM=${concept.notation[0]}`"
       target="k10plus"
       title="search in K10plus catalog">
-      📚
+      <i-mdi-file-find />
     </a>
     <a
       :href="cocodaLink"
       title="Cocoda"
       target="cocoda">
-      &nesear;
+      <i-mdi-bird />
     </a>
   </span>
 </template>

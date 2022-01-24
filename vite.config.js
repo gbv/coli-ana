@@ -1,6 +1,9 @@
 import "dotenv/config"
 import vuePlugin from "@vitejs/plugin-vue"
 import config from "./config/config.js"
+import Icons from "unplugin-icons/vite"
+import IconsResolver from "unplugin-icons/resolver"
+import Components from "unplugin-vue-components/vite"
 
 /**
  * `define` performs static replacements of strings.
@@ -26,6 +29,15 @@ define["process.env"] = {}
 export default {
   plugins: [
     vuePlugin(),
+    Components({
+      resolvers: IconsResolver(),
+    }),
+    Icons({
+      autoInstall: true,
+      compiler: "vue3",
+      scale: 1.1,
+      defaultStyle: "height: 1.375em; vertical-align: bottom;",
+    }),
   ],
   build: {
     minify: false,
