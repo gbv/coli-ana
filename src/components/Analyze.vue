@@ -291,5 +291,6 @@ export default {
 }
 .pica-info {
   padding-top: 1em;
+  padding-left: 1em;
 }
 </style>
