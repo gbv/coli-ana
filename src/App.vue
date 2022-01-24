@@ -152,6 +152,7 @@ export default {
 
     const search = (mode = "analyze") => {
       if (notation.value) {
+        notation.value = notation.value.replace(/[/']/g,'')
         router.push(`/?notation=${notation.value}&mode=${mode}`)
       } else {
         router.push("/")
