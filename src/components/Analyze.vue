@@ -11,7 +11,8 @@
     </p>
     <div
       v-for="result in results"
-      v-else>
+      v-else
+      :key="result.uri">
       <div
         class="decomposition">
         <div class="table">
@@ -70,7 +71,9 @@
             </div>
           </div>
         </div>
-        <div v-if="isComplete(result)" class="pica-info">
+        <div
+          v-if="isComplete(result)"
+          class="pica-info">
           <pica-info
             :concept="result" />
         </div>

@@ -2,9 +2,9 @@
   <div v-if="titles.length">
     <ul style="list-style-type: none; padding-left: 0">
       <li
-        class="citation"
         v-for="title of titles.filter(Boolean)"
-        :key="title.ppn">
+        :key="title.ppn"
+        class="citation">
         <a
           :href="`https://opac.k10plus.de/DB=2.299/PPNSET?PPN=${title.ppn}`"
           target="k10plus"
