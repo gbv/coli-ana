@@ -24,7 +24,7 @@
         <h1>coli-ana</h1>
       </div>
       <div class="section">
-        <h2>Analysis</h2>
+        <h2>DDC Analysis</h2>
         <form
           @submit.prevent="search()">
           <input
@@ -52,18 +52,18 @@
               </a><span v-if="index + 1 < languages.length">, </span>
             </span>
           </span>
-          <span>
-            Examples:
-            <span
-              v-for="(notation, index) in examples"
-              :key="notation">
-              <router-link :to="`/?notation=${notation}`">
-                <code>{{ notation }}</code>
-              </router-link>
-              <code v-if="index + 1 < examples.length">, </code>
-            </span>
-          </span>
         </form>
+        <div class="examples font-size-small">
+          Examples:
+          <span
+            v-for="(notation, index) in examples"
+            :key="notation">
+            <router-link :to="`/?notation=${notation}`">
+              <code>{{ notation }}</code>
+            </router-link>
+            <code v-if="index + 1 < examples.length">, </code>
+          </span>
+        </div>
         <analyze
           :notation="$route.query.notation"
           :mode="$route.query.mode" />
@@ -204,9 +204,12 @@ input {
 }
 form {
   padding: 0.5em;
-  margin-bottom: 1em;
 }
 form > * {
   margin-right: 5px;
+}
+.examples {
+  padding-bottom: 0.5em;
+  padding-left: 1em;
 }
 </style>
