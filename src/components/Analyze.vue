@@ -73,7 +73,7 @@
         </div>
         <div
           v-if="isComplete(result)"
-          class="pica-info">
+          class="pica-info font-size-small">
           <pica-info
             :concept="result" />
         </div>
@@ -289,6 +289,6 @@ export default {
   user-select: none;
 }
 .pica-info {
-  padding: 1em;
+  padding-top: 1em;
 }
 </style>

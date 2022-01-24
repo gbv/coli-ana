@@ -1,6 +1,6 @@
 <template>
   <div v-if="titles.length">
-    <ul style="list-style-type: none; padding-left: 0">
+    <ul style="list-style-type: none; padding: 0">
       <li
         v-for="title of titles.filter(Boolean)"
         :key="title.ppn"

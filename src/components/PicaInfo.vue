@@ -15,7 +15,7 @@
     <div>
       <code>
         <a :href="`analyze?notation=${notation}&format=pica3`">Pica3 </a>
-        <span>{{pica3}}</span>
+        <span>{{ pica3 }}</span>
       </code>
     </div>
   </div>
@@ -27,15 +27,16 @@ import { serializePica, picaFromDDC, pica3FromDDC } from "../../lib/pica.js"
 export default {
   props: {
     concept: {
-      type: Object
-    }
+      type: Object,
+      default: () => null,
+    },
   },
   computed: {
     notation() { return this.concept.notation[0] },
     pica3() { return pica3FromDDC(this.concept) },
     picaplus() {
-      return serializePica(picaFromDDC(this.concept)).replace(/[$](.)/g,'<b>$$$1</b>')
-    }
+      return serializePica(picaFromDDC(this.concept)).replace(/[$](.)/g,"<b>$$$1</b>")
+    },
   },
 }
 </script>
