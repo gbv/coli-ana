@@ -27,7 +27,7 @@
             <div>
               <concept-links
                 :concept="result"
-                jskos="true" />
+                :jskos="true" />
             </div>
           </div>
           <div
