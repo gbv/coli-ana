@@ -6,11 +6,16 @@
         <span v-html="picaplus" />
       </code>
       &#xA0;
-      <a :href="`analyze?notation=${notation}&format=picajson`">PICA/JSON</a>
-      &#xA0;
-      <a :href="`analyze?notation=${notation}`">JSKOS</a>
-      &#xA0;
-      <a :href="`https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard`">?</a>
+      <a
+        :href="`analyze?notation=${notation}&format=picajson`"
+        title="get this PICA data in PICA/JSON format">
+        <i-mdi-code-braces />
+      </a>
+      <a
+        :href="`https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard`"
+        title="more about PICA catalog format for this field">
+        <i-mdi-help />
+      </a>
     </div>
     <div>
       <code>

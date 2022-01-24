@@ -1,5 +1,11 @@
 <template>
   <span>
+    <a
+      v-if="jskos"
+      :href="`/analyze?notation=${concept.notation[0]}`"
+      title="get analysis in JSKOS format">
+      <i-mdi-code-braces />
+    </a>
     <router-link
       :to="`/?notation=${concept.notation[0]}`"
       :title="`show analysis for notation ${concept.notation[0]}`">
@@ -31,6 +37,10 @@ export default {
       type: Object,
       required: true,
     },
+    jskos: {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props) {
     return {
