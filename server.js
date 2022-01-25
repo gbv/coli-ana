@@ -13,6 +13,10 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD
 
+const warn = (...args) => {
+  !isTest && console.warn(...args)
+}
+
 export async function createServer(
   root = process.cwd(),
   isProd = process.env.NODE_ENV === "production",
@@ -55,7 +59,7 @@ export async function createServer(
       if (notation) {
         const concept = ddc.conceptFromNotation(notation, { inScheme: true })
         if (concept) {
-          concept.memberList = await decomposeDDC(ddc, notation)
+          concept.memberList = await decomposeDDC(ddc, notation, { warn })
           result.push(concept)
 
           // Set backend header
@@ -174,7 +178,7 @@ export async function createServer(
       result.backend.message = "Backend is not configured."
     } else {
       try {
-        const memberList = await decomposeDDC(ddc, testNotation)
+        const memberList = await decomposeDDC(ddc, testNotation, { warn })
         if (memberList._backend !== "vc_day_srv") {
           result.backend.message = `No result from backend for example notation ${testNotation}.`
         } else {
