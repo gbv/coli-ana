@@ -3,7 +3,7 @@
 import fs from "fs"
 import prisma from "../lib/prisma.js"
 import { picaFromDDC } from "../lib/pica.js"
-import { parseInputStream } from "../lib/parseInputStream.js"
+import { getConceptFromBackend } from "../lib/backend.js"
 
 // Basic argument parsing
 const args = process.argv.slice(2)
@@ -95,7 +95,7 @@ files.forEach(file => {
   for (let file of files) {
     log(`Reading file ${file}...`)
     const fileStream = fs.createReadStream(file)
-    for await (const concept of parseInputStream(fileStream, { log, warn, ignoreErrors })) {
+    for await (const concept of getConceptFromBackend(fileStream, { log, warn, ignoreErrors })) {
       if (concept) {
         result.push(concept)
         // Process in batches of 25k results
