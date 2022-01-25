@@ -2,12 +2,12 @@
   <span>
     <a
       v-if="jskos"
-      :href="`/analyze?notation=${concept.notation[0]}`"
+      :href="`analyze?notation=${concept.notation[0]}`"
       title="get analysis in JSKOS format">
       <i-mdi-code-braces />
     </a>
     <router-link
-      :to="`/?notation=${concept.notation[0]}`"
+      :to="`?notation=${concept.notation[0]}`"
       :title="`show analysis for notation ${concept.notation[0]}`">
       <i-mdi-file-tree />
     </router-link>
