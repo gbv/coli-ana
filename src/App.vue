@@ -118,7 +118,8 @@ import { ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import config from "../config"
 import Analyze from "./components/Analyze.vue"
-import { cleanupNotation } from "../lib/index.js"
+import { cleanupNotation } from "../lib/baseNumber.js"
+
 import { store, languages } from "./store.js"
 // Set jskos-tools language
 import jskos from "jskos-tools"
