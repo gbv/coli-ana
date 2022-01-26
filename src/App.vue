@@ -129,7 +129,8 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
-    const notation = ref(route.query.notation)
+    const tidyNotation = notation => notation.replace(/[/' ]/g,'')
+    const notation = ref(tidyNotation(route.query.notation))
     const mode = ref(route.query.mode)
 
     const setCaptionLanguage = (id) => {
@@ -152,7 +153,7 @@ export default {
 
     const search = (mode = "analyze") => {
       if (notation.value) {
-        notation.value = notation.value.replace(/[/']/g,'')
+        notation.value = tidyNotation(notation.value)
         router.push(`/?notation=${notation.value}&mode=${mode}`)
       } else {
         router.push("/")
