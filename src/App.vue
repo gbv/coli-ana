@@ -118,7 +118,7 @@ import { ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import config from "../config"
 import Analyze from "./components/Analyze.vue"
-
+import { cleanupNotation } from "../lib/index.js"
 import { store, languages } from "./store.js"
 // Set jskos-tools language
 import jskos from "jskos-tools"
@@ -129,8 +129,7 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
-    const tidyNotation = notation => notation.replace(/[/' ]/g,'')
-    const notation = ref(tidyNotation(route.query.notation))
+    const notation = ref(cleanupNotation(route.query.notation))
     const mode = ref(route.query.mode)
 
     const setCaptionLanguage = (id) => {
@@ -153,7 +152,7 @@ export default {
 
     const search = (mode = "analyze") => {
       if (notation.value) {
-        notation.value = tidyNotation(notation.value)
+        notation.value = cleanupNotation(notation.value)
         router.push(`/?notation=${notation.value}&mode=${mode}`)
       } else {
         router.push("/")
