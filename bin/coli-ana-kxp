@@ -1,0 +1,109 @@
+#!/usr/bin/env perl
+use v5.14.1;
+use Pod::Usage;
+use Getopt::Long;
+use Pod::Usage;
+use PICA::Data ':all';
+use Catmandu 'importer';
+
+my $ANA = "https://coli-conc.gbv.de/coli-ana/dev/analyze";
+my $SRU = "https://sru.k10plus.de/opac-de-627";
+my $MAX = 1000;
+
+GetOptions( \my %OPT, qw(help|h|? complete|c remove|r update|u) )
+  or pod2usage(2);
+pod2usage(0) if $OPT{help};
+
+# Only include valid notations. Fixing invalid notations should be done elsewhere
+sub wellformedDDC {
+    my ( $ddc, $warn ) = @_;
+    return $ddc                          if $ddc =~ /^\d\d\d(\.\d+)?$/;
+    warn "invalid DDC notation: $_[0]\n" if $warn;
+}
+
+sub enrichRecord {
+    my ( $pica, $ddc ) = @_;
+
+    # collect DDC notations found in the record
+    my %plain =
+      map  { $_ => 1 }
+      grep { wellformedDDC($_) }
+      map  { $_ =~ s{[/']}{}gr } pica_values( $pica, '045F$a' );
+    my %decomposed;
+    my %analyzed;
+
+    for ( pica_fields($pica, '045H/*') ) {
+        my $f        = pica_subfields($_);
+        my $notation = $f->get('a');
+        next unless wellformedDDC($notation);
+
+        if ( grep { $_ eq 'coli-ana' } $f->get_all('A') ) {
+            $analyzed{$notation} = $f;
+        }
+        else {
+            $decomposed{$notation} = $f;
+        }
+    }
+
+    # TODO:
+    # - only use given notation if $ddc
+    # - get analysis via API
+    # - add and/or remove analysis (see OPT{remove} and OPT{update})
+
+    return [];
+}
+
+sub coliAna {
+    my $url = "$ANA?notation=$_[0]&format=pp";
+    $url .= "&complete=1" if $OPT{complete};
+
+    my $pp = `curl --silent "$ANA?notation=$_[0]&format=pp"`;
+    return $pp;    # TODOpica_parser(
+}
+
+my @notations = map { $_ if wellformedDDC( $_, 1 ) } @ARGV;
+
+my $reader = pica_parser('plain');
+my $writer = pica_writer( 'plain', annotated => 1 );
+
+if (@notations) {
+
+    # search records with given DDC notation and enrich them
+    foreach my $ddc (@notations) {
+        my %options = (
+            base         => $SRU,
+            recordSchema => 'picaxml',
+            parser       => 'picaxml',
+            total        => $MAX,
+            query        => "pica.ddc=$ddc"
+        );
+        importer( 'SRU', %options )->each(
+            sub {
+                $writer->write( enrichRecord( shift, $ddc ) || [] );
+            }
+        );
+    }
+}
+else {
+
+    # read records from stdin and enrich all DDC notations found in the record
+    while ( my $rec = $reader->next ) {
+        $writer->write( enrichRecord($rec) || [] );
+    }
+}
+
+=head1 SYNOPSIS
+
+coli-ana-kxp [options] [notation...]
+
+Reads PICA+ from stdin or K10plus to enrich with DDC analysis.
+Passing notations will fetch records via SRU.
+
+=head1 OPTIONS
+
+ --help|-h|-?    this help message
+ --complete|-c   only include complete analysis
+ --remove|-r     remove analysis in K10plus, if not available anymore
+ --update|-u     update analysis in K10plus, if it has been changed
+
+=cut
