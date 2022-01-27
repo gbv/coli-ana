@@ -8,6 +8,12 @@ Dieses Verzeichnis enthält Skripte zur Anreicherung des K10plus-Katalog um im R
 
 ## Benutzung
 
+### coli-ana-enrich
+
+Mit dem Skript `coli-ana-enrich` können vorhandene PICA+ Datensätze oder Datensätze aus dem K10plus über die coli-ana API um Zerlegungen angereichert werden.
+
+### Altere Skripte
+
 Das Skript `enrich.pl` ermittelt per coli-ana API die Zerlegung einer übergebenen DDC-Notation und reichert anschließend per STDIN übergebene PICA-Datensätze mit dieser Notation um die Zerlegung an. Die Ausgabe erfolgt im PICA-Änderungsformat.
 
 Beispiel (ausgehend von einer PPN):

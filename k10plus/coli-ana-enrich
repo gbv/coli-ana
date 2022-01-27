@@ -1,0 +1,152 @@
+#!/usr/bin/env perl
+use v5.14.1;
+use Pod::Usage;
+use Getopt::Long;
+use Pod::Usage;
+use PICA::Data ':all';
+use Catmandu 'importer';
+use Hash::MultiValue;
+
+my $ANA = "https://coli-conc.gbv.de/coli-ana/dev/analyze";
+my $SRU = "https://sru.k10plus.de/opac-de-627";
+my $MAX = 1000;
+
+GetOptions( \my %OPT, qw(all|a complete|c help|h|? remove|r update|u) )
+  or pod2usage(2);
+pod2usage(0) if $OPT{help};
+
+# Only include valid notations. Fixing invalid notations should be done elsewhere
+sub wellformedDDC {
+    my ( $ddc, $warn ) = @_;
+    return $ddc                          if $ddc =~ /^\d\d\d(\.\d+)?$/;
+    warn "invalid DDC notation: $_[0]\n" if $warn;
+}
+
+# Core method
+sub enrichRecord {
+    my ( $pica, $ddc ) = @_;
+
+    # record must have one PPN
+    my $result = $pica->fields('003@');
+    return unless @$result == 1;
+
+    # collect DDC notations found in the record
+    my $found = Hash::MultiValue->new;
+    my %analyzed;
+    for my $field ( @{ $pica->fields( '045F/*', '045H/*' ) } ) {
+        my $tag = $field->[0];
+        my $sf  = pica_subfields( [$field] );
+
+        my ( $notation, @more ) = $sf->get_all('a');
+        next if @more;    # we cannot safely handle repeated $a
+        next unless wellformedDDC($notation);
+
+        next if $ddc and $notation ne $ddc and !$OPT{all};
+
+        if ( $tag eq '045H' and grep { $_ eq 'coli-ana' } $sf->get_all('A') ) {
+            $analyzed{$notation} = $field;
+        }
+
+        $found->add( $notation, $field );
+    }
+
+    for my $notation ( keys %$found ) {
+
+        # analysis of this notations is already in the record
+        if ( my $currentAna = $analyzed{$notation} ) {
+            next unless $OPT{update} or $OPT{remove};
+
+            # DANGER ZONE
+            my $ana = coliAna($notation);
+            if ($ana) {
+                next if join( '$', @$currentAna ) eq join( '$', @$ana );
+
+                # analysis has changed
+                if ( $OPT{update} ) {
+                    push @$currentAna, '-';
+                    push @$result,     $currentAna;
+
+                }
+            }
+            elsif ( $OPT{remove} ) {
+                push @$currentAna, '-';
+                push @$result,     $currentAna;
+            }
+
+            # TODO: if this notation is *only* as analyzed, then remove it
+        }
+        else {
+            my $ana = coliAna($notation);
+            if ($ana) {
+                push @$result, $found->get_all($notation);
+                push @$ana,    '+';
+                push @$result, $ana;
+            }
+        }
+
+    }
+
+    return $result if @$result > 1;
+}
+
+sub coliAna {
+
+    # TODO: use SQLite cache file
+
+    my $url = "$ANA?notation=$_[0]&format=pp";
+    $url .= "&complete=1" if $OPT{complete};
+
+    my $pp = `curl --silent '$url'`;
+
+    $pp = pica_parser( 'plain', \$pp )->next;
+    return $pp ? $pp->fields->[0] : undef;
+}
+
+my @notations = map { $_ if wellformedDDC( $_, 1 ) } @ARGV;
+
+my $reader = pica_parser('plain');
+my $writer = pica_writer( 'plain', annotate => 1 );
+
+if (@notations) {
+
+    # search records with given DDC notation and enrich them
+    foreach my $ddc (@notations) {
+        my %options = (
+            base         => $SRU,
+            recordSchema => 'picaxml',
+            parser       => 'picaxml',
+            total        => $MAX,
+            query        => "pica.ddc=$ddc"
+        );
+        importer( 'SRU', %options )->each(
+            sub {
+                my $pica = bless shift, 'PICA::Data';
+                $writer->write( enrichRecord( $pica, $ddc ) || [] );
+            }
+        );
+    }
+}
+else {
+
+    # read records from stdin and enrich all DDC notations found in the record
+    while ( my $rec = $reader->next ) {
+        $writer->write( enrichRecord($rec) || [] );
+    }
+}
+
+=head1 SYNOPSIS
+
+coli-ana-kxp [options] [notation...]
+
+Reads PICA+ from stdin or K10plus to enrich with DDC analysis.
+Passing notations will fetch records via SRU.
+
+=head1 OPTIONS
+
+ --all|-a        include all notations found in a record
+ --complete|-c   only include complete analysis
+ --help|-h|-?    this help message
+ --remove|-r     remove analysis in K10plus, if not available anymore
+ --update|-u     update analysis in K10plus, if it has been changed
+
+=cut
