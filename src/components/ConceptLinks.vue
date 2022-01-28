@@ -6,44 +6,55 @@
       title="get analysis in JSKOS format">
       <i-mdi-code-braces />
     </a>
-    <router-link
-      :to="`?notation=${notation}`"
-      :title="`show analysis for notation ${notation}`">
-      <i-mdi-file-tree />
-    </router-link>
     <a
       :href="k10plusLink"
       target="k10plus"
       :title="`search in K10plus catalog`">
       <i-mdi-file-find />
     </a>
-    <a
-      :href="cocodaLink"
-      title="Cocoda"
-      target="cocoda">
-      <i-mdi-bird />
-    </a>
-    <tippy interactive>
+    <tippy
+      interactive
+      :follow-cursor="false"
+      placement="top-end">
       <a
         href=""
         @click.prevent="">
         <i-mdi-dots-horizontal />
       </a>
       <template #content>
-        {{ concept.uri }}<br>
-        WebDewey (requires login):
-        <a
-          v-if="webdeweyLinks.english"
-          :href="webdeweyLinks.english"
-          target="_blank">
-          English
-        </a>
-        <a
-          v-if="webdeweyLinks.german"
-          :href="webdeweyLinks.german"
-          target="_blank">
-          German
-        </a>
+        <div class="conceptLinks-popover">
+          {{ concept.uri }}<br>
+          <router-link
+            :to="`?notation=${notation}`"
+            :title="`show analysis for notation ${notation}`">
+            Analyze <i-mdi-file-tree />
+          </router-link>
+          <span
+            v-if="webdeweyLinks.english">
+            <br>
+            <a
+              :href="webdeweyLinks.english"
+              target="_blank">
+              WebDewey (en)
+            </a>
+          </span>
+          <span
+            v-if="webdeweyLinks.german">
+            <br>
+            <a
+              :href="webdeweyLinks.german"
+              target="_blank">
+              WebDewey (de) <i-mdi-text-box-search-outline />
+            </a>
+          </span>
+          <br>
+          <a
+            :href="cocodaLink"
+            title="Cocoda"
+            target="cocoda">
+            Cocoda <i-mdi-bird />
+          </a>
+        </div>
       </template>
     </tippy>
 
@@ -109,3 +120,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.conceptLinks-popover {
+  text-align: right;
+}
+</style>
