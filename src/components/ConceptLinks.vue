@@ -23,12 +23,36 @@
       target="cocoda">
       <i-mdi-bird />
     </a>
+    <tippy interactive>
+      <a
+        href=""
+        @click.prevent="">
+        <i-mdi-dots-horizontal />
+      </a>
+      <template #content>
+        {{ concept.uri }}<br>
+        WebDewey (requires login):
+        <a
+          v-if="webdeweyLinks.english"
+          :href="webdeweyLinks.english"
+          target="_blank">
+          English
+        </a>
+        <a
+          v-if="webdeweyLinks.german"
+          :href="webdeweyLinks.german"
+          target="_blank">
+          German
+        </a>
+      </template>
+    </tippy>
+
   </span>
 </template>
 
 <script>
 import config from "../../config"
-import { computed } from "vue"
+import jskos from "jskos-tools"
 
 export default {
   props: {
@@ -38,8 +62,8 @@ export default {
     },
     jskos: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     notation() {
@@ -52,7 +76,36 @@ export default {
     k10plusLink() {
       const notation = this.notation.replace(/^(T[^-]+).+:(.+)$/,"$1--$2") // e.g. T1--0901-T1--0905:074) => 074
       return `https://opac.k10plus.de/DB=2.299/CMD?ACT=SRCHA&IKT=3011&TRM=${notation}`
-    }
-  }
+    },
+    webdeweyLinks() {
+      const result = {
+        german: null,
+        english: null,
+      }
+      let recordIdPrefix = "ddc"
+      let notation = jskos.notation(this.concept)
+      // Adjust notation
+      // 1. Determine postfix
+      let postfix
+      const postfixMatch = /(.+):(.+)/.exec(notation)
+      if (postfixMatch) {
+        notation = postfixMatch[1]
+        postfix = "%3b1%3b" + postfixMatch[2]
+        recordIdPrefix = "int"
+      } else {
+        postfix = ""
+      }
+      // 2. Fix ranges with .
+      const rangeMatch = /(.+)\.(.+)-.+\.(.+)/.exec(notation)
+      if (rangeMatch) {
+        notation = `${rangeMatch[1]}.${rangeMatch[2]}-.${rangeMatch[3]}`
+      }
+      notation += postfix
+      // 3. Build URLs
+      // result.english = `http://dewey.org/webdewey/index_11.html?recordId=${recordIdPrefix}%3a${notation}`
+      result.german = `https://services.dnb.de/dnb-cas/login?service=${encodeURIComponent(`https://deweyde.pansoft.de/webdewey/index_11.html?recordId=${recordIdPrefix}%3a${notation}`)}`
+      return result
+    },
+  },
 }
 </script>
