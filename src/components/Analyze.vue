@@ -68,7 +68,8 @@
                 ·
               </tippy>
             </div>
-            <div>
+            <div
+              v-if="!member.uri.startsWith('http://dewey.info/facet/')">
               <concept-links
                 :concept="member" />
             </div>
