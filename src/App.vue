@@ -187,6 +187,10 @@ export default {
 </script>
 
 <style>
+* {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
 /* Use desktop style for header always (since there's only one menu item) */
 .header ul, .menu-icon {
   margin-top: 10px;
