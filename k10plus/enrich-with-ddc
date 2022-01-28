@@ -1,9 +1,0 @@
-#!/bin/bash
-set -e
-
-for ddc in "$@"
-do
-  PICA=`./search-ddc "$1" | ./enrich.pl "$1"`
-  echo "$PICA" | picadata -s avram.json -u  # will exit on error
-  echo "$PICA"
-done

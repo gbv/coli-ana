@@ -1,25 +1,45 @@
 #!/usr/bin/env perl
-use v5.14.1;
+use v5.24.1;
 use Pod::Usage;
 use Getopt::Long;
 use Pod::Usage;
 use PICA::Data ':all';
 use Catmandu 'importer';
 use Hash::MultiValue;
+use HTTP::Tiny;
+use DBI;
 
 my $ANA = "https://coli-conc.gbv.de/coli-ana/dev/analyze";
 my $SRU = "https://sru.k10plus.de/opac-de-627";
 my $MAX = 1000;
 
-GetOptions( \my %OPT, qw(all|a complete|c help|h|? remove|r update|u) )
+GetOptions( \my %OPT,
+    qw(all|a complete|c help|h|? query|q remove|r sqlite|s:s update|u verbose|v) )
   or pod2usage(2);
 pod2usage(0) if $OPT{help};
+pod2usage("Please specify notation to query") if $OPT{query} and !@ARGV;
 
 # Only include valid notations. Fixing invalid notations should be done elsewhere
 sub wellformedDDC {
     my ( $ddc, $warn ) = @_;
-    return $ddc                          if $ddc =~ /^\d\d\d(\.\d+)?$/;
-    warn "invalid DDC notation: $_[0]\n" if $warn;
+    $ddc =~ s/[ \/']//g;
+    return $ddc if $ddc =~ /^\d\d\d(\.\d+)?$/;
+    warn "invalid DDC notation: $_[0]\n" if $warn or $OPT{verbose};
+}
+
+# Optionally create or open database cache
+my $SQL;
+if ( my $file = $OPT{sqlite} ) {
+    warn "Creating non-existing SQLite file $file\n" unless -f $file;
+    $SQL =
+      DBI->connect( "dbi:SQLite:dbname=$file", "", "", { RaiseError => 1 } );
+    $SQL->do(<<SQL);
+CREATE TABLE IF NOT EXISTS coli_ana (
+  notation TEXT NOT NULL,
+  pica TEXT,
+  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
+SQL
 }
 
 # Core method
@@ -29,6 +49,7 @@ sub enrichRecord {
     # record must have one PPN
     my $result = $pica->fields('003@');
     return unless @$result == 1;
+    my $ppn = $result->[0][3];
 
     # collect DDC notations found in the record
     my $found = Hash::MultiValue->new;
@@ -39,7 +60,7 @@ sub enrichRecord {
 
         my ( $notation, @more ) = $sf->get_all('a');
         next if @more;    # we cannot safely handle repeated $a
-        next unless wellformedDDC($notation);
+        $notation = wellformedDDC($notation) or next;
 
         next if $ddc and $notation ne $ddc and !$OPT{all};
 
@@ -50,6 +71,19 @@ sub enrichRecord {
         $found->add( $notation, $field );
     }
 
+    if ( $OPT{verbose} ) {
+        if ( keys %$found ) {
+            $found->each(
+                sub {
+                    info( "PPN $ppn has $_[0] in " . pica_string( [ $_[1] ] ) );
+                }
+            );
+        }
+        else {
+            warn "PPN $ppn has no well-formed DDC notations.\n";
+        }
+    }
+
     for my $notation ( keys %$found ) {
 
         # analysis of this notations is already in the record
@@ -57,7 +91,7 @@ sub enrichRecord {
             next unless $OPT{update} or $OPT{remove};
 
             # DANGER ZONE
-            my $ana = coliAna($notation);
+            my $ana = coliAnaResult($notation);
             if ($ana) {
                 next if join( '$', @$currentAna ) eq join( '$', @$ana );
 
@@ -76,7 +110,7 @@ sub enrichRecord {
             # TODO: if this notation is *only* as analyzed, then remove it
         }
         else {
-            my $ana = coliAna($notation);
+            my $ana = coliAnaResult($notation);
             if ($ana) {
                 push @$result, $found->get_all($notation);
                 push @$ana,    '+';
@@ -89,17 +123,58 @@ sub enrichRecord {
     return $result if @$result > 1;
 }
 
-sub coliAna {
+sub info {
+    say $_[0] if $OPT{verbose};
+}
 
-    # TODO: use SQLite cache file
+sub firstPicaField {
+    my $pica = pica_parser( 'plain', \$_[0] )->next;
+    return $pica ? $pica->fields->[0] : undef;
+}
 
-    my $url = "$ANA?notation=$_[0]&format=pp";
+# Lookup via coli-ana API
+sub coliAnaQuery {
+    my ($notation) = shift;
+
+    my $url = "$ANA?notation=$notation&format=pp";
     $url .= "&complete=1" if $OPT{complete};
+    info($url);
 
-    my $pp = `curl --silent '$url'`;
+    my $res = HTTP::Tiny->new->get($url);
+    return $res->{content} if $res->{success};
+}
 
-    $pp = pica_parser( 'plain', \$pp )->next;
-    return $pp ? $pp->fields->[0] : undef;
+sub coliAnaResult {
+    my $notation = shift;
+
+    # get result from cache
+    if ($SQL) {
+
+# TODO: result must not be too old and 'complete' flag should be taken into account
+        my ($result) =
+          $SQL->selectrow_array( 'SELECT pica FROM coli_ana WHERE notation=?',
+            undef, $notation );
+        if ($result) {
+            return $result eq '?' ? undef : firstPicaField($result);
+        }
+    }
+
+    # query coli-ana API
+    my $pp   = coliAnaQuery($notation);
+    my $pica = firstPicaField($pp);
+    info("API result: $pp");
+
+    # insert into cache
+    if ($SQL) {
+        state $insert =
+            $SQL
+          ? $SQL->prepare('INSERT INTO coli_ana(notation,pica) VALUES (?,?)')
+          : undef;
+        $insert->execute( $notation, $pica ? $pp : '?' );
+        info("result added to $OPT{sqlite}");
+    }
+
+    return $pica;
 }
 
 my @notations = map { $_ if wellformedDDC( $_, 1 ) } @ARGV;
@@ -107,17 +182,19 @@ my @notations = map { $_ if wellformedDDC( $_, 1 ) } @ARGV;
 my $reader = pica_parser('plain');
 my $writer = pica_writer( 'plain', annotate => 1 );
 
-if (@notations) {
+if ($OPT{query}) {
 
     # search records with given DDC notation and enrich them
     foreach my $ddc (@notations) {
+        my $query = "pica.ddc=$ddc";
         my %options = (
             base         => $SRU,
             recordSchema => 'picaxml',
             parser       => 'picaxml',
             total        => $MAX,
-            query        => "pica.ddc=$ddc"
+            query        => $query
         );
+        info("SRU query $query");
         importer( 'SRU', %options )->each(
             sub {
                 my $pica = bless shift, 'PICA::Data';
@@ -130,23 +207,25 @@ else {
 
     # read records from stdin and enrich all DDC notations found in the record
     while ( my $rec = $reader->next ) {
-        $writer->write( enrichRecord($rec) || [] );
+        $writer->write( enrichRecord($rec, @notations) || [] );
     }
 }
 
 =head1 SYNOPSIS
 
-coli-ana-kxp [options] [notation...]
+coli-ana-enrich [options] [notation]
 
-Reads PICA+ from stdin or K10plus to enrich with DDC analysis.
-Passing notations will fetch records via SRU.
+Reads PICA+ from stdin (or K10plus with -q) to enrich with DDC analysis.
 
 =head1 OPTIONS
 
- --all|-a        include all notations found in a record
- --complete|-c   only include complete analysis
- --help|-h|-?    this help message
- --remove|-r     remove analysis in K10plus, if not available anymore
- --update|-u     update analysis in K10plus, if it has been changed
+ --all|-a          include all notations found in a record
+ --complete|-c     only include complete analysis
+ --help|-h|-?      this help message
+ --query|-q        get K10plus records with given notation search via SRU
+ --remove|-r       remove analysis in K10plus, if not available anymore
+ --sqlite|-s FILE  use given SQLite file for caching coli-ana results
+ --update|-u       update analysis in K10plus, if it has been changed
+ --verbose|-v      print debugging information
 
 =cut

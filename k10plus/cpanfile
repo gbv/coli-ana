@@ -1,3 +1,4 @@
-requires 'PICA::Data', '>=1.21';
-requires 'Catmandu::PICA';
+requires 'PICA::Data', '>=2.01';
+requires 'Catmandu::PICA', '>=1.07';
+requires 'DBD::SQLite';
 requires 'List::Util', '>=1.45';

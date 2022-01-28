@@ -8,7 +8,7 @@ do
     mkdir -p pica/$main
     file=pica/$main/$ddc.pica
     echo -n "$file"
-    ./enrich-with-ddc "$ddc" > "$file"
+    ./coli-ana-enrich -q "$ddc" > "$file"
     if [ $? -eq 0 ]
     then
       echo " ok"
