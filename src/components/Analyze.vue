@@ -245,9 +245,9 @@ export default {
       languages,
       language,
       truncatedNotation(notation, member) {
-        const length = member.notation[1].replace(/-+$/,'').length
-        return notation.substr(0, length).replace(/[.]$/,'')
-      }
+        const length = member.notation[1].replace(/-+$/,"").length
+        return notation.substr(0, length).replace(/[.]$/,"")
+      },
     }
   },
 }
