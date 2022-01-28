@@ -33,10 +33,7 @@
           <div
             v-for="(member, i) in result.memberList.filter(m => m != null)"
             :key="member.notation[1]"
-            :class="{
-              row: true,
-              'font-weight-bold': member.ATOMIC,
-            }"
+            class="row"
             @mouseover="hovered = { member, result }"
             @mouseleave="hovered = {}">
             <div class="hierarchy-info">
@@ -48,19 +45,22 @@
                 </router-link>
               </tippy>
             </div>
-            <div class="notation-part">
+            <div
+              :class="{
+                'notation-part': true,
+                'font-weight-bold': member.ATOMIC,
+              }">
               {{ member.notation[1] }}
             </div>
-            <div class="label">
-              <tippy interactive>
-                <item-name
-                  :item="member"
-                  :show-notation="false" />
-                (<span v-html="notationPlugin(jskos.notation(member), { item: member })" />)
-                <template #content>
-                  {{ member.uri }}
-                </template>
-              </tippy>
+            <div
+              :class="{
+                label: true,
+                'font-weight-bold': member.ATOMIC,
+              }">
+              <item-name
+                :item="member"
+                :show-notation="false" />
+              (<span v-html="notationPlugin(jskos.notation(member), { item: member })" />)
               <tippy
                 v-if="!member._loaded || !member._loaded[language]"
                 :content="`Info about this DDC class in ${languages.find(l => l.id === language).label} could not be loaded.`"
@@ -270,7 +270,7 @@ export default {
 .table > .row > .notation-part {
   font-weight: 500;
 }
-.table > .row.font-weight-bold > .notation-part {
+.table > .row > .notation-part.font-weight-bold {
   font-weight: 600;
 }
 .table > .row > .notation-part, .table > .row > .hierarchy-info {
