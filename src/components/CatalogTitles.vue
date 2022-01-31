@@ -71,6 +71,17 @@ export default {
           const ppn = data[3][i].replace(/^.+:/,"")
           const citation = linkifyStr(title, { target: "_blank" })
           return { citation, ppn }
+        }).sort((a, b) => {
+          // Add sorting to persist order when loading more titles
+          const aIndex = titles.value.findIndex(t => t && t.ppn === a.ppn)
+          const bIndex = titles.value.findIndex(t => t && t.ppn === b.ppn)
+          if (bIndex === -1) {
+            return -1
+          }
+          if (aIndex === -1) {
+            return 1
+          }
+          return aIndex - bIndex
         })
       } catch (error) {
         titles.value = []
