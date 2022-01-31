@@ -36,17 +36,17 @@
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "^2.30.3",
-    "cocoda-sdk": "^2.0.9",
-    "cross-fetch": "^3.1.4",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "jskos-tools": "^1.0.23",
+    "cocoda-sdk": "^2.0.11",
+    "cross-fetch": "^3.1.5",
+    "dotenv": "^15.0.0",
+    "express": "^4.17.2",
+    "jskos-tools": "^1.0.25",
     "jskos-vue": "^0.2.1",
     "linkify-string": "^3.0.4",
     "linkifyjs": "^3.0.5",
-    "vue": "^3.2.23",
+    "vue": "^3.2.29",
     "vue-router": "^4.0.12",
-    "vue-tippy": "6.0.0-alpha.32"
+    "vue-tippy": "^6.0.0-alpha.44"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.0.15",
