@@ -52,7 +52,7 @@ export default {
     const titles = ref([null])
     const additionalPages = ref(0)
     const additionalPagesAvailable = ref(false)
-    const count = computed(() => 11 + additionalPages.value * 10)
+    const count = computed(() => 6 + additionalPages.value * 5)
 
     const fetchTitles = async () => {
       const { notation, language, citationstyle } = props
