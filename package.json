@@ -46,7 +46,7 @@
     "linkifyjs": "^3.0.5",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
-    "vue-tippy": "^6.0.0-alpha.44"
+    "vue-tippy": "^6.0.0-alpha.45"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.0.15",
