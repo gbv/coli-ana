@@ -23,7 +23,9 @@
       </a>
       <template #content>
         <div class="conceptLinks-popover">
-          {{ concept.uri }}<br>
+          {{ concept.uri }}
+          <i-mdi-link-variant />
+          <br>
           <router-link
             :to="`?notation=${notation}`"
             :title="`show analysis for notation ${notation}`">
