@@ -36,6 +36,7 @@
             <br>
             <a
               :href="webdeweyLinks.english"
+              title="WebDewey English"
               target="_blank">
               WebDewey (en)
             </a>
@@ -45,6 +46,7 @@
             <br>
             <a
               :href="webdeweyLinks.german"
+              title="WebDewey German"
               target="_blank">
               WebDewey (de) <i-mdi-text-box-search-outline />
             </a>

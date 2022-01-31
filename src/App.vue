@@ -44,6 +44,7 @@
               :key="lang.id">
               <a
                 href=""
+                :title="`set DDC caption language to ${lang.label}`"
                 :style="{
                   'font-weight': languageList[0] === lang.id ? 'bold' : 'normal',
                 }"
@@ -58,7 +59,9 @@
           <span
             v-for="(notation, index) in examples"
             :key="notation">
-            <router-link :to="`/?notation=${notation}`">
+            <router-link
+              :to="`/?notation=${notation}`"
+              :title="`show analysis for notation ${notation}`">
               <code>{{ notation }}</code>
             </router-link>
             <code v-if="index + 1 < examples.length">, </code>

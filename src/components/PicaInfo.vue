@@ -2,7 +2,11 @@
   <div v-if="concept && concept.notation">
     <div>
       <code>
-        <a :href="`analyze?notation=${notation}&format=pp`">PICA+ </a>
+        <a
+          :href="`analyze?notation=${notation}&format=pp`"
+          :title="`open API URL for PICA+ data for analyzed notation ${notation}`">
+          PICA+
+        </a>
         <span v-html="picaplus" />
       </code>
       &#xA0;
@@ -19,7 +23,11 @@
     </div>
     <div>
       <code>
-        <a :href="`analyze?notation=${notation}&format=pica3`">Pica3 </a>
+        <a
+          :href="`analyze?notation=${notation}&format=pica3`"
+          :title="`open API URL for Pica3 data for analyzed notation ${notation}`">
+          Pica3
+        </a>
         <span>{{ pica3 }}</span>
       </code>
     </div>
