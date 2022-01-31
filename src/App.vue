@@ -65,8 +65,7 @@
           </span>
         </div>
         <analyze
-          :notation="$route.query.notation"
-          :mode="$route.query.mode" />
+          :notation="$route.query.notation" />
       </div>
       <div class="section">
         <h2>Documentation</h2>
@@ -131,7 +130,6 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const notation = ref(cleanupNotation(route.query.notation))
-    const mode = ref(route.query.mode)
 
     const setCaptionLanguage = (id) => {
       store.languages.sort((a, b) => a === id ? -1 : b === id ? 1 : 0)
@@ -151,10 +149,10 @@ export default {
       setCaptionLanguage(route.query.lang)
     }
 
-    const search = (mode = "analyze") => {
+    const search = () => {
       if (notation.value) {
         notation.value = cleanupNotation(notation.value)
-        router.push(`/?notation=${notation.value}&mode=${mode}`)
+        router.push(`/?notation=${notation.value}`)
       } else {
         router.push("/")
       }
@@ -162,7 +160,6 @@ export default {
 
     router.afterEach((to) => {
       notation.value = to.query.notation ?? ""
-      mode.value = to.query.mode ?? ""
       // Set caption language if necessary
       if (to.query.lang && to.query.lang !== store.languages[0]) {
         setCaptionLanguage(to.query.lang)
@@ -177,7 +174,6 @@ export default {
       ...config,
       search,
       notation,
-      mode,
       languages,
       languageList: store.languages,
       setCaptionLanguage,
