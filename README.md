@@ -28,6 +28,8 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 
 ## Install
 
+You will need Node.js version 14.17 or later.
+
 ~~~bash
 git clone https://github.com/gbv/coli-ana.git
 cd coli-ana
