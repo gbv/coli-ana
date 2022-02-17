@@ -10,9 +10,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 - [Install](#install)
 - [Usage](#usage)
   - [vc_day_srv Backend](#vc_day_srv-backend)
-  - [Database Backend](#database-backend)
   - [Data dumps and statistics](#data-dumps-and-statistics)
-  - [Database migrations](#database-migrations)
   - [Development](#development)
   - [Production](#production)
   - [K10plus enrichment](#k10plus-enrichment)
@@ -20,7 +18,6 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 - [API](#api)
   - [GET /](#get-)
   - [GET /analyze?notation=notations](#get-analyzenotationnotations)
-  - [GET /analyze?member=members](#get-analyzemembermembers)
 - [Maintainers](#maintainers)
 - [Publish](#publish)
 - [Contribute](#contribute)
@@ -51,53 +48,11 @@ BACKEND_HOST=my-server.com
 BACKEND_PORT=7070
 ```
 
-Note that requests are performed via nc/netcat, so no protocol should be given for host. If there is no backend configured or the backend does not return a result, the database will be queried as a fallback.
-
-### Database Backend
-
-coli-ana can use a PostgreSQL database. Instead of doing a live analysis, you can import pre-analyzed numbers into the database which will then be retrieved in case the vc_day_srv backend fails.
-
-For instance create a database `coli-ana`:
-
-```sql
-CREATE DATABASE "coli-ana";
-CREATE USER "username" PASSWORD 'password';
-GRANT ALL ON DATABASE "coli-ana" TO "coli-ana";
-```
-
-Provide the connection string inside a `.env` file, e.g.
-
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/coli-ana"
-```
-
-We also need to create the necessary tables. For this, we are using [Prisma](https://www.prisma.io):
-
-```bash
-npx prisma db push --preview-feature
-```
-
-Now that the database and tables are prepared, you can import coli-ana results (in `slim` format), e.g.:
-
-```bash
-node ./bin/convert --import ~/path/to/ou_liu_t_de-slim-21-02-15-1121
-```
-
-Add `--reset` to delete old records from the database. At the moment, there are some basic error checks that exclude some analyses from being imported. To import those anyway, add the `--ignore-errors` flag.
+Note that requests are performed via nc/netcat, so no protocol should be given for host. The backend is required for the service to work.
 
 ### Data dumps and statistics
 
 The script `./bin/stats.sh` creates a database dump (unless the file already exists, so it is not updated) and calculates some statistics into `public/stats.json`.
-
-### Database migrations
-
-Sometimes, a database migration might be necessary. It will be mentioned in the release notes. In that case, please run the following command to migrate your database:
-
-```bash
-npx prisma migrate dev --preview-feature
-```
-
-If the migration script shows "All data will be lost", you will need to reimport the data after migration.
 
 ### Development
 ```bash
@@ -126,8 +81,6 @@ You can adjust a few configuration options in `.env`. Here are the available opt
 # Host and port for backend service vc_day_srv
 BACKEND_HOST=
 BACKEND_PORT=
-# URL to access PostgreSQL database
-DATABASE_URL=
 # URL to Cocoda instance
 COCODA=https://coli-conc.gbv.de/cocoda/app/
 # Port for Express server
@@ -151,15 +104,7 @@ Analyzes a DDC number in parameter `notation` and returns an array with zero or 
 
 Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
 
-The response header `coli-ana-backend` will contain the backend used for the analysis (either "vc_day_srv" or "database"). If multiple numbers are analyzed, the backend for the last analyzed number in the list is returned.
-
-### GET /analyze?member=members
-
-Returns JSKOS concepts which contain one or more of the specified `member` URIs or notations (seperated by `|`) in their `memberList`.
-
-Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
-
-Results of this API method are always based on the database backend.
+The response header `coli-ana-backend` will contain the backend used for the analysis (either "vc_day_srv" ~~or "database"~~the database backend is not used anymore). If multiple numbers are analyzed, the backend for the last analyzed number in the list is returned.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)

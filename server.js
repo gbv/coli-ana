@@ -50,7 +50,6 @@ export async function createServer(
     const format = req.query.format || "jskos"
     const complete = req.query.complete
 
-    req.query.member = req.query.member || ""
     req.query.limit = parseInt(req.query.limit) || 10
     req.query.offset = parseInt(req.query.offset) || 0
 
@@ -152,9 +151,6 @@ export async function createServer(
       backend: {
         ok: 0,
       },
-      database: {
-        ok: 0,
-      },
     }
     const testNotation = "700.23"
     const testNotationMemberUris = [
@@ -189,25 +185,9 @@ export async function createServer(
         }
       } catch (error) {
         // This means that the database was used as a fallback => no result from backend
+        // TODO: We should add proper errors in decomposeDDC
         result.backend.message = `No result from backend for example notation ${testNotation}.`
       }
-    }
-    // 2. Try database
-    try {
-      const memberList = await decomposeDDC(ddc, testNotation, { forceDatabase: true })
-      if (memberList._backend !== "database") {
-        result.database.message = `No result from database for example notation ${testNotation}.`
-      } else {
-        // Compare member URIs via JSON.stringify
-        if (checkMemberList(memberList)) {
-          result.database.message = `Invalid result from database for example notation ${testNotation}.`
-        } else {
-          result.database.ok = 1
-        }
-      }
-    } catch (error) {
-      // This means that the database access failed
-      result.database.message = "Error accessing the database."
     }
     return res.send(result)
   })

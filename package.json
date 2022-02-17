@@ -35,7 +35,6 @@
   "author": "Jakob Voß <voss@gbv.de>",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^2.30.3",
     "cocoda-sdk": "^2.0.11",
     "cross-fetch": "^3.1.5",
     "dotenv": "^15.0.0",
@@ -64,7 +63,6 @@
     "mocha-eslint": "^7.0.0",
     "nodemon": "^2.0.15",
     "pre-commit": "^1.2.2",
-    "prisma": "^2.30.3",
     "serve-static": "^1.14.2",
     "unplugin-icons": "^0.13.0",
     "unplugin-vue-components": "^0.17.15",

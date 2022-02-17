@@ -86,11 +86,6 @@
           it was not built following current DDC number building
           rules or analysis is incomplete.
         </p>
-        <p v-if="results.backend === 'database'">
-          This result was retrieved from the database cache. It might be outdated. (See <a
-            href="https://coli-conc.gbv.de/coli-ana/#faq"
-            target="blank">FAQ</a>)
-        </p>
       </div>
       <catalog-titles
         :notation="result.notation[0]" />
