@@ -104,7 +104,7 @@ Analyzes a DDC number in parameter `notation` and returns an array with zero or 
 
 Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
 
-The response header `coli-ana-backend` will contain the backend used for the analysis (either "vc_day_srv" ~~or "database"~~the database backend is not used anymore). If multiple numbers are analyzed, the backend for the last analyzed number in the list is returned.
+The response header `coli-ana-backend` will contain the backend used for the analysis (either "vc_day_srv" ~~or "database"~~ - the database backend is not used anymore). If multiple numbers are analyzed, the backend for the last analyzed number in the list is returned.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)
