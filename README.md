@@ -104,6 +104,8 @@ Analyzes a DDC number in parameter `notation` and returns an array with zero or 
 
 Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
 
+Parameter `atomic` with a truthy value returns only atomic numbers (always on for PICA format, optional for JSKOS format).
+
 The response header `coli-ana-backend` will contain the backend used for the analysis (either "vc_day_srv" ~~or "database"~~ - the database backend is not used anymore). If multiple numbers are analyzed, the backend for the last analyzed number in the list is returned.
 
 ## Maintainers

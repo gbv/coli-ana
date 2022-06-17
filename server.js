@@ -5,8 +5,8 @@ import compression from "compression"
 import serveStatic from "serve-static"
 import { decomposeDDC } from "./lib/index.js"
 import isMemberParentOf from "./lib/isMemberParentOf.js"
-import { serializePica, picaFromDDC, pica3FromDDC } from "./lib/pica.js"
-import { cleanupNotation } from "./lib/baseNumber.js"
+import { serializePica, picaFromDDC, pica3FromDDC, isElemental } from "./lib/pica.js"
+import { cleanupNotation, baseNumberIndex, baseNumberFromIndex } from "./lib/baseNumber.js"
 
 const { ddc } = config
 
@@ -48,7 +48,8 @@ export async function createServer(
   app.get("/analyze", async (req, res, next) => {
     const notation = cleanupNotation(req.query.notation)
     const format = req.query.format || "jskos"
-    const complete = req.query.complete
+    const complete = req.query.complete && req.query.complete !== "0" && req.query.complete !== "false"
+    const atomic = req.query.atomic && req.query.atomic !== "0" && req.query.atomic !== "false"
 
     req.query.limit = parseInt(req.query.limit) || 10
     req.query.offset = parseInt(req.query.offset) || 0
@@ -137,6 +138,20 @@ export async function createServer(
       result = result.map(concept => serializePica(picaFromDDC(concept))).join("\n")
     } else if (format === "pica3") {
       result = result.map(pica3FromDDC).join("\n")
+    } else if (atomic) {
+      result.forEach(concept => {
+        const currentBaseNumberIndex = baseNumberIndex(concept.memberList)
+        const currentBaseNumber = baseNumberFromIndex(concept.memberList, currentBaseNumberIndex)
+        concept.memberList = concept.memberList.filter((member, index, members) => {
+          if (index <= currentBaseNumberIndex) {
+            if (member.notation[0] === currentBaseNumber) {
+              return true
+            }
+            return false
+          }
+          return isElemental(members, index)
+        })
+      })
     }
 
     return res.send(result)
