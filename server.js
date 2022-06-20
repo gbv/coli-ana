@@ -5,8 +5,8 @@ import compression from "compression"
 import serveStatic from "serve-static"
 import { decomposeDDC } from "./lib/index.js"
 import isMemberParentOf from "./lib/isMemberParentOf.js"
-import { serializePica, picaFromDDC, pica3FromDDC, isElemental } from "./lib/pica.js"
-import { cleanupNotation, baseNumberIndex, baseNumberFromIndex } from "./lib/baseNumber.js"
+import { serializePica, picaFromDDC, pica3FromDDC } from "./lib/pica.js"
+import { cleanupNotation, atomicMembers } from "./lib/baseNumber.js"
 
 const { ddc } = config
 
@@ -140,17 +140,7 @@ export async function createServer(
       result = result.map(pica3FromDDC).join("\n")
     } else if (atomic) {
       result.forEach(concept => {
-        const currentBaseNumberIndex = baseNumberIndex(concept.memberList)
-        const currentBaseNumber = baseNumberFromIndex(concept.memberList, currentBaseNumberIndex)
-        concept.memberList = concept.memberList.filter((member, index, members) => {
-          if (index <= currentBaseNumberIndex) {
-            if (member.notation[0] === currentBaseNumber) {
-              return true
-            }
-            return false
-          }
-          return isElemental(members, index)
-        })
+        concept.memberList = atomicMembers(concept.memberList)
       })
     }
 

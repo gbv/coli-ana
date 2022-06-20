@@ -97,7 +97,7 @@
 import { watch, ref, computed } from "vue"
 // import "cross-fetch/polyfill"
 import config from "../../config"
-import { baseNumberIndex, baseNumberFromIndex } from "../../lib/baseNumber.js"
+import { atomicMembers } from "../../lib/baseNumber.js"
 
 import { store, languages } from "../store.js"
 
@@ -181,25 +181,13 @@ export default {
 
           // Calculate atomic elements.
           const memberList = result.memberList || []
-
-          var i = baseNumberIndex(memberList)
-          const baseNumber = baseNumberFromIndex(memberList, i)
+          const atomic = new Set(atomicMembers(memberList).map(({uri}) => uri))
 
           memberList.forEach(member => {
-            if (member.notation[0] === baseNumber) {
+            if (atomic.has(member.uri)) {
               member.ATOMIC = true
             }
           })
-
-          for (i++; i<memberList.length; i++) {
-            if (isMemberParentOf(memberList[i-1], memberList[i]) && !isMemberParentOf(memberList[i], memberList[i+1])) {
-              memberList[i].ATOMIC = true
-            }
-          }
-
-          if (isComplete(result) && memberList.length) {
-            memberList[memberList.length-1].ATOMIC = true
-          }
 
           // Integrate memberList with concepts from store
           // TODO: We need a better solution for this...
