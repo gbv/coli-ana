@@ -1,0 +1,40 @@
+#!/usr/bin/env awk -f
+#
+# creation:     ul, 22-09-06
+#
+################################################################################
+# vc_day_cli2.awk: vzg colibri-ddc analyzer client for a single DDC number (dno)
+#
+# ./vc_day_cli2.awk [-v srv_name=server-hostname] -v vc_day_port=TCP-port-of-server -v dno=ddc_number
+#
+################################################################################
+BEGIN {
+
+  usage = "\n *** usage: vc_day_cli2 -v vc_day_port=6060 -v dno=341.4202664304409443835\n";
+
+  if (srv_name == "") {
+    srv_name = "localhost";
+  }
+  if (vc_day_port == "") {
+    print usage;
+    print " No TCP port of server specified; exiting\n";
+    exit;
+  }
+  if (dno == "") {
+    print usage;
+    print " No DDC number specified; exiting\n";
+    exit;
+  }
+  vc_day_service = "/inet/tcp/0/" srv_name "/" vc_day_port
+
+  print dno |& vc_day_service;
+  while (vc_day_service |& getline result) {
+##  print result;
+    if (result == "-- FINI --") {
+      break;
+    } else {
+      print result;
+    }
+  }
+  close (vc_day_service);
+}

@@ -19,9 +19,9 @@ if (!inBrowser) {
   }
   if (process.env.BACKEND_HOST) {
     config.backend = {
-      command: process.env.BACKEND_COMMAND || "nc -N",
-      host: process.env.BACKEND_HOST,
-      port: process.env.BACKEND_PORT,
+      client: process.env.BACKEND_CLIENT || "./bin/vc_day_cli2",
+      host: process.env.BACKEND_HOST || "localhost",
+      port: process.env.BACKEND_PORT || 7070,
     }
   }
 }

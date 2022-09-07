@@ -44,11 +44,12 @@ It provides two possible backends to retrieve analysis results:
 vc_day_srv is a server component developed as part of project colibri (currently closed source) that can analyse DDC numbers and return the analyses to a client. It can be configured via `.env`:
 
 ```env
+BACKEND_CLIENT=./bin/vc_day_cli2
 BACKEND_HOST=my-server.com
 BACKEND_PORT=7070
 ```
 
-Note that requests are performed via nc/netcat, so no protocol should be given for host. The backend is required for the service to work.
+That requests are performed via the corresponding client component `vc_day_cli` which is shipped in this repository. So no protocol should be given for host. The backend is required for the service to work.
 
 ### Data dumps and statistics
 
