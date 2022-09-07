@@ -19,6 +19,7 @@ if (!inBrowser) {
   }
   if (process.env.BACKEND_HOST) {
     config.backend = {
+      interpreter: process.env.BACKEND_INTERPRETER ? `${process.env.BACKEND_INTERPRETER} -f ` : "",
       client: process.env.BACKEND_CLIENT || "./bin/vc_day_cli2",
       host: process.env.BACKEND_HOST || "localhost",
       port: process.env.BACKEND_PORT || 7070,
