@@ -16,7 +16,7 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname)
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD
 
 const warn = (...args) => {
-  !isTest && console.warn(...args)
+  !isTest && console.warn((new Date()).toISOString(), ...args)
 }
 
 export async function createServer(
