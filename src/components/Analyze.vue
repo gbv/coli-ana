@@ -180,7 +180,7 @@ export default {
           }
 
           // Calculate atomic elements.
-          const memberList = result.memberList || []
+          const memberList = (result.memberList || []).filter(Boolean)
           const atomic = new Set(atomicMembers(memberList).map(({uri}) => uri))
 
           memberList.forEach(member => {
