@@ -5,6 +5,8 @@ import Icons from "unplugin-icons/vite"
 import IconsResolver from "unplugin-icons/resolver"
 import Components from "unplugin-vue-components/vite"
 
+const isProduction = process.env.NODE_ENV === "production"
+
 /**
  * `define` performs static replacements of strings.
  * We're using this to replace `process.env` values with the actual values from the environment at build time.
@@ -14,14 +16,16 @@ for (let key of Object.keys(process.env)) {
   let value = `${process.env[key]}`
   // Note that we need to surround strings with ""
   if (typeof value === "string" && (!value.startsWith("\"") || !value.endsWith("\""))) {
-    value = `"${value.replace(/"/g, "\\\"")}"`
+    value = `${value.replace(/"/g, "\\\"")}`
   }
-  define[`process.env.${key}`] = value
+  define[`process.env.${key}`] = `"${value}"`
 }
 // Some modules use process.browser so we need to define it as well
-define["process.browser"] = true
-// Fallback for other process.env values (so that process.env.XYZ is undefined)
-define["process.env"] = {}
+define["process.browser"] = "true"
+// Fallback for other process.env values (so that process.env.XYZ is undefined); only for production builds
+if (isProduction) {
+  define["process.env"] = "{}"
+}
 
 /**
  * @type {import('vite').UserConfig}
@@ -44,5 +48,5 @@ export default {
   },
   define,
   // Use base / for everything other than production
-  base: process.env.NODE_ENV === "production" ? config.base : "/",
+  base: isProduction ? config.base : "/",
 }
