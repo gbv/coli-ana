@@ -1,8 +1,6 @@
-import { createRequire } from "module"
-const require = createRequire(import.meta.url)
-const pkg = require("../package.json")
-const { name, version, description } = pkg
-const examples = require("../lib/examples.json")
+// In the browser, we're using Vite's `define` to inject the contents of package.json here.
+const { name, version, description } = process.pkg
+const examples = process.examples
 import configMerged from "./config.js"
 import ddc from "./ddc.js"
 

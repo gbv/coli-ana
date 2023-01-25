@@ -96,7 +96,7 @@
 <script>
 import { watch, ref, computed } from "vue"
 // import "cross-fetch/polyfill"
-import config from "../../config"
+import config from "../../config/browser.js"
 import { atomicMembers } from "../../lib/baseNumber.js"
 
 import { store, languages } from "../store.js"
