@@ -31,41 +31,48 @@
       "eslint --fix"
     ]
   },
+  "nodemonConfig": {
+    "watch": [
+      "server.js",
+      "lib/",
+      "config/"
+    ]
+  },
   "pre-commit": "lint-staged",
   "author": "Jakob Voß <voss@gbv.de>",
   "license": "MIT",
   "dependencies": {
-    "cocoda-sdk": "^2.0.12",
+    "cocoda-sdk": "^3.3.4",
     "cross-fetch": "^3.1.5",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "jskos-tools": "^1.0.25",
-    "jskos-vue": "^0.2.1",
-    "linkify-string": "^3.0.4",
-    "linkifyjs": "^3.0.5",
-    "vue": "^3.2.31",
-    "vue-router": "^4.0.12",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jskos-tools": "^1.0.29",
+    "jskos-vue": "^0.2.7",
+    "linkify-string": "^4.1.0",
+    "linkifyjs": "^4.1.0",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6",
     "vue-tippy": "^6.0.0-alpha.51"
   },
   "devDependencies": {
-    "@iconify-json/mdi": "^1.1.0",
-    "@vitejs/plugin-vue": "^2.2.0",
-    "@vue/compiler-sfc": "^3.2.31",
-    "@vue/server-renderer": "^3.2.31",
-    "chai": "^4.3.6",
+    "@iconify-json/mdi": "^1.1.44",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/compiler-sfc": "^3.2.45",
+    "@vue/server-renderer": "^3.2.45",
+    "chai": "^4.3.7",
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
-    "eslint": "^8.8.0",
-    "eslint-config-gbv": "^1.0.3",
-    "eslint-plugin-vue": "^8.4.0",
-    "lint-staged": "^12.3.2",
-    "mocha": "^9.2.0",
+    "eslint": "^8.32.0",
+    "eslint-config-gbv": "^1.0.4",
+    "eslint-plugin-vue": "^9.9.0",
+    "lint-staged": "^13.1.0",
+    "mocha": "^10.2.0",
     "mocha-eslint": "^7.0.0",
-    "nodemon": "^2.0.15",
+    "nodemon": "^2.0.20",
     "pre-commit": "^1.2.2",
-    "serve-static": "^1.14.2",
-    "unplugin-icons": "^0.13.0",
-    "unplugin-vue-components": "^0.17.15",
-    "vite": "^2.7.13"
+    "serve-static": "^1.15.0",
+    "unplugin-icons": "^0.15.1",
+    "unplugin-vue-components": "^0.22.12",
+    "vite": "^4.0.4"
   }
 }

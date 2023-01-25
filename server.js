@@ -211,7 +211,7 @@ export async function createServer(
       root,
       logLevel: isTest ? "error" : "info",
       server: {
-        middlewareMode: "html",
+        middlewareMode: true,
       },
     })
     // use vite's connect instance as middleware
