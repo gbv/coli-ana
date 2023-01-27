@@ -9,7 +9,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 ## Table of Contents <!-- omit in toc -->
 - [Install](#install)
 - [Usage](#usage)
-  - [vc_day_srv Backend](#vc_day_srv-backend)
+  - [`vc_day_srv` Backend Configuration](#vc_day_srv-backend-configuration)
   - [Data dumps and statistics](#data-dumps-and-statistics)
   - [Development](#development)
   - [Production](#production)
@@ -37,19 +37,23 @@ npm install
 
 The server provides a HTTP API at port 11033 by default. (Fun fact: 11033 = Octal 025431 (025.431=Dewey Decimal Classification))
 
-It provides two possible backends to retrieve analysis results:
+It requires access to an instance of the `vc_day_srv` backend.
 
-### vc_day_srv Backend
+### `vc_day_srv` Backend Configuration
 
-vc_day_srv is a server component developed as part of project colibri (currently closed source) that can analyse DDC numbers and return the analyses to a client. It can be configured via `.env`:
+`vc_day_srv` is a server component developed as part of project colibri (currently closed source) that can analyze DDC numbers and return the analyses to a client. It can be configured via `.env`:
 
 ```env
+# These are the default values
+BACKEND_INTERPRETER="/usr/bin/awk -f"
 BACKEND_CLIENT=./bin/vc_day_cli2
-BACKEND_HOST=my-server.com
+BACKEND_HOST=localhost
 BACKEND_PORT=7070
 ```
 
-That requests are performed via the corresponding client component `vc_day_cli` which is shipped in this repository. So no protocol should be given for host. The backend is required for the service to work.
+That requests are performed via the corresponding client component `vc_day_cli2` which is shipped in this repository. So no protocol should be given for host. The backend is required for the service to work.
+
+Note that GNU awk is required. On macOS, this can be installed with [Homebrew](https://brew.sh/) - `brew install gawk` - and configured as `BACKEND_INTERPRETER="/opt/homebrew/bin/gawk -f"` (Apple Silicon) or `BACKEND_INTERPRETER="/usr/local/bin/gawk -f"` (Intel).
 
 ### Data dumps and statistics
 
@@ -79,9 +83,11 @@ The script `bin/labels.sh` created one text file for each DDC number in director
 You can adjust a few configuration options in `.env`. Here are the available options and default values:
 
 ```bash
-# Host and port for backend service vc_day_srv
-BACKEND_HOST=
-BACKEND_PORT=
+# Configuration for backend service `vc_day_srv` (see above)
+BACKEND_INTERPRETER="/usr/bin/awk -f"
+BACKEND_CLIENT=./bin/vc_day_cli2
+BACKEND_HOST=localhost
+BACKEND_PORT=7070
 # URL to Cocoda instance
 COCODA=https://coli-conc.gbv.de/cocoda/app/
 # Port for Express server
@@ -94,7 +100,7 @@ BASE=/
 
 ### GET /
 
-Shows a landing page with general information and a list of examples.
+Shows a landing page with a web interface, general information, and a list of examples.
 
 ### GET /analyze?notation=notations
 
@@ -106,8 +112,6 @@ Analyzes a DDC number in parameter `notation` and returns an array with zero or 
 Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
 
 Parameter `atomic` with a truthy value returns only atomic numbers (always on for PICA format, optional for JSKOS format).
-
-The response header `coli-ana-backend` will contain the backend used for the analysis (either "vc_day_srv" ~~or "database"~~ - the database backend is not used anymore). If multiple numbers are analyzed, the backend for the last analyzed number in the list is returned.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)
@@ -141,4 +145,4 @@ PRs accepted.
 Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
 ## License
-MIT Copyright (c) 2021 Verbundzentrale des GBV (VZG)
+MIT Copyright (c) 2023 Verbundzentrale des GBV (VZG)
