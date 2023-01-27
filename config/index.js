@@ -1,8 +1,6 @@
-import { createRequire } from "module"
-const require = createRequire(import.meta.url)
-const pkg = require("../package.json")
+import pkg from "../package.json" assert { type: "json" }
 const { name, version, description } = pkg
-const examples = require("../lib/examples.json")
+import examples from "../lib/examples.json" assert { type: "json" }
 import configMerged from "./config.js"
 import ddc from "./ddc.js"
 

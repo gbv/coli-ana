@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import config from "../../config/browser.js"
+import config from "../../config/index.js"
 import jskos from "jskos-tools"
 
 export default {

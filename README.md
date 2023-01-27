@@ -25,7 +25,7 @@ This repository contains an implementation of an API to analyze synthesized DDC 
 
 ## Install
 
-You will need Node.js version 14.17 or later. Currently, using v14 is recommended (see [#75](https://github.com/gbv/coli-ana/issues/75)).
+You will need Node.js version 16.14 or later (18 is recommended).
 
 ~~~bash
 git clone https://github.com/gbv/coli-ana.git
@@ -70,6 +70,12 @@ npm run dev
 npm run build
 # Run server in production
 npm run serve
+```
+
+If you use a process manager like [pm2](https://pm2.keymetrics.io/) and need to run server.js directly, make sure to append the necessary flags:
+
+```bash
+NODE_ENV=production node --experimental-json-modules -r dotenv/config server
 ```
 
 ### K10plus enrichment

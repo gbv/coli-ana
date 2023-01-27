@@ -5,9 +5,6 @@ import Icons from "unplugin-icons/vite"
 import IconsResolver from "unplugin-icons/resolver"
 import Components from "unplugin-vue-components/vite"
 
-import { createRequire } from "module"
-const require = createRequire(import.meta.url)
-
 const isProduction = process.env.NODE_ENV === "production"
 
 /**
@@ -29,10 +26,6 @@ define["process.browser"] = "true"
 if (isProduction) {
   define["process.env"] = "{}"
 }
-
-// Add some JSON data to define
-define["process.pkg"] = JSON.stringify(require("./package.json"))
-define["process.examples"] = JSON.stringify(require("./lib/examples.json"))
 
 /**
  * @type {import('vite').UserConfig}

@@ -118,7 +118,7 @@
 <script>
 import { ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
-import config from "../config/browser.js"
+import config from "../config/index.js"
 import Analyze from "./components/Analyze.vue"
 import { cleanupNotation } from "../lib/baseNumber.js"
 
