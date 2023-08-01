@@ -32,6 +32,8 @@ if (!inBrowser) {
       port: process.env.BACKEND_PORT || 7070,
     }
   }
+  config.maxRetries = parseInt(process.env.MAX_RETRIES) >= 1 ? parseInt(process.env.MAX_RETRIES) : 3
+  config.retryWait = parseInt(process.env.RETRY_WAIT) >= 10 ? parseInt(process.env.RETRY_WAIT) : 1000
 }
 
 export default config
