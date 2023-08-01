@@ -228,7 +228,7 @@ export async function createServer(
 if (!config.isTest) {
   createServer().then(({ app }) =>
     app.listen(config.port, () => {
-      console.log(`Now listening on port ${config.port}`)
+      config.info(`Now listening on port ${config.port}`)
     }),
   )
 }

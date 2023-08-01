@@ -100,6 +100,8 @@ COCODA=https://coli-conc.gbv.de/cocoda/app/
 PORT=11033
 # Base for URL (e.g. when not running under root of domain)
 BASE=/
+# Verbosity for log output (log/info/warn/error)
+VERBOSITY=info
 # Settings for retries
 MAX_RETRIES=3
 RETRY_WAIT=1000
