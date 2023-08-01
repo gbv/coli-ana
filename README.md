@@ -103,6 +103,9 @@ BASE=/
 # Settings for retries
 MAX_RETRIES=3
 RETRY_WAIT=1000
+# Timeouts in milliseconds for long (will be logged) and stale (will be killed) commands to the backend
+TIMEOUT_LONG=1000
+TIMEOUT_STALE=3000
 ```
 
 ## API

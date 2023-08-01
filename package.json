@@ -50,6 +50,7 @@
     "jskos-vue": "^0.2.7",
     "linkify-string": "^4.1.0",
     "linkifyjs": "^4.1.0",
+    "terminate": "^2.6.1",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vue-tippy": "^6.0.0-alpha.51"

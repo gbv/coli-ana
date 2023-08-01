@@ -34,6 +34,8 @@ if (!inBrowser) {
   }
   config.maxRetries = parseInt(process.env.MAX_RETRIES) >= 1 ? parseInt(process.env.MAX_RETRIES) : 3
   config.retryWait = parseInt(process.env.RETRY_WAIT) >= 10 ? parseInt(process.env.RETRY_WAIT) : 1000
+  config.timeoutLong = parseInt(process.env.TIMEOUT_LONG) >= 0 ? parseInt(process.env.TIMEOUT_LONG) : 1000
+  config.timeoutStale = parseInt(process.env.TIMEOUT_STALE) >= 0 ? parseInt(process.env.TIMEOUT_STALE) : 3000
 }
 
 export default config
