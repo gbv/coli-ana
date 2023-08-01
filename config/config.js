@@ -1,10 +1,17 @@
 // TODO: dotenv not loaded if used outside of Vite
 
 const inBrowser = typeof window !== "undefined"
+const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD
+
+const warn = (...args) => {
+  !isTest && console.warn((new Date()).toISOString(), ...args)
+}
 
 const config = {
   inBrowser,
   cocoda: process.env.COCODA || "https://coli-conc.gbv.de/cocoda/app/",
+  warn,
+  isTest,
 }
 
 if (!inBrowser) {

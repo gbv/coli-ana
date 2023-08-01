@@ -13,12 +13,6 @@ const { ddc } = config
 // __dirname is not defined in ES6 modules (https://techsparx.com/nodejs/esnext/dirname-es-modules.html)
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
-const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD
-
-const warn = (...args) => {
-  !isTest && console.warn((new Date()).toISOString(), ...args)
-}
-
 export async function createServer(
   root = process.cwd(),
   isProd = process.env.NODE_ENV === "production",
@@ -61,7 +55,7 @@ export async function createServer(
       if (notation) {
         const concept = ddc.conceptFromNotation(notation, { inScheme: true })
         if (concept) {
-          concept.memberList = await decomposeDDC(ddc, notation, { warn })
+          concept.memberList = await decomposeDDC(ddc, notation)
           result.push(concept)
 
           // Set backend header
@@ -177,7 +171,7 @@ export async function createServer(
       result.backend.message = "Backend is not configured."
     } else {
       try {
-        const memberList = await decomposeDDC(ddc, testNotation, { warn })
+        const memberList = await decomposeDDC(ddc, testNotation)
         if (memberList._backend !== "vc_day_srv") {
           result.backend.message = `No result from backend for example notation ${testNotation}.`
         } else {
@@ -209,7 +203,7 @@ export async function createServer(
   if (!isProd) {
     vite = await (await import("vite")).createServer({
       root,
-      logLevel: isTest ? "error" : "info",
+      logLevel: config.isTest ? "error" : "info",
       server: {
         middlewareMode: true,
       },
@@ -231,7 +225,7 @@ export async function createServer(
   return { app, vite }
 }
 
-if (!isTest) {
+if (!config.isTest) {
   createServer().then(({ app }) =>
     app.listen(config.port, () => {
       console.log(`Now listening on port ${config.port}`)
