@@ -51,7 +51,7 @@ BACKEND_HOST=localhost
 BACKEND_PORT=7070
 ```
 
-That requests are performed via the corresponding client component `vc_day_cli2` which is shipped in this repository. So no protocol should be given for host. The backend is required for the service to work.
+That requests are performed via the corresponding client component `vc_day_cli2` which is shipped in this repository. So no protocol should be given for host. The backend is required for the service to work. Multiple backends (for `BACKEND_HOST` and `BACKEND_PORT`) can be given and will be rotated either on connection error or on stale requests. Note that the number of hosts and ports given must match (even if the same value needs to be repeated).
 
 Note that GNU awk is required. On macOS, this can be installed with [Homebrew](https://brew.sh/) - `brew install gawk` - and configured as `BACKEND_INTERPRETER="/opt/homebrew/bin/gawk -f"` (Apple Silicon) or `BACKEND_INTERPRETER="/usr/local/bin/gawk -f"` (Intel).
 

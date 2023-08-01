@@ -24,13 +24,19 @@ if (!inBrowser) {
   if (!config.base.endsWith("/")) {
     config.base = `${config.base}/`
   }
-  if (process.env.BACKEND_HOST) {
-    config.backend = {
-      interpreter: process.env.BACKEND_INTERPRETER ? `${process.env.BACKEND_INTERPRETER} ` : "",
-      client: process.env.BACKEND_CLIENT || "./bin/vc_day_cli2",
-      host: process.env.BACKEND_HOST || "localhost",
-      port: process.env.BACKEND_PORT || 7070,
-    }
+  config.backend = {
+    interpreter: process.env.BACKEND_INTERPRETER ? `${process.env.BACKEND_INTERPRETER} ` : "",
+    client: process.env.BACKEND_CLIENT || "./bin/vc_day_cli2",
+    hosts: (process.env.BACKEND_HOST || "localhost").split(" "),
+    ports: (process.env.BACKEND_PORT || "7070").split(" ").map(port => parseInt(port)),
+  }
+  if (config.backend.ports.findIndex(port => isNaN(port)) !== -1) {
+    console.error("Invalid port number given in .env, refusing to start...", process.env.BACKEND_PORT, config.backend.ports)
+    process.exit(1)
+  }
+  if (config.backend.hosts.length !== config.backend.ports.length) {
+    console.error("Number of hosts and ports does not match in .env, refusing to start...")
+    process.exit(1)
   }
   config.maxRetries = parseInt(process.env.MAX_RETRIES) >= 1 ? parseInt(process.env.MAX_RETRIES) : 3
   config.retryWait = parseInt(process.env.RETRY_WAIT) >= 10 ? parseInt(process.env.RETRY_WAIT) : 1000
