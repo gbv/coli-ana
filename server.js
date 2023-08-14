@@ -134,16 +134,18 @@ export async function createServer(
       result = result.map(pica3FromDDC).join("\n")
     } else {
       // mark atomic elements
-      const elements = atomicMemberSet(result.memberList)
-      result.memberList.forEach(member => {
-        if (elements[member.uri]) {
-          member.ATOMIC = true
+      result.forEach(concept => {
+        const elements = atomicMemberSet(concept.memberList)
+        concept.memberList.forEach(member => {
+          if (elements[member.uri]) {
+            member.ATOMIC = true
+          }
+        })
+
+        if (atomic) {
+          concept.memberList = concept.memberList.filter(member => member.ATOMIC)
         }
       })
-
-      if (atomic) {
-        result.memberList = result.memberList.filter(member => member.ATOMIC)
-      }
     }
 
     return res.send(result)
