@@ -179,16 +179,6 @@ export default {
             store.integrate(result, concept)
           }
 
-          // Calculate atomic elements.
-          const memberList = (result.memberList || []).filter(Boolean)
-          const atomic = new Set(atomicMembers(memberList).map(({uri}) => uri))
-
-          memberList.forEach(member => {
-            if (atomic.has(member.uri)) {
-              member.ATOMIC = true
-            }
-          })
-
           // Integrate memberList with concepts from store
           // TODO: We need a better solution for this...
           memberList.forEach(member => {

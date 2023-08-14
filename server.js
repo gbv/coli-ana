@@ -6,7 +6,7 @@ import serveStatic from "serve-static"
 import { decomposeDDC } from "./lib/index.js"
 import isMemberParentOf from "./lib/isMemberParentOf.js"
 import { serializePica, picaFromDDC, pica3FromDDC } from "./lib/pica.js"
-import { cleanupNotation, atomicMembers } from "./lib/baseNumber.js"
+import { cleanupNotation, atomicMemberSet } from "./lib/baseNumber.js"
 
 const { ddc } = config
 
@@ -132,10 +132,18 @@ export async function createServer(
       result = result.map(concept => serializePica(picaFromDDC(concept))).join("\n")
     } else if (format === "pica3") {
       result = result.map(pica3FromDDC).join("\n")
-    } else if (atomic) {
-      result.forEach(concept => {
-        concept.memberList = atomicMembers(concept.memberList)
+    } else {
+      // mark atomic elements
+      const elements = atomicMemberSet(result.memberList)
+      result.memberList.forEach(member => {
+        if (elements[member.uri]) {
+          member.ATOMIC = true
+        }
       })
+
+      if (atomic) {
+        result.memberList = result.memberList.filter(member => member.ATOMIC)
+      }
     }
 
     return res.send(result)
