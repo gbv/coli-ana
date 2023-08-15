@@ -48,14 +48,14 @@
             <div
               :class="{
                 'notation-part': true,
-                'font-weight-bold': member.ATOMIC,
+                'font-weight-bold': member.ATOMIC || member.BASE,
               }">
               {{ member.notation[1] }}
             </div>
             <div
               :class="{
                 label: true,
-                'font-weight-bold': member.ATOMIC,
+                'font-weight-bold': member.ATOMIC || member.BASE,
               }">
               <item-name
                 :item="member"
@@ -97,7 +97,6 @@
 import { watch, ref, computed } from "vue"
 // import "cross-fetch/polyfill"
 import config from "../../config/index.js"
-import { atomicMembers } from "../../lib/baseNumber.js"
 
 import { store, languages } from "../store.js"
 

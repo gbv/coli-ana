@@ -6,7 +6,7 @@ import serveStatic from "serve-static"
 import { decomposeDDC } from "./lib/index.js"
 import isMemberParentOf from "./lib/isMemberParentOf.js"
 import { serializePica, picaFromDDC, pica3FromDDC } from "./lib/pica.js"
-import { cleanupNotation, atomicMemberSet } from "./lib/baseNumber.js"
+import { cleanupNotation, atomicMembers } from "./lib/baseNumber.js"
 
 const { ddc } = config
 
@@ -135,7 +135,7 @@ export async function createServer(
     } else {
       // mark atomic elements
       result.forEach(concept => {
-        const elements = atomicMemberSet(concept.memberList)
+        const elements = atomicMembers(concept.memberList)
         concept.memberList.forEach(member => {
           if (elements[member.uri]) {
             member.ATOMIC = true
