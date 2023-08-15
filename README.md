@@ -125,7 +125,7 @@ Analyzes a DDC number in parameter `notation` and returns an array with zero or 
 
 Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
 
-Parameter `atomic` with a truthy value returns only atomic numbers (always on for PICA format, optional for JSKOS format).
+Parameter `atomic` with a truthy value returns only atomic numbers. Atomic numbers are always marked with non-standard JSKOS field `ATOMIC` having value `true`.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)
