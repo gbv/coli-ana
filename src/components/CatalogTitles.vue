@@ -1,5 +1,6 @@
 <template>
   <div v-if="titles.length">
+    <h4>Publications in K10plus</h4>
     <ul style="list-style-type: none; padding: 0">
       <li
         v-for="title of titles.filter(Boolean)"

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import fs from "fs"
-import { picaFromDDC } from "../lib/pica.js"
 import { getConceptFromBackend } from "../lib/backend.js"
 
 // Basic argument parsing
@@ -9,7 +8,6 @@ const args = process.argv.slice(2)
 const files = args.filter(arg => !arg.startsWith("--"))
 const quiet = args.includes("--quiet")
 const ignoreErrors = args.includes("--ignore-errors")
-const picaFormat = args.includes("--pica")
 const help = args.includes("--help")
 
 if (help || !args.length) {
@@ -17,11 +15,7 @@ if (help || !args.length) {
 node ./bin/convert.js {options} input-files...
 
 Converts coli-ana decompositions to JSKOS. By default, prints result
-as JSKOS concepts, each including the "memberList" property.
-
-Options:
-  --pica    output PICA/JSON as ndjson. For PICA/Plain pass to
-	    picadata -f json -t plain`)
+as JSKOS concepts, each including the "memberList" property.`)
   process.exit(0)
 }
 
@@ -54,9 +48,6 @@ files.forEach(file => {
 
   async function processResults() {
     result.forEach(item => {
-      if (picaFormat) {
-        item = picaFromDDC(item)
-      }
       console.log(JSON.stringify(item))
     })
     result = []

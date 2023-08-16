@@ -75,6 +75,7 @@
             </div>
           </div>
         </div>
+        <!-- TODO: remove this, PICA result is deprecated -->
         <div
           v-if="isComplete(result)"
           class="pica-info">

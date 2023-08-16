@@ -74,27 +74,19 @@
         <h2>Documentation</h2>
         <template v-if="$route.query.notation">
           <p>
-            Format documentation:
-            <a href="https://format.gbv.de/jskos">JSKOS</a>,
-            <a href="https://format.gbv.de/pica/json">PICA/JSON</a>,
-            <a href="https://format.gbv.de/pica/plain">PICA Plain</a>.
-            PICA format is limited to <a
-              href="https://format.k10plus.de/k10plushelp.pl?cmd=kat&val=5400&katalog=Standard"
-              target="_blank">field 045H/20-49</a> in <a
-                href="https://format.gbv.de/pica/k10plus"
-                target="_blank">K10Plus format</a>.
-          </p>
-          <p>
             The set of analyzed notations is limited for testing.
           </p>
         </template>
         <p>
-          Visit <a
-            href="https://coli-conc.gbv.de/coli-ana/"
-            target="_blank">the project page</a> for background information or
-          <a
+            DDC notations are returned in
+            <a href="https://format.gbv.de/jskos">JSKOS</a> format
+            with field <code>memberList</code> containing DDC elements.
+            See <a
             href="https://github.com/gbv/coli-ana"
-            target="_blank">GitHub</a> for technical documentation.
+            target="_blank">GitHub</a> for technical documentation and
+            <a
+              href="https://coli-conc.gbv.de/coli-ana/"
+              target="_blank">the project page</a> for background information.
         </p>
         <p>
           Non-English DDC is licensed by OCLC under <a

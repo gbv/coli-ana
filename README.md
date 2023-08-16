@@ -118,14 +118,16 @@ Shows a landing page with a web interface, general information, and a list of ex
 
 ### GET /analyze?notation=notations
 
-Analyzes a DDC number in parameter `notation` and returns an array with zero or one [JSKOS concepts](https://gbv.github.io/jskos/jskos.html#concept) by default. Parameter `format` can be used to chose another format:
-
-* `picajson` returns a [PICA/JSON](https://format.gbv.de/pica/json) record
-* `pp` returns a [PICA Plain](https://format.gbv.de/pica/plain) record; **note:** only one record can be requested at the time.
+Analyzes a DDC number in parameter `notation` and returns an array with zero or one [JSKOS concepts](https://gbv.github.io/jskos/jskos.html#concept) by default.
 
 Optional parameter `complete` with a truthy value enables filtering for completely analyzed numbers.
 
 Parameter `atomic` with a truthy value returns only atomic numbers. Atomic numbers are always marked with non-standard JSKOS field `ATOMIC` having value `true`.
+
+Parameter `format` can be used to chose another format (deprecated, may be removed in a later version):
+
+* `picajson` returns a [PICA/JSON](https://format.gbv.de/pica/json) record
+* `pp` returns a [PICA Plain](https://format.gbv.de/pica/plain) record; **note:** only one record can be requested at the time.
 
 ## Maintainers
 - [@stefandesu](https://github.com/stefandesu)

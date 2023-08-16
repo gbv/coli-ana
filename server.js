@@ -126,11 +126,11 @@ export async function createServer(
       result = result.filter(({memberList}) => !memberList.includes(null))
     }
 
-    if (format === "picajson") {
+    if (format === "picajson") {      // DEPRECATED!
       result = [].concat.apply([],result.map(picaFromDDC)) // merge into one record
-    } else if (format === "pp") {
+    } else if (format === "pp") {     // DEPRECATED!
       result = result.map(concept => serializePica(picaFromDDC(concept))).join("\n")
-    } else if (format === "pica3") {
+    } else if (format === "pica3") {  // DEPRECATED!
       result = result.map(pica3FromDDC).join("\n")
     } else {
       // mark atomic elements
