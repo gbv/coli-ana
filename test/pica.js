@@ -1,16 +1,20 @@
 import { expect } from "chai"
 import { picaFromDDC, serializePicaField } from "../lib/pica.js"
-import { atomicMembers } from "../lib/baseNumber.js"
+import { markAtomicMembers } from "../lib/baseNumber.js"
 
 import { createRequire } from "module"
 const require = createRequire(import.meta.url)
 const tests = require("./pica-tests.json")
 
-describe("atomicMembers", () => {
-  tests.forEach(({memberList}) => {
-    const atomic = atomicMembers(memberList)
-    const elements = new Set(memberList.filter(({ATOMIC}) => ATOMIC).map(({uri}) => uri))
-    expect(elements).deep.equal(new Set(Object.keys(atomic).filter(uri => atomic[uri])))
+describe("markAtomicMembers", () => {
+  tests.forEach(({ memberList: expectedMemberList }) => {
+    const memberList = expectedMemberList.map(member => ({ ...member }))
+    markAtomicMembers(memberList)
+    // Remove "BASE" as it will fail this test
+    memberList.filter(member => member.BASE).forEach(member => {
+      delete member.BASE
+    })
+    expect(memberList).deep.equal(expectedMemberList)
   })
 })
 
