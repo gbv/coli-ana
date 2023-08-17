@@ -62,15 +62,19 @@ export const store = {
     let toLoad = concepts.filter(c => !this.state[c.uri] || !this.state[c.uri]._loaded || !this.state[c.uri]._loaded[lang])
     toLoad = toLoad.map(concept => ({ ...concept, inScheme: registry.schemes }))
     if (toLoad.length) {
-      // TODO: Right now, `getConcepts` fails if just one concept returns an error, so we're calling it separately for each concept. This should be improved.
-      // const loadedConcepts = await registry.getConcepts({ concepts: toLoad })
-      const loadedConcepts = (await Promise.all(
-        toLoad.map(
-          concept => registry.getConcepts({ concepts: [concept] })
-            .catch(() => [])
-            .then(concepts => concepts[0]),
-        ),
-      )).filter(Boolean)
+      // TODO: Right now, `getConcepts` fails if just one concept returns an error, so we're calling it separately for each concept. This should be improved. -> The problem is with the Skosmos API for Norwegian DDC, so the workaround will only be applied when loading Norwegian data.
+      let loadedConcepts
+      if (lang === "nb") {
+        loadedConcepts = (await Promise.all(
+          toLoad.map(
+            concept => registry.getConcepts({ concepts: [concept] })
+              .catch(() => [])
+              .then(concepts => concepts[0]),
+          ),
+        )).filter(Boolean)
+      } else {
+        loadedConcepts = await registry.getConcepts({ concepts: toLoad })
+      }
       for (let concept of loadedConcepts) {
         if (!concept._loaded) {
           concept._loaded = {}

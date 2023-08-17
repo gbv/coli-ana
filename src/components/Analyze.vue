@@ -181,7 +181,7 @@ export default {
 
           // Integrate memberList with concepts from store
           // TODO: We need a better solution for this...
-          memberList.forEach(member => {
+          result.memberList.forEach(member => {
             const conceptFromStore = member && store.getConcept(member)
             if (conceptFromStore) {
               store.integrate(member, conceptFromStore)
