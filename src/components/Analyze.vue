@@ -167,12 +167,12 @@ export default {
     )
     // fetch concept info when results changed
     watch(
-      () => [results.value, language.value],
-      async ([results]) => {
-        if (!results) {
+      () => [results.value?.[0]?.uri, language.value],
+      async ([after], [before]) => {
+        if (!results.value || before === after) {
           return
         }
-        for (let result of results) {
+        for (let result of results.value) {
           const [concept] = await store.loadConcepts([].concat(result, result.memberList.filter(Boolean)))
           // Integrate loaded concept in result
           if (jskos.compare(result, concept)) {
