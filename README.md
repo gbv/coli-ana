@@ -80,7 +80,9 @@ NODE_ENV=production node --experimental-json-modules -r dotenv/config server
 
 ### K10plus enrichment
 
-Directory `k10plus` contains scripts to enrich K10plus library catalog with analyzed DDC notations. See [README.md](k10plus/README.md) in this directory.
+*See <https://github.com/gbv/k10plus-ddc>!*
+
+Directory `k10plus` contains legacy scripts to enrich K10plus library catalog with analyzed DDC notations. See [README.md](k10plus/README.md) in this directory.
 
 The script `bin/labels.sh` created one text file for each DDC number in directory `labels` for full text indexing.
 
