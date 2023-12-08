@@ -75,6 +75,9 @@ export async function createServer(
           // Check if it's necessary to swap some lines
           // TODO: Verify and test this check.
           for (let i = 1; i < memberList.length; i += 1) {
+            if (!memberList[i] || !memberList[i - 1]) {
+              continue
+            }
             if (memberList[i].notation[1] === memberList[i - 1].notation[1] && memberList[i].notation[0].length > memberList[i - 1].notation[0].length) {
               [memberList[i], memberList[i - 1]] = [memberList[i - 1], memberList[i]]
             }
@@ -84,6 +87,9 @@ export async function createServer(
             // Add broader fields to members
             const member1 = memberList[i - 1]
             const member2 = memberList[i]
+            if (!member1 || !member2) {
+              continue
+            }
             if (isMemberParentOf(member1, member2)) {
               member2.broader = [{ uri: member1.uri }]
             } else {
