@@ -2,6 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
+RUN apk add --no-cache bash
 RUN apk add --no-cache gawk
 
 # Copy and install dependencies
@@ -18,4 +19,7 @@ RUN npm run build
 RUN npm i -g pm2
 RUN cp ecosystem.example.json ecosystem.config.json
 
-CMD pm2-runtime ecosystem.config.json
+## Make Docker-related scripts available in root folder
+COPY docker/*.sh .
+
+CMD ["bash", "entrypoint.sh"]
