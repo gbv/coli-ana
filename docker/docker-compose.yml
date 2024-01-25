@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  coli-ana:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - 11033:11033
+    env_file:
+      - .env
+    restart: unless-stopped

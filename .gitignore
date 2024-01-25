@@ -13,6 +13,7 @@ npm-debug.log*
 *.njsproj
 *.sln
 
+docker/data
 dist/
 dist-temp/
 config/config.user.js
