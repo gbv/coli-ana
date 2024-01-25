@@ -72,11 +72,6 @@
       </div>
       <div class="section">
         <h2>Documentation</h2>
-        <template v-if="$route.query.notation">
-          <p>
-            The set of analyzed notations is limited for testing.
-          </p>
-        </template>
         <p>
             DDC notations are returned in
             <a href="https://format.gbv.de/jskos">JSKOS</a> format
