@@ -6,12 +6,13 @@ RUN apk add --no-cache gawk
 
 # Copy and install dependencies
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Bundle app source
 COPY . .
 
-RUN mkdir /config
+# Build static front end
+RUN npm run build
 
 # Use pm2 to run app
 RUN npm i -g pm2

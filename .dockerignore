@@ -6,6 +6,7 @@ yarn-error.log*
 
 .env
 docker/data/
+dist/
 
 # Editor directories and files
 .idea
