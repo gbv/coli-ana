@@ -199,11 +199,6 @@ export async function createServer(
     return res.send(result)
   })
 
-  // Redirect old URLs (#16)
-  app.get(new RegExp(`^/(${ddc.notationPattern})$`), (req, res) => {
-    res.redirect(`${config.base}?notation=${req.params[0]}`)
-  })
-
   /**
    * Vite middleware
    */
