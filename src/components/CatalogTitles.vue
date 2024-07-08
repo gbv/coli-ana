@@ -63,7 +63,7 @@ export default {
       }
       try {
         titles.value.push(null)
-        const url = `https://ws.gbv.de/suggest/csl2?query=pica.ddc=${notation}&citationstyle=${citationstyle}&language=${language}&highlight=1&database=opac-de-627&count=${count.value}`
+        const url = `https://ws.gbv.de/suggest/csl2/?query=pica.ddc=${notation}&citationstyle=${citationstyle}&language=${language}&highlight=1&database=opac-de-627&count=${count.value}`
         const response = await fetch(url)
         const data = await response.json()
         // Request loaded one more than shown (see slice below); if there's more, show "load more" button
