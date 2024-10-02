@@ -16,8 +16,6 @@ It is recommended to run the image using [Docker Compose](https://docs.docker.co
 1. Create `docker-compose.yml`:
 
 ```yml
-version: "3"
-
 services:
   coli-ana:
     image: ghcr.io/gbv/coli-ana
