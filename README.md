@@ -136,7 +136,7 @@ Parameter `format` can be used to chose another format (deprecated, may be remov
 - [@nichtich](https://github.com/nichtich)
 
 ## Publish
-Please work on the `dev` branch or separate feature branch during development.
+Please work on the `dev` branch during development (or better yet, develop in a feature branch and merge into `dev` when ready).
 
 When a new release is ready (i.e. the features are finished, merged into `dev`, and all tests succeed), run the included release script (replace "patch" with "minor" or "major" if necessary):
 
@@ -145,10 +145,11 @@ npm run release:patch
 ```
 
 This will:
+- Check that we are on `dev`
 - Run tests and build to make sure everything works
-- Switch to `dev`
 - Make sure `dev` is up-to-date
 - Run `npm version patch` (or "minor"/"major")
+- **Ask you to confirm the version**
 - Push changes to `dev`
 - Switch to `main`
 - Merge changes from `dev`
