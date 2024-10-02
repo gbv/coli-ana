@@ -1,6 +1,6 @@
-import pkg from "../package.json" assert { type: "json" }
+import pkg from "../package.json" with { type: "json" }
 const { name, version, description } = pkg
-import examples from "../lib/examples.json" assert { type: "json" }
+import examples from "../lib/examples.json" with { type: "json" }
 import configMerged from "./config.js"
 import ddc from "./ddc.js"
 
