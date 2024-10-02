@@ -45,8 +45,12 @@ export default {
     },
   },
   computed: {
-    notation() { return this.concept.notation[0] },
-    pica3() { return pica3FromDDC(this.concept) },
+    notation() {
+      return this.concept.notation[0]
+    },
+    pica3() {
+      return pica3FromDDC(this.concept)
+    },
     picaplus() {
       return serializePica(picaFromDDC(this.concept)).replace(/[$](.)/g,"<b>$$$1</b>")
     },

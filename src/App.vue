@@ -57,12 +57,12 @@
         <div class="examples font-size-small">
           Examples:
           <span
-            v-for="(notation, index) in examples"
-            :key="notation">
+            v-for="(notation_, index) in examples"
+            :key="notation_">
             <router-link
-              :to="`/?notation=${notation}`"
-              :title="`show analysis for notation ${notation}`">
-              <code>{{ notation }}</code>
+              :to="`/?notation=${notation_}`"
+              :title="`show analysis for notation ${notation_}`">
+              <code>{{ notation_ }}</code>
             </router-link>
             <code v-if="index + 1 < examples.length">, </code>
           </span>
@@ -73,15 +73,15 @@
       <div class="section">
         <h2>Documentation</h2>
         <p>
-            DDC notations are returned in
-            <a href="https://format.gbv.de/jskos">JSKOS</a> format
-            with field <code>memberList</code> containing DDC elements.
-            See <a
+          DDC notations are returned in
+          <a href="https://format.gbv.de/jskos">JSKOS</a> format
+          with field <code>memberList</code> containing DDC elements.
+          See <a
             href="https://github.com/gbv/coli-ana"
             target="_blank">GitHub</a> for technical documentation and
-            <a
-              href="https://coli-conc.gbv.de/coli-ana/"
-              target="_blank">the project page</a> for background information.
+          <a
+            href="https://coli-conc.gbv.de/coli-ana/"
+            target="_blank">the project page</a> for background information.
         </p>
         <p>
           Non-English DDC is licensed by OCLC under <a
