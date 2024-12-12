@@ -1,6 +1,6 @@
 {
   "name": "coli-ana",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "API to analyze DDC numbers",
   "repository": {
     "type": "git",
