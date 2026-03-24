@@ -1,12 +1,17 @@
 <template>
   <div id="app">
     <header class="header">
-      <div class="coli-conc-logo-small">
-        <img src="https://coli-conc.gbv.de/images/coli-conc.svg" alt="coli-conc Logo">
+      <div
+        class="coli-conc-logo-small">
+        <img
+          src="https://coli-conc.gbv.de/images/coli-conc.svg"
+          alt="coli-conc Logo">
       </div>
       <ul class="menu">
         <li>
-          <a href="https://coli-conc.gbv.de/coli-ana/" title="Go to coli-ana website">
+          <a
+            href="https://coli-conc.gbv.de/coli-ana/"
+            title="Go to coli-ana website">
             ⬅ back to coli-ana website
           </a>
         </li>
@@ -18,53 +23,76 @@
         <h1>coli-ana</h1>
         <div class="service">
           <span>Service provided by</span>
-          <a href="https://en.gbv.de/informations/Verbundzentrale-en" target="_blank" rel="noopener">
-            <img :src="vzg" alt="VZG Logo" class="vzg-logo">
+          <a
+            href="https://en.gbv.de/informations/Verbundzentrale-en"
+            target="_blank"
+            rel="noopener">
+            <img
+              :src="vzg"
+              alt="VZG Logo"
+              class="vzg-logo">
           </a>
         </div>
-        <p class="subtitle">A Tool for Analyzing and Decomposing Synthesized DDC- Notations/Numbers</p>
+        <p class="subtitle">
+          A Tool for Analyzing and Decomposing Synthesized DDC- Notations/Numbers
+        </p>
       </div>
       <div class="section">
         <div class="analysis-box">
           <div class="analysis-header">
             <h2>DDC Notations</h2>
-            <form @submit.prevent="search()" class="analysis-form">
-              <input v-model="notation" type="text" />
+            <form
+              class="analysis-form"
+              @submit.prevent="search()">
+              <input
+                v-model="notation"
+                type="text">
 
-              <button class="button" title="analyzes DDC number" name="analyze" @click.prevent.stop="search()">
+              <button
+                class="button"
+                title="analyzes DDC number"
+                name="analyze"
+                @click.prevent.stop="search()">
                 <i-mdi-file-tree />
                 Analyze
               </button>
-
-            </form>
-            <span class="language-label">
-              Language:
-              <span v-for="(lang, index) in languages" :key="lang.id">
-                <a href="" :title="`set DDC caption language to ${lang.label}`" :style="{
-                  'font-weight': languageList[0] === lang.id ? 'bold' : 'normal',
-                }" @click.prevent="setCaptionLanguage(lang.id)">
-                  {{ lang.label }}
-                </a>
-                <span v-if="index + 1 < languages.length">, </span>
+              <span class="language-label">
+                Language:
+                <span
+                  v-for="(lang, index) in languages"
+                  :key="lang.id">
+                  <a
+                    href=""
+                    :title="`set DDC caption language to ${lang.label}`"
+                    :style="{
+                      'font-weight': languageList[0] === lang.id ? 'bold' : 'normal',
+                    }"
+                    @click.prevent="setCaptionLanguage(lang.id)">
+                    {{ lang.label }}
+                  </a>
+                  <span v-if="index + 1 < languages.length">, </span>
+                </span>
               </span>
-            </span>
-
+            </form>
           </div>
 
           <div class="examples font-size-small">
             Try an example:
-            <span v-for="(notation_, index) in examples" :key="notation_">
-              <router-link :to="`/?notation=${notation_}`" :title="`show analysis for notation ${notation_}`">
+            <span
+              v-for="(notation_, index) in examples"
+              :key="notation_">
+              <router-link
+                :to="`/?notation=${notation_}`"
+                :title="`show analysis for notation ${notation_}`">
                 <code>{{ notation_ }}</code>
               </router-link>
               <code v-if="index + 1 < examples.length">, </code>
             </span>
           </div>
-
         </div>
 
-        <analyze :notation="$route.query.notation" />
-
+        <analyze
+          :notation="$route.query.notation" />
       </div>
 
       <div class="section">
@@ -73,14 +101,23 @@
           DDC notations are returned in
           <a href="https://format.gbv.de/jskos">JSKOS</a> format
           with field <code>memberList</code> containing DDC elements.
-          See <a href="https://github.com/gbv/coli-ana" target="_blank">GitHub</a> for technical documentation and
-          <a href="https://coli-conc.gbv.de/coli-ana/" target="_blank">the project page</a> for background information.
+          See <a
+            href="https://github.com/gbv/coli-ana"
+            target="_blank">GitHub</a> for technical documentation and
+          <a
+            href="https://coli-conc.gbv.de/coli-ana/"
+            target="_blank">the project page</a> for background information.
         </p>
         <p>
-          Non-English DDC is licensed by OCLC under <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/"
+          Non-English DDC is licensed by OCLC under <a
+            href="https://creativecommons.org/licenses/by-nc-nd/3.0/de/"
             target="_blank">CC BY-NC-ND 3.0</a>.
-          <img src="/by-nc-nd.svg" alt="CC BY-NC-ND Icon">
-          Icons by <a href="https://github.com/Templarian/MaterialDesign" target="_blank">Material Design Icons</a>.
+          <img
+            src="/by-nc-nd.svg"
+            alt="CC BY-NC-ND Icon">
+          Icons by <a
+            href="https://github.com/Templarian/MaterialDesign"
+            target="_blank">Material Design Icons</a>.
         </p>
       </div>
     </main>
@@ -224,6 +261,11 @@ main {
 
 code {
   font-weight: 500;
+}
+input {
+  padding: calc(3px + 4 * ((100vw - 300px) / 1300)) 5px;
+  border-radius: 5px;
+  border-width: 1px;
 }
 
 .subtitle {
