@@ -268,7 +268,7 @@ input {
   border-width: 1px;
 }
 
-.subtitle {
+.text-center .subtitle {
   font-size: 25px;
   font-weight: 700;
   margin-top: 60px;
@@ -341,7 +341,7 @@ form>* {
 }
 
 .section {
-  margin-top: 80px;
+  margin-top: 30px;
 }
 
 .section p {
