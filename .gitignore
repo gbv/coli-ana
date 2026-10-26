@@ -26,3 +26,5 @@ public/stats.json
 
 # pm2 ecosystem file
 ecosystem.config.json
+
+notes/
